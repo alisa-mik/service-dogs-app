@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFetchDogs } from "../hooks/useFetchDogs";
 import { DogCard } from "./DogCard";
+import { getAgeFromSeconds } from "../utils/converts";
 
 export const DogList: React.FC = () => {
 	const { dogs, loading, error } = useFetchDogs();
@@ -36,8 +37,7 @@ export const DogList: React.FC = () => {
 								key={dog.id}
 								id={dog.id}
 								name={dog.name}
-								age={dog.age}
-								breed={dog.breed}
+								age={getAgeFromSeconds(dog.birthDate)}
 								image={dog.image}
 							/>
 						))

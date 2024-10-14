@@ -2,19 +2,21 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { DogList } from "../components/DogList";
+// import { DogList } from "../components/DogList";
 import {
 	Typography,
 	Box,
 	Paper,
 	Button,
-	Dialog,
-	DialogTitle,
-	DialogContent,
-	DialogActions,
+	// Dialog,
+	// DialogTitle,
+	// DialogContent,
+	// DialogActions,
 } from "@mui/material"; // MUI components
 import { styled } from "styled-components";
-import AddDogForm from "../components/AddDogForm"; // Import the form
+// import AddDogForm from "../components/AddDogForm"; // Import the form
+import { DogListTable } from "../components/DogListTable";
+import AddDogDialog from "../components/AddDogDialog";
 
 // Styled components
 const FullPageContainer = styled.div`
@@ -48,8 +50,9 @@ const StyledPaper = styled(Paper)`
 
 const AdminDashboard: React.FC = () => {
 	const { isAdmin } = useSelector((state: RootState) => state.user);
-	const navigate = useNavigate();
 	const [open, setOpen] = useState<boolean>(false); // State to control modal
+
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (!isAdmin) {
@@ -63,18 +66,12 @@ const AdminDashboard: React.FC = () => {
 	};
 
 	// Function to close the modal
-	const handleClose = () => {
-		setOpen(false);
-	};
 
 	return (
 		<FullPageContainer>
 			<StyledPaper>
 				<Typography variant="h4" component="h1" gutterBottom>
 					Admin Dashboard
-				</Typography>
-				<Typography variant="body1" color="textSecondary" gutterBottom>
-					Manage service dogs and track their profiles.
 				</Typography>
 				<Button
 					variant="contained"
@@ -84,27 +81,13 @@ const AdminDashboard: React.FC = () => {
 				>
 					Add New Dog
 				</Button>
-				<Box mt={4}>
-					<DogList />
+				<Box>
+					{/* <DogList /> */}
+					<DogListTable />
 				</Box>
 
 				{/* Modal for adding new dog */}
-				<Dialog
-					open={open}
-					onClose={handleClose}
-					maxWidth="sm"
-					fullWidth
-				>
-					<DialogTitle>Add New Dog</DialogTitle>
-					<DialogContent>
-						<AddDogForm /> {/* The form will be here */}
-					</DialogContent>
-					<DialogActions>
-						<Button onClick={handleClose} color="primary">
-							Close
-						</Button>
-					</DialogActions>
-				</Dialog>
+				<AddDogDialog open={open} setOpen={setOpen} />
 			</StyledPaper>
 		</FullPageContainer>
 	);

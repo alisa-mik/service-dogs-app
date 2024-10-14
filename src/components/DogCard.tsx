@@ -5,18 +5,11 @@ import { useNavigate } from "react-router-dom";
 interface DogCardProps {
 	id: string;
 	name: string;
-	age: number;
-	breed: string;
+	age: string;
 	image: string;
 }
 
-export const DogCard: React.FC<DogCardProps> = ({
-	id,
-	name,
-	age,
-	breed,
-	image,
-}) => {
+export const DogCard: React.FC<DogCardProps> = ({ id, name, age, image }) => {
 	const navigate = useNavigate();
 
 	const handleCardClick = () => {
@@ -29,9 +22,7 @@ export const DogCard: React.FC<DogCardProps> = ({
 				<Image src={image} alt={name} />
 			</ImageWrapper>
 			<DogName>{name}</DogName>
-			<DogDetails>
-				Breed: {breed} <br /> Age: {age}
-			</DogDetails>
+			<DogDetails>Age: {age}</DogDetails>
 		</Card>
 	);
 };

@@ -5,8 +5,8 @@ import { apiConfig } from "../config/apiConfig";
 interface DogProfile {
     id: string;
     name: string;
-    age: number;
-    breed: string;
+    birthDate: number;
+    active: string;
     image: string; // Ensure the image is a valid URL
 }
 

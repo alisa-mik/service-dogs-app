@@ -16,14 +16,14 @@ const FullPageContainer = styled.div`
 	align-items: center;
 	height: 100vh;
 	width: 100vw; /* Full width */
-	background-color: #f7f8fa; /* Light, neutral background */
+	background-color: #264653;
 	text-align: center;
 	padding: 0; /* Remove padding */
 	margin: 0; /* Remove margin */
 `;
 
 const StyledButton = styled(Button)`
-	background-color: #6c757d; /* Soft, neutral gray */
+	background-color: #2a9d8f; /* Soft, neutral gray */
 	color: #fff;
 	font-size: 1rem;
 	padding: 12px 36px;
@@ -33,7 +33,7 @@ const StyledButton = styled(Button)`
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
 	&:hover {
-		background-color: #5a6268; /* Slightly darker gray on hover */
+		background-color: #247b71; /* Slightly darker gray on hover */
 		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 	}
 `;
@@ -82,11 +82,11 @@ const App: React.FC = () => {
 					variant="h3"
 					component="h1"
 					gutterBottom
-					color="textPrimary"
+					color="#fff"
 				>
 					Service Dog Management
 				</Typography>
-				<Typography variant="body1" color="textSecondary" gutterBottom>
+				<Typography variant="body1" color="#fff" gutterBottom>
 					Manage your service dog profiles with ease.
 				</Typography>
 				<StyledButton variant="contained" onClick={handleSignIn}>

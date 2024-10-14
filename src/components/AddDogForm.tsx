@@ -81,11 +81,6 @@ const AddDogForm: React.FC = () => {
 
 	return (
 		<Box mt={2}>
-			{formSubmitted && (
-				<Box mb={2} style={{ color: "green" }}>
-					Dog added successfully!
-				</Box>
-			)}
 			<form onSubmit={handleSubmit}>
 				<TextField
 					fullWidth
@@ -149,6 +144,11 @@ const AddDogForm: React.FC = () => {
 					Submit
 				</Button>
 			</form>
+			{formSubmitted && (
+				<Box mb={2} style={{ color: "green" }}>
+					Dog added successfully!
+				</Box>
+			)}
 		</Box>
 	);
 };
