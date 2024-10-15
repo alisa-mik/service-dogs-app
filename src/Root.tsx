@@ -15,6 +15,7 @@ const FullPageContainer = styled.div`
 	text-align: center;
 	padding: 0;
 	margin: 0;
+	direction: rtl;
 `;
 
 const Root = () => {

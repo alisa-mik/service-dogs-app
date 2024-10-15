@@ -10,6 +10,7 @@ import FamilyDashboard from "./pages/FamilyDashboard";
 import Root from "./Root";
 import App from "./pages/App";
 import Login from "./pages/Login";
+import { DogListTable } from "./components/DogListTable";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -26,13 +27,21 @@ const router = createBrowserRouter([
 				Component: App,
 				children: [
 					{
+						path: "dogs",
+						Component: DogListTable,
+					},
+					{
 						path: "dogs/:id",
 						Component: DogProfile,
+					},
+					{
+						path: "family",
+						Component: FamilyDashboard,
 					},
 				],
 			},
 			{
-				path: "/family",
+				path: "family",
 				Component: FamilyDashboard,
 			},
 		],

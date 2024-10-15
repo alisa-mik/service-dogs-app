@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 // import { DogList } from "../components/DogList";
 import {
@@ -84,6 +84,7 @@ const AdminDashboard: React.FC = () => {
 				<Box>
 					{/* <DogList /> */}
 					<DogListTable />
+					<Outlet />
 				</Box>
 
 				{/* Modal for adding new dog */}

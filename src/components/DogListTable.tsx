@@ -32,7 +32,7 @@ export const DogListTable: React.FC = () => {
 	);
 
 	const handleSelectDog = (id: string) => {
-		navigate(`/dogs/${id}`);
+		navigate(id);
 	};
 
 	return (
