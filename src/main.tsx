@@ -1,29 +1,46 @@
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import "./index.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 
-import AdminDashboard from "./pages/AdminDashboard";
-import ErrorPage from "./pages/ErrorPage";
-import DogProfile from "./components/DogProfile";
+// import ErrorPage from "./pages/ErrorPage";
+import DogProfile from "./pages/DogProfile";
 import FamilyDashboard from "./pages/FamilyDashboard";
+import Root from "./Root";
+import App from "./pages/App";
+import Login from "./pages/Login";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
 
+const router = createBrowserRouter([
+	{
+		path: "/",
+		Component: Root,
+		children: [
+			{ path: "login", Component: Login },
+			{
+				path: "app",
+				Component: App,
+				children: [
+					{
+						path: "dogs/:id",
+						Component: DogProfile,
+					},
+				],
+			},
+			{
+				path: "/family",
+				Component: FamilyDashboard,
+			},
+		],
+	},
+]);
+
 root.render(
 	<Provider store={store}>
-		<Router>
-			<Routes>
-				<Route path="/" element={<App />} />
-				<Route path="/admin" element={<AdminDashboard />} />
-				<Route path="/family" element={<FamilyDashboard />} />
-				<Route path="/error" element={<ErrorPage />} />
-				<Route path="/dogs/:id" element={<DogProfile />} />
-			</Routes>
-		</Router>
+		<RouterProvider router={router} />
 	</Provider>
 );
