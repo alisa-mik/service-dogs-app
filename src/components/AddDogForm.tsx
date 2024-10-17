@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 interface DogFormState {
 	name: string;
 	breed: string;
-	birthdate: string;
+	birthDate: string;
 	momName: string;
 	gender: string;
 }
@@ -27,7 +27,7 @@ const AddDogForm: React.FC = () => {
 	const [dogData, setDogData] = useState<DogFormState>({
 		name: "",
 		breed: "",
-		birthdate: "",
+		birthDate: "",
 		momName: "",
 		gender: "",
 	});
@@ -74,7 +74,7 @@ const AddDogForm: React.FC = () => {
 			setDogData({
 				name: "",
 				breed: "",
-				birthdate: "",
+				birthDate: "",
 				momName: "",
 				gender: "",
 			});
@@ -115,7 +115,7 @@ const AddDogForm: React.FC = () => {
 					fullWidth
 					type="date"
 					label="Birthdate"
-					name="birthdate"
+					name="birthDate"
 					value={dogData.birthdate}
 					onChange={handleTextFieldChange}
 					margin="normal"
