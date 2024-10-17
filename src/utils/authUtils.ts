@@ -4,49 +4,54 @@ import { jwtConfig } from "../config/jwtConfig";
 import { setUser } from "../store/userSlice";
 import { Dispatch } from "@reduxjs/toolkit";
 
-// Regular function to handle token retrieval and decoding
+const setUserOnStore = (accessToken: string, idToken: string, dispatch: Dispatch): void => {
+    const decodedIdToken = decodeJWT(idToken);
+    const userId = decodedIdToken.payload.sub;
+    const userGroups = decodedIdToken.payload[ "cognito:groups" ] ?? [];
+    const isAdmin = userGroups?.includes("Admin") ?? false;
+    const userGroup = userGroups[ 0 ];
+
+    axios.defaults.headers.common[ 'Authorization' ] = `Bearer ${accessToken}`;
+
+    dispatch(setUser({ userId, userGroup, isAdmin, accessToken, idToken }));
+}
+
 export const handleAuthToken = async (code: string, dispatch: Dispatch) => {
     try {
-        // Build the token request parameters
         const params = new URLSearchParams({
-            grant_type: jwtConfig.grant_type,
+            grant_type: "authorization_code",
             client_id: jwtConfig.client_id,
-            code: code,
+            code,
             redirect_uri: jwtConfig.redirect_uri,
         });
 
-        // Make the request to get the tokens
-        const response = await axios.post(
-            jwtConfig.token_url,
-            params.toString(),
-            { headers: { "Content-Type": "application/x-www-form-urlencoded" } }
-        );
+        // Exchange code for tokens
+        const response = await axios.post(jwtConfig.token_url, params.toString(), {
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        });
 
-        // Extract id_token
-        const idToken = response.data.id_token;
+        // Extract tokens
+        const { id_token: idToken, access_token: accessToken } = response.data;
 
-        // Decode the id_token to get user attributes
-        const decodedIdToken = decodeJWT(idToken);
+        const token = JSON.stringify({ accessToken, idToken });
+        localStorage.setItem("token", token);
 
-        if (decodedIdToken && decodedIdToken.payload) {
-            console.log("Decoded ID Token Payload:", decodedIdToken.payload);
-
-            const userGroups = decodedIdToken.payload[ "cognito:groups" ];
-            const userId = decodedIdToken.payload.sub; // User ID (sub)
-
-            // Validate the required attributes are present
-            if (!userGroups || userGroups.length === 0 || !userId) {
-                console.error("Invalid token data: Missing user group or userId.");
-                return;
-            }
-
-            const isAdmin = userGroups.includes("Admin");
-            const userGroup = userGroups[ 0 ]; // Assuming user is in one group
-
-            // Dispatch the user info to the Redux store
-            dispatch(setUser({ isAdmin, userId, userGroup }));
-        }
+        setUserOnStore(accessToken, idToken, dispatch);
     } catch (error) {
-        console.error("Error getting token:", error);
+        console.error("Error exchanging token:", error);
     }
 };
+
+export const checkSessionOnStart = (dispatch: Dispatch): boolean => {
+
+    try {
+        const { accessToken, idToken } = JSON.parse(localStorage.getItem("token") as string);
+        setUserOnStore(accessToken, idToken, dispatch);
+
+        return true;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+        return false;
+    }
+
+}

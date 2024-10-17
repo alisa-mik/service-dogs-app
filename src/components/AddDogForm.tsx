@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 // Define the dog form state interface
 interface DogFormState {
@@ -22,6 +23,7 @@ interface DogFormState {
 }
 
 const AddDogForm: React.FC = () => {
+	const navigate = useNavigate();
 	const [dogData, setDogData] = useState<DogFormState>({
 		name: "",
 		breed: "",
@@ -52,18 +54,20 @@ const AddDogForm: React.FC = () => {
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-
-		const dogId = uuidv4(); // Generate a unique dog ID using uuid
-		console.log("Generated dogId:", dogId);
-
 		try {
-			const response = await axios.post(
-				"https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/AddDogFunction", // Replace with your actual API Gateway endpoint
-				{ ...dogData, dogId } // Add the generated dogId to the payload
-			);
-			console.log("Dog added successfully:", response.data);
+			const dogId = uuidv4(); // Generate a unique dog ID using uuid
+			console.log("Generated dogId:", dogId);
+			console.log({ ...dogData, dogId });
 
-			// Indicate successful form submission
+			const response = await axios.post(
+				"https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-dog",
+				{ ...dogData, dogId }, // The dog data as the request body
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
 			setFormSubmitted(true);
 
 			// Reset form after submission
@@ -74,8 +78,15 @@ const AddDogForm: React.FC = () => {
 				momName: "",
 				gender: "",
 			});
-		} catch (error) {
+			return response.data; // Return the response data
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: any) {
 			console.error("Error adding dog:", error);
+
+			if (error?.status === 401) {
+				navigate("/login");
+				localStorage.clear();
+			}
 		}
 	};
 
