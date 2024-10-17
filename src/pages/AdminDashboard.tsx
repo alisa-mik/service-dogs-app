@@ -51,7 +51,6 @@ const StyledPaper = styled(Paper)`
 const AdminDashboard: React.FC = () => {
 	const { isAdmin } = useSelector((state: RootState) => state.user);
 	const [open, setOpen] = useState<boolean>(false); // State to control modal
-
 	const navigate = useNavigate();
 
 	useEffect(() => {

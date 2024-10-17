@@ -16,10 +16,12 @@ import {
 import { Edit, Delete } from "@mui/icons-material";
 import { getAgeFromSeconds } from "../utils/converts";
 import { useNavigate } from "react-router-dom";
+import AddDogDialog from "./AddDogDialog";
 
 export const DogListTable: React.FC = () => {
 	const { dogs, loading, error } = useFetchDogs();
 	const [searchTerm, setSearchTerm] = useState<string>("");
+	const [open, setOpen] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
@@ -37,6 +39,8 @@ export const DogListTable: React.FC = () => {
 
 	return (
 		<Container>
+			<AddDogDialog open={open} setOpen={setOpen} />
+			<button onClick={() => setOpen(true)}>add dog</button>
 			<Title>Dog Profiles</Title>
 
 			{/* Search Input */}

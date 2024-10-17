@@ -5,12 +5,12 @@ import { Provider } from "react-redux";
 import store from "./store";
 
 // import ErrorPage from "./pages/ErrorPage";
-import DogProfile from "./pages/DogProfile";
 import FamilyDashboard from "./pages/FamilyDashboard";
 import Root from "./Root";
 import App from "./pages/App";
 import Login from "./pages/Login";
 import { DogListTable } from "./components/DogListTable";
+import MainDashboard from "./pages/MainDashboard";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -27,12 +27,16 @@ const router = createBrowserRouter([
 				Component: App,
 				children: [
 					{
+						path: "main",
+						Component: MainDashboard,
+					},
+					{
 						path: "dogs",
 						Component: DogListTable,
 					},
 					{
 						path: "dogs/:id",
-						Component: DogProfile,
+						Component: FamilyDashboard,
 					},
 					{
 						path: "family",

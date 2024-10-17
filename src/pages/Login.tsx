@@ -4,9 +4,9 @@ import { useDispatch } from "react-redux";
 import { handleAuthToken } from "../utils/authUtils"; // The function for handling token retrieval
 import { jwtConfig } from "../config/jwtConfig";
 import { createUrl } from "../utils/urlBuilder";
-import { Button, Typography, Box } from "@mui/material"; // MUI components
+import { Button, Typography, Box, CircularProgress } from "@mui/material"; // MUI components
 import { styled } from "styled-components"; // Styled-components
-import { setUser } from "../store/userSlice";
+// import { setUser } from "../store/userSlice";
 
 const StyledButton = styled(Button)`
 	background-color: #2a9d8f; /* Soft, neutral gray */
@@ -25,20 +25,19 @@ const StyledButton = styled(Button)`
 `;
 
 const Login = () => {
+	const params = new URLSearchParams(window.location.search);
+	const authCode = params.get("code");
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const authCode = params.get("code");
-
 		if (authCode) {
 			handleAuthToken(authCode, dispatch);
 		}
-	}, [dispatch]);
+	}, [dispatch, authCode]);
 
 	const handleSignIn = () => {
-		dispatch(setUser({ isAdmin: true, userId: "111", userGroup: "Admin" }));
-		return;
+		// dispatch(setUser({ isAdmin: true, userId: "111", userGroup: "Admin" }));
+		// return;
 
 		const loginUrl = createUrl(jwtConfig.login_url, {
 			client_id: jwtConfig.client_id,
@@ -46,9 +45,10 @@ const Login = () => {
 			scope: jwtConfig.scope,
 			redirect_uri: jwtConfig.redirect_uri,
 		});
-
 		window.location.href = loginUrl;
 	};
+
+	if (authCode) return <CircularProgress />;
 
 	return (
 		<Box>

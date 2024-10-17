@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 import { styled } from "styled-components";
+import { checkSessionOnStart } from "./utils/authUtils";
 
 const FullPageContainer = styled.div`
 	display: flex;
@@ -20,20 +21,21 @@ const FullPageContainer = styled.div`
 
 const Root = () => {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
-	const { isAdmin, userGroup } = useSelector(
-		(state: RootState) => state.user
-	);
+	const { userGroup } = useSelector((state: RootState) => state.user);
 
 	useEffect(() => {
+		const hasToken = checkSessionOnStart(dispatch);
+
+		if (!hasToken) return navigate("/login");
+
 		if (userGroup === "Admin") {
 			navigate("/app");
 		} else if (userGroup === "Families") {
 			navigate("/family");
-		} else {
-			navigate("/login");
 		}
-	}, [isAdmin, userGroup, navigate]);
+	}, [userGroup, navigate, dispatch]);
 
 	return (
 		<FullPageContainer>

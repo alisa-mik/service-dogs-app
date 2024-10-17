@@ -6,4 +6,5 @@ export const jwtConfig = {
     scope: "email openid",
     token_url: "https://service-dogs-app.auth.eu-west-1.amazoncognito.com/oauth2/token",
     login_url: "https://service-dogs-app.auth.eu-west-1.amazoncognito.com/login",
+    user_pool_id: "eu-west-1_VO7l8G34F"
 };

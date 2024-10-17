@@ -1,10 +1,11 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-// import { DogListTable } from "../components/DogListTable";
 import AppNavigation from "../components/AppNavigation";
 import { useState } from "react";
 import { TOP_BAR_HIGHT } from "../constants";
 import MenuIcon from "@mui/icons-material/menu";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 const Container = styled.div`
 	width: 100%;
@@ -23,18 +24,24 @@ const TopBar = styled.div`
 `;
 
 const Body = styled.div`
-	width: 100%;
+	/* width: 100%; */
 	overflow: auto;
 	position: relative;
-	display: flex;
+	/* padding: 30px; */
+	/* display: flex;
 	flex-direction: row;
 	justify-content: center;
-	align-items: center;
+	align-items: center; */
 	flex: 1;
 `;
 
 export default function App() {
 	const [open, setOpen] = useState(false);
+	const { isAdmin, userId, userGroup } = useSelector(
+		(state: RootState) => state.user
+	);
+
+	console.log({ isAdmin, userId, userGroup });
 
 	const handleNavClose = () => {
 		setOpen(false);
