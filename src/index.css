@@ -1,5 +1,6 @@
 :root {
-	font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+	/* font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; */
+	font-family: "Rubik", sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
 
@@ -49,7 +50,6 @@ button {
 	padding: 0.6em 1.2em;
 	font-size: 1em;
 	font-weight: 500;
-	font-family: inherit;
 	background-color: #1a1a1a;
 	cursor: pointer;
 	transition: border-color 0.25s;
@@ -98,10 +98,10 @@ body,
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: rgb(70, 117, 119);
+	background: #f7e6b6;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: rgb(39, 65, 66);
+	background: #f7ce5b(39, 65, 66);
 }

@@ -105,7 +105,7 @@ export const WidgetManager = ({
 
 		return (
 			<GridLayout
-				// draggableHandle=".draggableHandle"
+				draggableHandle=".draggableHandle"
 				className="layout"
 				layout={layout}
 				cols={numberOfColumns}

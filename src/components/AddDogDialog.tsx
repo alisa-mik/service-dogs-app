@@ -19,13 +19,15 @@ export default function AddDogDialog({ open, setOpen }: AddDogDialogProps) {
 
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-			<DialogTitle>Add New Dog</DialogTitle>
+			<DialogTitle style={{ textAlign: "center" }}>
+				הוספת כלב חדש
+			</DialogTitle>
 			<DialogContent>
 				<AddDogForm />
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={handleClose} color="primary">
-					Close
+					סגירה
 				</Button>
 			</DialogActions>
 		</Dialog>

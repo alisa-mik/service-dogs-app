@@ -1,20 +1,20 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
+import AddDog from "../widgets/AddDog";
 import { DogListTable } from "../components/DogListTable";
-import { BEIGE_LIGHT } from "../config/colors";
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
-	background-color: ${BEIGE_LIGHT};
+	background-color: ${"blue"};
 `;
 
-export default function MainDashboard() {
+export default function DogDashboard() {
 	const widgets: WidgetConfig[] = [
 		{
-			layout: { i: "a", x: 2, y: 0, w: 10, h: 46 },
+			layout: { w: 6, h: 100, x: 0, y: 0, i: "a" },
 			widget: {
 				props: {},
 				display: true,
@@ -22,7 +22,15 @@ export default function MainDashboard() {
 			},
 		},
 		{
-			layout: { i: "b", x: 2, y: 46, w: 5, h: 54 },
+			layout: { w: 2, h: 63, x: 6, y: 37, i: "b" },
+			widget: {
+				props: {},
+				display: true,
+				type: AddDog,
+			},
+		},
+		{
+			layout: { w: 4, h: 63, x: 8, y: 37, i: "c" },
 			widget: {
 				props: {},
 				display: true,
@@ -30,15 +38,7 @@ export default function MainDashboard() {
 			},
 		},
 		{
-			layout: { i: "c", x: 7, y: 46, w: 5, h: 54 },
-			widget: {
-				props: {},
-				display: true,
-				type: Container,
-			},
-		},
-		{
-			layout: { i: "d", x: 0, y: 0, w: 2, h: 100 },
+			layout: { w: 6, h: 37, x: 6, y: 0, i: "d" },
 			widget: {
 				props: {},
 				display: true,

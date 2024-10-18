@@ -1,31 +1,64 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useFetchDogs } from "../hooks/useFetchDogs";
-import {
-	Avatar,
-	Table,
-	TableBody,
-	TableCell as MUITableCell,
-	TableContainer,
-	TableHead,
-	TableRow,
-	Paper,
-	// Typography,
-	IconButton,
-} from "@mui/material";
-import { Edit, Delete } from "@mui/icons-material";
-import { getAgeFromSeconds } from "../utils/converts";
 import { useNavigate } from "react-router-dom";
-import AddDogDialog from "./AddDogDialog";
+
+const Container = styled.div`
+	font-family: Arial, sans-serif;
+	text-align: center;
+	padding: 20px;
+`;
+
+const SearchInput = styled.input`
+	padding: 10px;
+	width: 50%;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+`;
+
+const TableContainer = styled.div`
+	width: 100%;
+	overflow-x: auto;
+	direction: rtl;
+`;
+
+const StyledTable = styled.table`
+	width: 100%;
+	border-collapse: collapse;
+	text-align: right;
+`;
+
+const StyledThead = styled.thead`
+	background-color: #f2f2f2;
+`;
+
+const StyledTh = styled.th`
+	border: 1px solid #ddd;
+	padding: 12px 8px;
+`;
+
+const StyledTd = styled.td`
+	border: 1px solid #ddd;
+	padding: 8px;
+`;
+
+const StyledTr = styled.tr`
+	cursor: pointer;
+	transition: background-color 0.2s;
+
+	&:hover {
+		background-color: #e0e0e0;
+	}
+`;
 
 export const DogListTable: React.FC = () => {
 	const { dogs, loading, error } = useFetchDogs();
 	const [searchTerm, setSearchTerm] = useState<string>("");
-	const [open, setOpen] = useState<boolean>(false);
 
 	const navigate = useNavigate();
 
-	if (loading) return <p>Loading dogs...</p>;
+	if (loading) return <p>טוען רשימת כלבים...</p>;
 	if (error) return <p>Error: {error}</p>;
 
 	// Filter dogs by name based on the search term
@@ -37,132 +70,60 @@ export const DogListTable: React.FC = () => {
 		navigate(id);
 	};
 
+	const renderTable = () => {
+		return (
+			<TableContainer>
+				<StyledTable>
+					<StyledThead>
+						<tr>
+							<StyledTh>שם הכלב</StyledTh>
+							<StyledTh>תאריך לידה</StyledTh>
+							<StyledTh>פעיל</StyledTh>
+							{/* <StyledTh>סטטוס</StyledTh>
+							<StyledTh>משויך למשפחה</StyledTh>
+							<StyledTh>קבוצה</StyledTh> */}
+						</tr>
+					</StyledThead>
+					<tbody>
+						{filteredDogs.map((dog) => (
+							<StyledTr
+								key={dog.id}
+								onClick={() => handleSelectDog(dog.id)}
+							>
+								<StyledTd>{dog.name}</StyledTd>
+								<StyledTd>{dog.birthDate}</StyledTd>
+								<StyledTd>{dog.active ? "כן" : "לא"}</StyledTd>
+								{/* <StyledTd>{dog.status}</StyledTd>
+								<StyledTd>{dog.assignedToFamily}</StyledTd>
+								<StyledTd>{dog.group}</StyledTd> */}
+							</StyledTr>
+						))}
+					</tbody>
+				</StyledTable>
+			</TableContainer>
+		);
+	};
+
 	return (
 		<Container>
-			<AddDogDialog open={open} setOpen={setOpen} />
-			<button onClick={() => setOpen(true)}>add dog</button>
-			<Title>Dog Profiles</Title>
-
-			{/* Search Input */}
-			<SearchInput
-				type="text"
-				placeholder="Search by dog name..."
-				value={searchTerm}
-				onChange={(e) => setSearchTerm(e.target.value)}
-			/>
-
-			{/* Wrapping TableContainer inside Paper */}
-			<Paper
+			<div
 				style={{
-					marginTop: "20px",
-					padding: "20px",
-					borderRadius: "10px",
-					boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+					display: "flex",
+					gap: "10px",
+					alignItems: "center",
+					flexDirection: "column",
+					justifyContent: "center",
 				}}
 			>
-				<TableContainer
-					style={{ height: "300px" }}
-					className="hide-scrollbar"
-				>
-					<Table>
-						<TableHead>
-							<TableRow>
-								{/* <TableHeader>ID</TableHeader> */}
-								<TableHeader>Name</TableHeader>
-								<TableHeader>Age</TableHeader>
-								{/* <TableHeader>Breed</TableHeader> */}
-								<TableHeader>Status</TableHeader>
-								<TableHeader>Actions</TableHeader>
-							</TableRow>
-						</TableHead>
-						<TableBody>
-							{filteredDogs.length > 0 ? (
-								filteredDogs.map((dog) => (
-									<TableRow
-										key={dog.id}
-										hover
-										onClick={() => handleSelectDog(dog.id)}
-									>
-										{/* <MUITableCell>{dog.id}</MUITableCell> */}
-										<NameTableCell>
-											<Avatar
-												src={dog.image}
-												alt={dog.name}
-											/>
-											{dog.name}
-										</NameTableCell>
-										<MUITableCell>
-											{getAgeFromSeconds(dog.birthDate)}
-										</MUITableCell>
-										<MUITableCell
-											style={{
-												color: dog.active
-													? "green"
-													: "red",
-												fontWeight: "bold",
-											}}
-										>
-											{dog.active ? "Active" : "Inactive"}
-										</MUITableCell>
-										<MUITableCell>
-											<IconButton color="primary">
-												<Edit />
-											</IconButton>
-											<IconButton color="secondary">
-												<Delete />
-											</IconButton>
-										</MUITableCell>
-									</TableRow>
-								))
-							) : (
-								<TableRow>
-									<MUITableCell
-										colSpan={6}
-										style={{ textAlign: "center" }}
-									>
-										No dogs found.
-									</MUITableCell>
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
-				</TableContainer>
-			</Paper>
+				<SearchInput
+					style={{ direction: "rtl" }}
+					type="text"
+					placeholder="חיפוש לפי שם הכלב"
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+				/>
+				{renderTable()}
+			</div>
 		</Container>
 	);
 };
-
-// Styled Components
-const Container = styled.div`
-	font-family: Arial, sans-serif;
-	text-align: center;
-	padding: 20px;
-`;
-
-const Title = styled.h2`
-	margin-bottom: 20px;
-`;
-
-const SearchInput = styled.input`
-	padding: 10px;
-	width: 50%;
-	margin-bottom: 20px;
-	font-size: 16px;
-	border-radius: 5px;
-	border: 1px solid #ccc;
-`;
-
-const TableHeader = styled(MUITableCell)`
-	font-weight: bold;
-	text-align: left;
-	padding: 16px;
-	background-color: #f4f6f8;
-	color: #333;
-	font-size: 14px;
-`;
-const NameTableCell = styled(MUITableCell)`
-	display: flex;
-	gap: 15px;
-	font-weight: bold;
-	align-items: center;
-`;

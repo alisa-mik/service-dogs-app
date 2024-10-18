@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./store";
 import { styled } from "styled-components";
 import { checkSessionOnStart } from "./utils/authUtils";
+import { BEIGE_LIGHT } from "./config/colors";
 
 const FullPageContainer = styled.div`
 	display: flex;
@@ -12,7 +13,7 @@ const FullPageContainer = styled.div`
 	align-items: center;
 	height: 100vh;
 	width: 100vw;
-	background-color: #264653;
+	background-color: ${BEIGE_LIGHT};
 	text-align: center;
 	padding: 0;
 	margin: 0;

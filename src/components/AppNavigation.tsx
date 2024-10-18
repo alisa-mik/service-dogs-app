@@ -9,7 +9,7 @@ import MailIcon from "@mui/icons-material/Mail";
 import Drawer from "@mui/material/Drawer";
 import { ReactElement } from "react";
 import { Link } from "react-router-dom";
-import { TOP_BAR_HIGHT } from "../constants";
+import { TOP_BAR_HIGHT } from "../config/constants";
 import styled from "styled-components";
 
 interface IappNav {

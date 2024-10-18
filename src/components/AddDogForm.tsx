@@ -95,7 +95,7 @@ const AddDogForm: React.FC = () => {
 			<form onSubmit={handleSubmit}>
 				<TextField
 					fullWidth
-					label="Dog Name"
+					label="שם הכלב"
 					name="name"
 					value={dogData.name}
 					onChange={handleTextFieldChange}
@@ -104,7 +104,7 @@ const AddDogForm: React.FC = () => {
 				/>
 				<TextField
 					fullWidth
-					label="Breed"
+					label="גזע"
 					name="breed"
 					value={dogData.breed}
 					onChange={handleTextFieldChange}
@@ -114,9 +114,9 @@ const AddDogForm: React.FC = () => {
 				<TextField
 					fullWidth
 					type="date"
-					label="Birthdate"
+					label="תאריך לידה"
 					name="birthDate"
-					value={dogData.birthdate}
+					value={dogData.birthDate}
 					onChange={handleTextFieldChange}
 					margin="normal"
 					InputLabelProps={{ shrink: true }}
@@ -124,7 +124,16 @@ const AddDogForm: React.FC = () => {
 				/>
 				<TextField
 					fullWidth
-					label="Mom's Name"
+					label="שם האם"
+					name="momName"
+					value={dogData.momName}
+					onChange={handleTextFieldChange}
+					margin="normal"
+					required
+				/>
+				<TextField
+					fullWidth
+					label="שם האב"
 					name="momName"
 					value={dogData.momName}
 					onChange={handleTextFieldChange}
@@ -132,17 +141,17 @@ const AddDogForm: React.FC = () => {
 					required
 				/>
 				<FormControl fullWidth margin="normal">
-					<InputLabel id="gender-label">Gender</InputLabel>
+					<InputLabel id="gender-label">מין</InputLabel>
 					<Select
 						labelId="gender-label"
-						label="Gender"
+						label="מיון"
 						name="gender"
 						value={dogData.gender}
 						onChange={handleSelectChange}
 						required
 					>
-						<MenuItem value="male">Male</MenuItem>
-						<MenuItem value="female">Female</MenuItem>
+						<MenuItem value="male">זכר</MenuItem>
+						<MenuItem value="female">נקבה</MenuItem>
 					</Select>
 				</FormControl>
 				<Button
@@ -152,12 +161,12 @@ const AddDogForm: React.FC = () => {
 					fullWidth
 					style={{ marginTop: "16px" }}
 				>
-					Submit
+					שליחה
 				</Button>
 			</form>
 			{formSubmitted && (
 				<Box mb={2} style={{ color: "green" }}>
-					Dog added successfully!
+					כלב נוסף בהצלחה!
 				</Box>
 			)}
 		</Box>
