@@ -82,6 +82,7 @@ export default function App() {
 		return tabs.map(({ label, navigateTo }) => {
 			return (
 				<StyledLink
+					key={label}
 					to={navigateTo}
 					onClick={() => setSelectedTab(label)}
 				>
@@ -100,7 +101,6 @@ export default function App() {
 				<img style={{ height: "40px" }} src="/dog-waving.png" />
 			</TopBar>
 			<Body>
-				{/* <AppNavigation open={open} onClose={handleNavClose} /> */}
 				<Outlet />
 			</Body>
 		</Container>
