@@ -1,9 +1,10 @@
 // src/hooks/useFetchDogProfile.ts
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Dog } from '../types/dogTypes';
 
 export const useFetchDogProfile = (dogId: string) => {
-    const [ dog, setDog ] = useState<any>(null);
+    const [ dog, setDog ] = useState<Dog | null>(null);
     const [ loading, setLoading ] = useState<boolean>(true);
     const [ error, setError ] = useState<string | null>(null);
 

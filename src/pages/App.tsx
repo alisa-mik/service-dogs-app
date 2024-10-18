@@ -95,7 +95,10 @@ export default function App() {
 
 	return (
 		<Container>
-			<TopBar>{renderItems()}</TopBar>
+			<TopBar>
+				{renderItems()}
+				<img style={{ height: "40px" }} src="/dog-waving.png" />
+			</TopBar>
 			<Body>
 				{/* <AppNavigation open={open} onClose={handleNavClose} /> */}
 				<Outlet />

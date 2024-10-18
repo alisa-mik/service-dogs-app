@@ -1,175 +1,290 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
-import {
-	TextField,
-	Button,
-	Box,
-	Select,
-	MenuItem,
-	InputLabel,
-	FormControl,
-	SelectChangeEvent,
-} from "@mui/material";
+import React, { useState } from "react";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
+import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-
-// Define the dog form state interface
-interface DogFormState {
-	name: string;
-	breed: string;
-	birthDate: string;
-	momName: string;
-	gender: string;
-}
 
 const AddDogForm: React.FC = () => {
 	const navigate = useNavigate();
-	const [dogData, setDogData] = useState<DogFormState>({
-		name: "",
-		breed: "",
-		birthDate: "",
-		momName: "",
-		gender: "",
+	const [currentStep, setCurrentStep] = useState(1); // Track the current step
+	const [formSubmitted, setFormSubmitted] = useState(false);
+
+	const formik = useFormik({
+		initialValues: {
+			name: "",
+			birthDate: "",
+			gender: "",
+			breed: "",
+			color: "",
+			momName: "",
+			dadName: "",
+			group: "",
+			assignedFamily: "",
+			active: true,
+			status: "",
+			dropDate: "",
+			dropReason: "",
+			chipNumber: "",
+			medicalInfo: "",
+		},
+		onSubmit: async (values) => {
+			const formattedValues = {
+				...values,
+				dogId: uuidv4(),
+				birthDate: Math.floor(
+					new Date(values.birthDate).getTime() / 1000
+				),
+			};
+
+			try {
+				const response = await axios.post(
+					"https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-dog",
+					formattedValues,
+					{
+						headers: {
+							"Content-Type": "application/json",
+						},
+					}
+				);
+
+				setFormSubmitted(true);
+				console.log("Dog added successfully:", response.data);
+				return response.data;
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			} catch (error: any) {
+				console.error("Error adding dog:", error);
+				if (error?.response?.status === 401) {
+					navigate("/login");
+					localStorage.clear();
+				}
+			}
+		},
 	});
 
-	const [formSubmitted, setFormSubmitted] = useState(false); // To track if form is submitted
+	// Function to go to the next step
+	const nextStep = () => setCurrentStep((prevStep) => prevStep + 1);
 
-	// Handle form input changes for TextField (ChangeEvent)
-	const handleTextFieldChange = (e: ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = e.target;
-		setDogData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-	};
+	// Function to go to the previous step
+	const prevStep = () => setCurrentStep((prevStep) => prevStep - 1);
 
-	// Handle changes for Select component (SelectChangeEvent)
-	const handleSelectChange = (e: SelectChangeEvent<string>) => {
-		const { name, value } = e.target;
-		setDogData((prevData) => ({
-			...prevData,
-			[name]: value,
-		}));
-	};
+	// Render the step form based on the current step
+	const renderStep = () => {
+		switch (currentStep) {
+			case 1:
+				return (
+					<>
+						<div>
+							<label>שם הכלב:</label>
+							<input
+								type="text"
+								name="name"
+								value={formik.values.name}
+								onChange={formik.handleChange}
+								required
+							/>
+						</div>
+						<div>
+							<label>תאריך לידה:</label>
+							<input
+								type="date"
+								name="birthDate"
+								value={formik.values.birthDate}
+								onChange={formik.handleChange}
+								// required
+							/>
+						</div>
+						<div>
+							<label>מין:</label>
+							<select
+								name="gender"
+								value={formik.values.gender}
+								onChange={formik.handleChange}
+								// required
+							>
+								<option value="" label="בחר מין" />
+								<option value="זכר">זכר</option>
+								<option value="נקבה">נקבה</option>
+							</select>
+						</div>
+						<div>
+							<label>גזע:</label>
+							<input
+								type="text"
+								name="breed"
+								value={formik.values.breed}
+								onChange={formik.handleChange}
+								// required
+							/>
+						</div>
+					</>
+				);
+			case 2:
+				return (
+					<>
+						<div>
+							<label>צבע:</label>
+							<input
+								type="text"
+								name="color"
+								value={formik.values.color}
+								onChange={formik.handleChange}
+								// required
+							/>
+						</div>
+						<div>
+							<label>שם האם:</label>
+							<input
+								type="text"
+								name="momName"
+								value={formik.values.momName}
+								onChange={formik.handleChange}
+								// required
+							/>
+						</div>
+						<div>
+							<label>שם האב:</label>
+							<input
+								type="text"
+								name="dadName"
+								value={formik.values.dadName}
+								onChange={formik.handleChange}
+								// required
+							/>
+						</div>
+						<div>
+							<label>קבוצה:</label>
+							<input
+								type="text"
+								name="group"
+								value={formik.values.group}
+								onChange={formik.handleChange}
+							/>
+						</div>
+						<div>
+							<label>משפחת אומנה:</label>
+							<input
+								type="text"
+								name="assignedFamily"
+								value={formik.values.assignedFamily}
+								onChange={formik.handleChange}
+							/>
+						</div>
+					</>
+				);
+			case 3:
+				return (
+					<>
+						<div>
+							<label>פעיל:</label>
+							<input
+								type="checkbox"
+								name="active"
+								checked={formik.values.active}
+								onChange={formik.handleChange}
+							/>
+						</div>
+						<div>
+							<label>סטטוס:</label>
+							<select
+								name="status"
+								value={formik.values.status}
+								onChange={formik.handleChange}
+								// required
+							>
+								<option value="" label="בחר סטטוס" />
+								<option value="לפני אומנה">לפני אומנה</option>
+								<option value="באומנה">באומנה</option>
+								<option value="אימון מתקדם">אימון מתקדם</option>
+								<option value="עובד">עובד</option>
+								<option value="בפנסיה">בפנסיה</option>
+								<option value="נשר">נשר</option>
+							</select>
+						</div>
 
-	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		try {
-			const dogId = uuidv4(); // Generate a unique dog ID using uuid
-			console.log("Generated dogId:", dogId);
-			console.log({ ...dogData, dogId });
+						{formik.values.status === "נשר" && (
+							<>
+								<div>
+									<label>תאריך נשירה:</label>
+									<input
+										type="date"
+										name="dropDate"
+										value={formik.values.dropDate}
+										onChange={formik.handleChange}
+										// required
+									/>
+								</div>
+								<div>
+									<label>סיבת נשירה:</label>
+									<input
+										type="text"
+										name="dropReason"
+										value={formik.values.dropReason}
+										onChange={formik.handleChange}
+									/>
+								</div>
+							</>
+						)}
 
-			const response = await axios.post(
-				"https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-dog",
-				{ ...dogData, dogId }, // The dog data as the request body
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
-				}
-			);
-			setFormSubmitted(true);
-
-			// Reset form after submission
-			setDogData({
-				name: "",
-				breed: "",
-				birthDate: "",
-				momName: "",
-				gender: "",
-			});
-			return response.data; // Return the response data
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		} catch (error: any) {
-			console.error("Error adding dog:", error);
-
-			if (error?.status === 401) {
-				navigate("/login");
-				localStorage.clear();
-			}
+						<div>
+							<label>מספר שבב:</label>
+							<input
+								type="text"
+								name="chipNumber"
+								value={formik.values.chipNumber}
+								onChange={formik.handleChange}
+								required
+							/>
+						</div>
+						<div>
+							<label>מידע רפואי:</label>
+							<textarea
+								name="medicalInfo"
+								value={formik.values.medicalInfo}
+								onChange={formik.handleChange}
+							/>
+						</div>
+					</>
+				);
+			case 4:
+				return (
+					<>
+						<h3>אישור נתונים</h3>
+						<p>האם ברצונך לשלוח את כל הנתונים?</p>
+						<div>
+							<button type="submit">שלח</button>
+						</div>
+					</>
+				);
+			default:
+				return null;
 		}
 	};
 
 	return (
-		<Box mt={2}>
-			<form onSubmit={handleSubmit}>
-				<TextField
-					fullWidth
-					label="שם הכלב"
-					name="name"
-					value={dogData.name}
-					onChange={handleTextFieldChange}
-					margin="normal"
-					required
-				/>
-				<TextField
-					fullWidth
-					label="גזע"
-					name="breed"
-					value={dogData.breed}
-					onChange={handleTextFieldChange}
-					margin="normal"
-					required
-				/>
-				<TextField
-					fullWidth
-					type="date"
-					label="תאריך לידה"
-					name="birthDate"
-					value={dogData.birthDate}
-					onChange={handleTextFieldChange}
-					margin="normal"
-					InputLabelProps={{ shrink: true }}
-					required
-				/>
-				<TextField
-					fullWidth
-					label="שם האם"
-					name="momName"
-					value={dogData.momName}
-					onChange={handleTextFieldChange}
-					margin="normal"
-					required
-				/>
-				<TextField
-					fullWidth
-					label="שם האב"
-					name="momName"
-					value={dogData.momName}
-					onChange={handleTextFieldChange}
-					margin="normal"
-					required
-				/>
-				<FormControl fullWidth margin="normal">
-					<InputLabel id="gender-label">מין</InputLabel>
-					<Select
-						labelId="gender-label"
-						label="מיון"
-						name="gender"
-						value={dogData.gender}
-						onChange={handleSelectChange}
-						required
-					>
-						<MenuItem value="male">זכר</MenuItem>
-						<MenuItem value="female">נקבה</MenuItem>
-					</Select>
-				</FormControl>
-				<Button
-					variant="contained"
-					color="primary"
-					type="submit"
-					fullWidth
-					style={{ marginTop: "16px" }}
-				>
-					שליחה
-				</Button>
-			</form>
+		<>
+			<div style={{ direction: "rtl" }}>
+				<form onSubmit={formik.handleSubmit}>
+					{renderStep()}
+
+					<div>
+						{currentStep > 1 && (
+							<button type="button" onClick={prevStep}>
+								חזור
+							</button>
+						)}
+						{currentStep < 4 && (
+							<button type="button" onClick={nextStep}>
+								הבא
+							</button>
+						)}
+					</div>
+				</form>
+			</div>
+
 			{formSubmitted && (
-				<Box mb={2} style={{ color: "green" }}>
-					כלב נוסף בהצלחה!
-				</Box>
+				<div style={{ color: "green" }}>כלב נוסף בהצלחה!</div>
 			)}
-		</Box>
+		</>
 	);
 };
 

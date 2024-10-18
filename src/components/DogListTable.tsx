@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFetchDogs } from "../hooks/useFetchDogs";
 import { useNavigate } from "react-router-dom";
+import { getAgeFromSeconds } from "../utils/converts";
 
 const Container = styled.div`
 	font-family: Arial, sans-serif;
 	text-align: center;
 	padding: 20px;
+	height: 100%;
 `;
 
 const SearchInput = styled.input`
@@ -61,7 +63,6 @@ export const DogListTable: React.FC = () => {
 	if (loading) return <p>טוען רשימת כלבים...</p>;
 	if (error) return <p>Error: {error}</p>;
 
-	// Filter dogs by name based on the search term
 	const filteredDogs = dogs.filter((dog) =>
 		dog.name.toLowerCase().includes(searchTerm.toLowerCase())
 	);
@@ -77,7 +78,7 @@ export const DogListTable: React.FC = () => {
 					<StyledThead>
 						<tr>
 							<StyledTh>שם הכלב</StyledTh>
-							<StyledTh>תאריך לידה</StyledTh>
+							<StyledTh>גיל</StyledTh>
 							<StyledTh>פעיל</StyledTh>
 							{/* <StyledTh>סטטוס</StyledTh>
 							<StyledTh>משויך למשפחה</StyledTh>
@@ -91,8 +92,12 @@ export const DogListTable: React.FC = () => {
 								onClick={() => handleSelectDog(dog.id)}
 							>
 								<StyledTd>{dog.name}</StyledTd>
-								<StyledTd>{dog.birthDate}</StyledTd>
-								<StyledTd>{dog.active ? "כן" : "לא"}</StyledTd>
+								<StyledTd>
+									{getAgeFromSeconds(dog.birthDate)}
+								</StyledTd>
+								<StyledTd>
+									{dog.active ? "פעיל" : " לא פעיל"}
+								</StyledTd>
 								{/* <StyledTd>{dog.status}</StyledTd>
 								<StyledTd>{dog.assignedToFamily}</StyledTd>
 								<StyledTd>{dog.group}</StyledTd> */}

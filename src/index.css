@@ -89,19 +89,23 @@ body,
 ::-webkit-scrollbar {
 	width: 8px;
 	height: 8px;
+	display: none;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-	background: #ffffff;
+	/* background: #ffffff; */
+	display: none;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-	background: #f7e6b6;
+	/* background: #f7e6b6; */
+	display: none;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-	background: #f7ce5b(39, 65, 66);
+	/* background: #f7ce5b(39, 65, 66); */
+	display: none;
 }

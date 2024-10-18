@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import AddDog from "../widgets/AddDog";
 import { DogListTable } from "../components/DogListTable";
+import DogsActions from "../widgets/DogsActions";
 
 const Container = styled.div`
 	width: 100%;
@@ -26,7 +26,7 @@ export default function DogDashboard() {
 			widget: {
 				props: {},
 				display: true,
-				type: AddDog,
+				type: DogsActions,
 			},
 		},
 		{
