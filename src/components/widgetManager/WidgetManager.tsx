@@ -114,6 +114,7 @@ export const WidgetManager = ({
 				width={width}
 				autoSize={false}
 				onLayoutChange={handleLayoutChange}
+				isResizable={false}
 			>
 				{renderWidgets()}
 			</GridLayout>

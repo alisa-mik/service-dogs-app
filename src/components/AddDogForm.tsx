@@ -18,8 +18,8 @@ const AddDogForm: React.FC = () => {
 			color: "",
 			momName: "",
 			dadName: "",
-			group: "",
-			assignedFamily: "",
+			groupId: "",
+			assignedFamilyId: "",
 			active: true,
 			status: "",
 			dropDate: "",
@@ -35,6 +35,8 @@ const AddDogForm: React.FC = () => {
 					new Date(values.birthDate).getTime() / 1000
 				),
 			};
+
+			console.log({ formattedValues });
 
 			try {
 				const response = await axios.post(
@@ -155,8 +157,8 @@ const AddDogForm: React.FC = () => {
 							<label>קבוצה:</label>
 							<input
 								type="text"
-								name="group"
-								value={formik.values.group}
+								name="groupId"
+								value={formik.values.groupId}
 								onChange={formik.handleChange}
 							/>
 						</div>
@@ -165,7 +167,7 @@ const AddDogForm: React.FC = () => {
 							<input
 								type="text"
 								name="assignedFamily"
-								value={formik.values.assignedFamily}
+								value={formik.values.assignedFamilyId}
 								onChange={formik.handleChange}
 							/>
 						</div>

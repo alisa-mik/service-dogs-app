@@ -15,16 +15,22 @@ export interface Update {
 export interface Dog {
     dogId: string;
     name: string;
-    birthDate: string;
+    birthDate: number;
     gender: string;
     breed: string;
+    color: string;
     momName: string;
+    dadName: string;
+    groupId: string;
     active: boolean;
-    level: string;
+    // level: string;
     status: string;
     image: string;
     assignedFamilyId: string;
-    assignedFamilyName: string;
+    dropDate: number,
+    dropReason: string,
+    chipNumber: string,
+    medicalInfo: string,
     updates: Update[];
     summary: string;
 }

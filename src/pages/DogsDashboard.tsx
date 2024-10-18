@@ -3,18 +3,22 @@ import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { DogListTable } from "../components/DogListTable";
 import DogsActions from "../widgets/DogsActions";
+import DogsStats from "../widgets/DogsStats";
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
-	background-color: ${"blue"};
+	/* background-color: ${"white"}; */
+	background-image: url("/placeholder.jpg");
+	background-size: 200px 200px;
+	background-repeat: repeat;
 `;
 
 export default function DogDashboard() {
 	const widgets: WidgetConfig[] = [
 		{
-			layout: { w: 6, h: 100, x: 0, y: 0, i: "a" },
+			layout: { w: 10, h: 63, x: 2, y: 36, i: "a" },
 			widget: {
 				props: {},
 				display: true,
@@ -22,7 +26,7 @@ export default function DogDashboard() {
 			},
 		},
 		{
-			layout: { w: 2, h: 63, x: 6, y: 37, i: "b" },
+			layout: { w: 2, h: 99, x: 0, y: 0, i: "b" },
 			widget: {
 				props: {},
 				display: true,
@@ -30,15 +34,15 @@ export default function DogDashboard() {
 			},
 		},
 		{
-			layout: { w: 4, h: 63, x: 8, y: 37, i: "c" },
+			layout: { w: 5, h: 36, x: 7, y: 0, i: "c" },
 			widget: {
 				props: {},
 				display: true,
-				type: Container,
+				type: DogsStats,
 			},
 		},
 		{
-			layout: { w: 6, h: 37, x: 6, y: 0, i: "d" },
+			layout: { w: 5, h: 36, x: 2, y: 0, i: "d" },
 			widget: {
 				props: {},
 				display: true,
@@ -50,7 +54,7 @@ export default function DogDashboard() {
 	return (
 		<WidgetManager
 			onLayoutChange={console.log}
-			config={{ spacing: "5px", widgets }}
+			config={{ spacing: "10px", widgets }}
 		/>
 	);
 }

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import { DogListTable } from "../components/DogListTable";
-import { BEIGE_LIGHT } from "../config/colors";
 
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
 	border-radius: 16px;
-	background-color: ${BEIGE_LIGHT};
+	background-image: url("/placeholder.jpg");
+	background-size: 200px 200px;
+	background-repeat: repeat;
 `;
 
 export default function MainDashboard() {
@@ -18,7 +18,7 @@ export default function MainDashboard() {
 			widget: {
 				props: {},
 				display: true,
-				type: DogListTable,
+				type: Container,
 			},
 		},
 		{
@@ -50,7 +50,7 @@ export default function MainDashboard() {
 	return (
 		<WidgetManager
 			onLayoutChange={console.log}
-			config={{ spacing: "5px", widgets }}
+			config={{ spacing: "10px", widgets }}
 		/>
 	);
 }

@@ -32,7 +32,7 @@ const Root = () => {
 		if (!hasToken) return navigate("/login");
 
 		if (userGroup === "Admin") {
-			navigate("/app");
+			navigate("/app/main");
 		} else if (userGroup === "Families") {
 			navigate("/family");
 		}

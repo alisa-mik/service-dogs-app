@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useFetchDogs } from "../hooks/useFetchDogs";
 import { useNavigate } from "react-router-dom";
-import { getAgeFromSeconds } from "../utils/converts";
+import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
 
 const Container = styled.div`
-	font-family: Arial, sans-serif;
 	text-align: center;
 	padding: 20px;
 	height: 100%;
@@ -14,7 +13,7 @@ const Container = styled.div`
 const SearchInput = styled.input`
 	padding: 10px;
 	width: 50%;
-	font-size: 16px;
+	font-size: 14px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
 `;
@@ -27,6 +26,8 @@ const TableContainer = styled.div`
 
 const StyledTable = styled.table`
 	width: 100%;
+	height: 80%;
+	overflow: auto;
 	border-collapse: collapse;
 	text-align: right;
 `;
@@ -36,11 +37,14 @@ const StyledThead = styled.thead`
 `;
 
 const StyledTh = styled.th`
+	font-weight: 500;
+	font-size: 14px;
 	border: 1px solid #ddd;
 	padding: 12px 8px;
 `;
 
 const StyledTd = styled.td`
+	font-size: 14px;
 	border: 1px solid #ddd;
 	padding: 8px;
 `;
@@ -54,8 +58,20 @@ const StyledTr = styled.tr`
 	}
 `;
 
+interface ActiveIndecatorProps {
+	active?: boolean;
+}
+const ActiveIndecator = styled.div<ActiveIndecatorProps>`
+	height: 10px;
+	width: 10px;
+	border-radius: 50%;
+	background-color: ${(props) => (props.active ? "green" : "red")};
+`;
+
 export const DogListTable: React.FC = () => {
 	const { dogs, loading, error } = useFetchDogs();
+	console.log({ dogs });
+
 	const [searchTerm, setSearchTerm] = useState<string>("");
 
 	const navigate = useNavigate();
@@ -78,31 +94,64 @@ export const DogListTable: React.FC = () => {
 					<StyledThead>
 						<tr>
 							<StyledTh>שם הכלב</StyledTh>
+							<StyledTh>מין</StyledTh>
+							<StyledTh>צבע</StyledTh>
+							<StyledTh>גזע</StyledTh>
+							<StyledTh>תאריך לידה</StyledTh>
 							<StyledTh>גיל</StyledTh>
+							<StyledTh>קבוצה</StyledTh>
+							<StyledTh>שם האם</StyledTh>
 							<StyledTh>פעיל</StyledTh>
-							{/* <StyledTh>סטטוס</StyledTh>
+							<StyledTh>סטטוס</StyledTh>
 							<StyledTh>משויך למשפחה</StyledTh>
-							<StyledTh>קבוצה</StyledTh> */}
 						</tr>
 					</StyledThead>
 					<tbody>
-						{filteredDogs.map((dog) => (
-							<StyledTr
-								key={dog.id}
-								onClick={() => handleSelectDog(dog.id)}
-							>
-								<StyledTd>{dog.name}</StyledTd>
-								<StyledTd>
-									{getAgeFromSeconds(dog.birthDate)}
-								</StyledTd>
-								<StyledTd>
-									{dog.active ? "פעיל" : " לא פעיל"}
-								</StyledTd>
-								{/* <StyledTd>{dog.status}</StyledTd>
-								<StyledTd>{dog.assignedToFamily}</StyledTd>
-								<StyledTd>{dog.group}</StyledTd> */}
-							</StyledTr>
-						))}
+						{filteredDogs.map((dog) => {
+							const {
+								dogId,
+								name,
+								gender,
+								color,
+								breed,
+								birthDate,
+								momName,
+								active,
+								status,
+								groupId,
+								assignedFamilyId,
+							} = dog;
+							return (
+								<StyledTr
+									key={dogId}
+									onClick={() => handleSelectDog(dogId)}
+								>
+									<StyledTd>{name}</StyledTd>
+									<StyledTd>{gender}</StyledTd>
+									<StyledTd>{color}</StyledTd>
+									<StyledTd>{breed}</StyledTd>
+									<StyledTd>
+										{birthDate
+											? formatDateFromSeconds(birthDate)
+											: "-"}
+									</StyledTd>
+									<StyledTd>
+										{birthDate
+											? getAgeFromSeconds(birthDate)
+											: "-"}
+									</StyledTd>
+									<StyledTd>{groupId}</StyledTd>
+									<StyledTd>{momName}</StyledTd>
+									<StyledTd>
+										<ActiveIndecator active={active} />
+									</StyledTd>
+									<StyledTd>{status}</StyledTd>
+									<StyledTd>
+										{assignedFamilyId ? "כן" : "לא"}
+									</StyledTd>
+								</StyledTr>
+							);
+						})}
 					</tbody>
 				</StyledTable>
 			</TableContainer>
