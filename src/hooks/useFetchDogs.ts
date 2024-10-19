@@ -14,6 +14,7 @@ export const useFetchDogs = () => {
                 const response = await axios.get(apiConfig.dogsBasicInfoEndpoint);
                 const dogsData = response.data;
 
+
                 setDogs(dogsData);
             } catch (error) {
                 console.error("Error fetching dogs:", error);

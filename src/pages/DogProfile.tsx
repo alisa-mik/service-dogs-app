@@ -1,18 +1,18 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import { useFetchDogProfile } from "../hooks/useFetchDogProfile";
 import { CircularProgress } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store";
 import { useEffect, useMemo } from "react";
-import { setDogProfile } from "../store/dogProfileSlice";
 import DogDetails from "../widgets/DogDetails";
 import DogUpdates from "../widgets/DogUpdates";
 import DogFamily from "../widgets/DogFamily";
 import DogSummary from "../widgets/DogSummary";
 import DogProfileNav from "../widgets/DogProfileNav";
+import { fetchDogById } from "../store/dogProfileSlice";
+import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 
 const Container = styled.div`
 	width: 100%;
@@ -28,13 +28,21 @@ export default function DogProfile() {
 	const { dogId } = useParams<{ dogId: string }>();
 	const dispatch = useDispatch<AppDispatch>();
 
-	const { dog, loading, error } = useFetchDogProfile(dogId || "");
+	const {
+		dog,
+		status: dogStatus,
+		error: dogError,
+	} = useSelector((state: RootState) => state.dogProfile);
+	const { status: updatesStatus, error: updatesError } = useSelector(
+		(state: RootState) => state.updatesByDogId
+	);
 
 	useEffect(() => {
-		if (dog) {
-			dispatch(setDogProfile(dog));
+		if (dogId) {
+			dispatch(fetchDogById(dogId));
+			dispatch(fetchUpdatesByDogId(dogId));
 		}
-	}, [dog, dispatch]);
+	}, [dispatch, dogId]);
 
 	const widgets: WidgetConfig[] = useMemo(
 		() => [
@@ -90,12 +98,22 @@ export default function DogProfile() {
 		[]
 	);
 
-	if (loading) {
+	if (dogStatus === "loading" || updatesStatus === "loading") {
 		return <CircularProgress />;
 	}
 
-	if (error) {
-		return <div>Error: {error.message}</div>;
+	// Handle error state for dog and updates
+	if (dogStatus === "failed") {
+		return <div>Error: {dogError}</div>;
+	}
+
+	if (updatesStatus === "failed") {
+		return <div>Error: {updatesError}</div>;
+	}
+
+	// Ensure that the dog data exists before rendering
+	if (!dog) {
+		return <div>No dog data available.</div>;
 	}
 
 	return (
