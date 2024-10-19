@@ -10,7 +10,7 @@ import Root from "./Root";
 import App from "./pages/App";
 import Login from "./pages/Login";
 import MainDashboard from "./pages/MainDashboard";
-import DogProfile from "./components/DogProfile";
+import DogProfile from "./pages/DogProfile";
 import DogDashboard from "./pages/DogsDashboard";
 
 const root = ReactDOM.createRoot(
@@ -36,7 +36,7 @@ const router = createBrowserRouter([
 						Component: DogDashboard,
 					},
 					{
-						path: "dogs/:id",
+						path: "dogs/:dogId",
 						Component: DogProfile,
 					},
 					{

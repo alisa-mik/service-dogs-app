@@ -14,18 +14,6 @@ export const useFetchDogs = () => {
                 const response = await axios.get(apiConfig.dogsBasicInfoEndpoint);
                 const dogsData = response.data;
 
-                // Fetch actual image URLs for each dog
-                // const updatedDogs = await Promise.all(
-                //     dogsData.map(async (dog: DogProfile) => {
-                //         try {
-                //             const imageResponse = await axios.get("https://dog.ceo/api/breeds/image/random");
-                //             return { ...dog, image: imageResponse.data.message };
-                //         } catch {
-                //             return { ...dog, image: "" }; // Fallback if image fetch fails
-                //         }
-                //     })
-                // );
-
                 setDogs(dogsData);
             } catch (error) {
                 console.error("Error fetching dogs:", error);

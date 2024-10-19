@@ -1,26 +1,34 @@
-// src/hooks/useFetchDogProfile.ts
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Dog } from '../types/dogTypes';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { apiConfig } from "../config/apiConfig";
 
 export const useFetchDogProfile = (dogId: string) => {
-    const [ dog, setDog ] = useState<Dog | null>(null);
-    const [ loading, setLoading ] = useState<boolean>(true);
-    const [ error, setError ] = useState<string | null>(null);
+    const [ dog, setDog ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
+    const [ error, setError ] = useState<null | Error>(null);
 
     useEffect(() => {
         const fetchDogProfile = async () => {
             try {
-                const response = await axios.get(`/api/dogs/${dogId}`);
+                setLoading(true);
+                const response = await axios.get(
+                    `${apiConfig.dogByIdEndPoint}/${dogId}`
+                );
                 setDog(response.data);
             } catch (err) {
-                setError(`Failed to fetch dog profile: ${err}`);
+                setError(err as Error);
             } finally {
                 setLoading(false);
             }
         };
 
         fetchDogProfile();
+
+        return () => {
+            setDog(null);
+            setLoading(false);
+            setError(null);
+        };
     }, [ dogId ]);
 
     return { dog, loading, error };

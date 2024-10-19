@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useFetchDogs } from "../hooks/useFetchDogs";
 import { useNavigate } from "react-router-dom";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
+import { CircularProgress } from "@mui/material";
 
 const Container = styled.div`
 	text-align: center;
@@ -76,7 +77,7 @@ export const DogListTable: React.FC = () => {
 
 	const navigate = useNavigate();
 
-	if (loading) return <p>טוען רשימת כלבים...</p>;
+	if (loading) return <CircularProgress />;
 	if (error) return <p>Error: {error}</p>;
 
 	const filteredDogs = dogs.filter((dog) =>
