@@ -81,7 +81,7 @@ export const DogListTable: React.FC = () => {
 	if (error) return <p>Error: {error}</p>;
 
 	const filteredDogs = dogs.filter((dog) =>
-		dog.name.toLowerCase().includes(searchTerm.toLowerCase())
+		dog.dogName.toLowerCase().includes(searchTerm.toLowerCase())
 	);
 
 	const handleSelectDog = (id: string) => {
@@ -111,14 +111,14 @@ export const DogListTable: React.FC = () => {
 						{filteredDogs.map((dog) => {
 							const {
 								dogId,
-								name,
+								dogName,
 								gender,
 								color,
 								breed,
 								birthDate,
 								momName,
 								active,
-								status,
+								dogStatus,
 								groupId,
 								assignedFamilyId,
 							} = dog;
@@ -127,7 +127,7 @@ export const DogListTable: React.FC = () => {
 									key={dogId}
 									onClick={() => handleSelectDog(dogId)}
 								>
-									<StyledTd>{name}</StyledTd>
+									<StyledTd>{dogName}</StyledTd>
 									<StyledTd>{gender}</StyledTd>
 									<StyledTd>{color}</StyledTd>
 									<StyledTd>{breed}</StyledTd>
@@ -146,7 +146,7 @@ export const DogListTable: React.FC = () => {
 									<StyledTd>
 										<ActiveIndecator active={active} />
 									</StyledTd>
-									<StyledTd>{status}</StyledTd>
+									<StyledTd>{dogStatus}</StyledTd>
 									<StyledTd>
 										{assignedFamilyId ? "כן" : "לא"}
 									</StyledTd>

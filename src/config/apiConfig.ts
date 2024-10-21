@@ -1,5 +1,6 @@
 export const apiConfig = {
-    dogsBasicInfoEndpoint: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/dogs-basic-info",
+    dogs: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/dogs",
     dogByIdEndPoint: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/dogs",
-    updatesByDogIdEndPoint: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/updates-by-dogId"
+    updatesByDogIdEndPoint: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/updates-by-dogId",
+    addUpdate: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-update"
 };

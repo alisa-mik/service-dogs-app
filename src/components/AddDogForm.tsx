@@ -11,7 +11,7 @@ const AddDogForm: React.FC = () => {
 
 	const formik = useFormik({
 		initialValues: {
-			name: "",
+			dogName: "",
 			birthDate: "",
 			gender: "",
 			breed: "",
@@ -21,7 +21,7 @@ const AddDogForm: React.FC = () => {
 			groupId: "",
 			assignedFamilyId: "",
 			active: true,
-			status: "",
+			dogStatus: "",
 			dropDate: "",
 			dropReason: "",
 			chipNumber: "",
@@ -79,8 +79,8 @@ const AddDogForm: React.FC = () => {
 							<label>שם הכלב:</label>
 							<input
 								type="text"
-								name="name"
-								value={formik.values.name}
+								name="dogName"
+								value={formik.values.dogName}
 								onChange={formik.handleChange}
 								required
 							/>
@@ -188,8 +188,8 @@ const AddDogForm: React.FC = () => {
 						<div>
 							<label>סטטוס:</label>
 							<select
-								name="status"
-								value={formik.values.status}
+								name="dogStatus"
+								value={formik.values.dogStatus}
 								onChange={formik.handleChange}
 								// required
 							>
@@ -203,7 +203,7 @@ const AddDogForm: React.FC = () => {
 							</select>
 						</div>
 
-						{formik.values.status === "נשר" && (
+						{formik.values.dogStatus === "נשר" && (
 							<>
 								<div>
 									<label>תאריך נשירה:</label>

@@ -11,7 +11,7 @@ export const useFetchDogs = () => {
     useEffect(() => {
         const fetchDogs = async () => {
             try {
-                const response = await axios.get(apiConfig.dogsBasicInfoEndpoint);
+                const response = await axios.get(apiConfig.dogs);
                 const dogsData = response.data;
 
 

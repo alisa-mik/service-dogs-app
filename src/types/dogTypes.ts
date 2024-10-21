@@ -14,7 +14,7 @@ export interface Update {
 
 export interface Dog {
     dogId: string;
-    name: string;
+    dogName: string;
     birthDate: number;
     gender: string;
     breed: string;
@@ -24,7 +24,7 @@ export interface Dog {
     groupId: string;
     active: boolean;
     // level: string;
-    status: string;
+    dogStatus: string;
     image: string;
     assignedFamilyId: string;
     dropDate: number,
