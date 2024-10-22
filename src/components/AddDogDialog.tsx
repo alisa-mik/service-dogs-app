@@ -1,11 +1,11 @@
 import {
 	Button,
 	Dialog,
-	DialogTitle,
+	// DialogTitle,
 	DialogContent,
 	DialogActions,
 } from "@mui/material";
-import AddDogForm from "./AddDogForm";
+import AddDogForm from "./AddDog/AddDogForm";
 
 interface AddDogDialogProps {
 	open: boolean;
@@ -19,9 +19,9 @@ export default function AddDogDialog({ open, setOpen }: AddDogDialogProps) {
 
 	return (
 		<Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-			<DialogTitle style={{ textAlign: "center" }}>
+			{/* <DialogTitle style={{ textAlign: "center" }}>
 				הוספת כלב חדש
-			</DialogTitle>
+			</DialogTitle> */}
 			<DialogContent>
 				<AddDogForm />
 			</DialogContent>

@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { apiConfig } from "../config/apiConfig";
-import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
+import { refetchDogById } from "../store/dogProfileSlice";
 
 // List of categories (you can change these to what you need)
 const availableCategories = [
@@ -70,7 +70,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 
 				resetForm();
 				handleClose();
-				dispatch(fetchUpdatesByDogId(dogId));
+				dispatch(refetchDogById(dogId));
 			} catch (error) {
 				console.error("Error adding update:", error);
 			}

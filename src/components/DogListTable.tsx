@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useFetchDogs } from "../hooks/useFetchDogs";
+import {
+	DataGrid,
+	GridCellParams,
+	GridColDef,
+	gridPageCountSelector,
+	gridPageSelector,
+	useGridApiContext,
+	useGridSelector,
+} from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Pagination } from "@mui/material";
+import { AppDispatch, RootState } from "../store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDogs } from "../store/dogsSlice";
+import { TOASTED_PINE_NUT, BROWN_DARK } from "../config/colors";
 
 const Container = styled.div`
-	text-align: center;
-	padding: 20px;
+	padding: 10px;
 	height: 100%;
+	width: 100%;
+	display: flex;
+	gap: 10px;
+	flex-direction: column;
+	align-items: center;
 `;
 
 const SearchInput = styled.input`
@@ -19,67 +35,31 @@ const SearchInput = styled.input`
 	border: 1px solid #ccc;
 `;
 
-const TableContainer = styled.div`
-	width: 100%;
-	overflow-x: auto;
-	direction: rtl;
-`;
-
-const StyledTable = styled.table`
-	width: 100%;
-	height: 80%;
-	overflow: auto;
-	border-collapse: collapse;
-	text-align: right;
-`;
-
-const StyledThead = styled.thead`
-	background-color: #f2f2f2;
-`;
-
-const StyledTh = styled.th`
-	font-weight: 500;
-	font-size: 14px;
-	border: 1px solid #ddd;
-	padding: 12px 8px;
-`;
-
-const StyledTd = styled.td`
-	font-size: 14px;
-	border: 1px solid #ddd;
-	padding: 8px;
-`;
-
-const StyledTr = styled.tr`
-	cursor: pointer;
-	transition: background-color 0.2s;
-
-	&:hover {
-		background-color: #e0e0e0;
-	}
-`;
-
-interface ActiveIndecatorProps {
-	active?: boolean;
-}
-const ActiveIndecator = styled.div<ActiveIndecatorProps>`
-	height: 10px;
-	width: 10px;
-	border-radius: 50%;
-	background-color: ${(props) => (props.active ? "green" : "red")};
-`;
-
 export const DogListTable: React.FC = () => {
-	const { dogs, loading, error } = useFetchDogs();
-	console.log({ dogs });
+	const dispatch = useDispatch<AppDispatch>();
+	const {
+		dogs,
+		status: dogStatus,
+		error: dogError,
+	} = useSelector((state: RootState) => state.dogs);
 
 	const [searchTerm, setSearchTerm] = useState<string>("");
 
 	const navigate = useNavigate();
 
-	if (loading) return <CircularProgress />;
-	if (error) return <p>Error: {error}</p>;
+	useEffect(() => {
+		if (dogStatus === "idle") {
+			dispatch(fetchDogs());
+		}
+	}, [dogStatus, dispatch]);
 
+	if (dogStatus === "loading") {
+		return <CircularProgress />;
+	}
+
+	if (dogStatus === "failed") {
+		return <div color="error">Error: {dogError}</div>;
+	}
 	const filteredDogs = dogs.filter((dog) =>
 		dog.dogName.toLowerCase().includes(searchTerm.toLowerCase())
 	);
@@ -88,97 +68,168 @@ export const DogListTable: React.FC = () => {
 		navigate(id);
 	};
 
-	const renderTable = () => {
+	const BasicCell = ({ value }: GridCellParams): React.ReactElement => {
+		const displayValue =
+			value !== null && value !== undefined ? String(value) : "-";
+
 		return (
-			<TableContainer>
-				<StyledTable>
-					<StyledThead>
-						<tr>
-							<StyledTh>שם הכלב</StyledTh>
-							<StyledTh>מין</StyledTh>
-							<StyledTh>צבע</StyledTh>
-							<StyledTh>גזע</StyledTh>
-							<StyledTh>תאריך לידה</StyledTh>
-							<StyledTh>גיל</StyledTh>
-							<StyledTh>קבוצה</StyledTh>
-							<StyledTh>שם האם</StyledTh>
-							<StyledTh>פעיל</StyledTh>
-							<StyledTh>סטטוס</StyledTh>
-							<StyledTh>משויך למשפחה</StyledTh>
-						</tr>
-					</StyledThead>
-					<tbody>
-						{filteredDogs.map((dog) => {
-							const {
-								dogId,
-								dogName,
-								gender,
-								color,
-								breed,
-								birthDate,
-								momName,
-								active,
-								dogStatus,
-								groupId,
-								assignedFamilyId,
-							} = dog;
-							return (
-								<StyledTr
-									key={dogId}
-									onClick={() => handleSelectDog(dogId)}
-								>
-									<StyledTd>{dogName}</StyledTd>
-									<StyledTd>{gender}</StyledTd>
-									<StyledTd>{color}</StyledTd>
-									<StyledTd>{breed}</StyledTd>
-									<StyledTd>
-										{birthDate
-											? formatDateFromSeconds(birthDate)
-											: "-"}
-									</StyledTd>
-									<StyledTd>
-										{birthDate
-											? getAgeFromSeconds(birthDate)
-											: "-"}
-									</StyledTd>
-									<StyledTd>{groupId}</StyledTd>
-									<StyledTd>{momName}</StyledTd>
-									<StyledTd>
-										<ActiveIndecator active={active} />
-									</StyledTd>
-									<StyledTd>{dogStatus}</StyledTd>
-									<StyledTd>
-										{assignedFamilyId ? "כן" : "לא"}
-									</StyledTd>
-								</StyledTr>
-							);
-						})}
-					</tbody>
-				</StyledTable>
-			</TableContainer>
+			<div
+				style={{
+					textAlign: "start",
+					fontFamily: "Rubik, sans-serif",
+				}}
+			>
+				{displayValue}
+			</div>
+		);
+	};
+	const CustomPagination = () => {
+		const apiRef = useGridApiContext();
+		const page = useGridSelector(apiRef, gridPageSelector);
+		const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+
+		return (
+			<div
+				dir="ltr"
+				style={{
+					display: "flex",
+					width: "100%",
+					alignSelf: "self-end",
+				}}
+			>
+				<Pagination
+					color="secondary"
+					count={pageCount}
+					page={page + 1}
+					onChange={(event, value) =>
+						apiRef.current.setPage(value - 1)
+					}
+				/>
+			</div>
+		);
+	};
+
+	const renderTable = () => {
+		const commonProps = { renderCell: BasicCell, flex: 1 };
+
+		const columns: GridColDef[] = [
+			{
+				...commonProps,
+				field: "dogName",
+				headerName: "שם הכלב",
+				// renderCell: <div></div>
+			},
+			{
+				...commonProps,
+				field: "gender",
+				headerName: "מין",
+			},
+			{
+				...commonProps,
+				field: "color",
+				headerName: "צבע",
+			},
+			{
+				...commonProps,
+				field: "breed",
+				headerName: "גזע",
+			},
+			{
+				...commonProps,
+				field: "birthDate",
+				headerName: "תאריך לידה",
+				valueGetter: (value, row) =>
+					`${
+						row.birthDate
+							? formatDateFromSeconds(row.birthDate)
+							: "-"
+					}`,
+			},
+			{
+				...commonProps,
+				field: "birthDate",
+				headerName: "גיל",
+				valueGetter: (value, row) =>
+					`${row.birthDate ? getAgeFromSeconds(row.birthDate) : "-"}`,
+			},
+			{
+				...commonProps,
+				field: "groupId",
+				headerName: "קבוצה",
+			},
+			{
+				...commonProps,
+				field: "momName",
+				headerName: "שם האם",
+			},
+			{
+				...commonProps,
+				field: "dogStatus",
+				headerName: "סטטוס",
+			},
+			// {
+			// 	...commonProps,
+			// 	field: "fullName",
+			// 	headerName: "Full name",
+			// 	description:
+			// 		"This column has a value getter and is not sortable.",
+			// 	sortable: false,
+			// 	valueGetter: (value, row) =>
+			// 		`${row.firstName || ""} ${row.lastName || ""}`,
+			// },
+		];
+
+		const paginationModel = { page: 0, pageSize: 15 };
+
+		return (
+			<DataGrid
+				rows={filteredDogs}
+				onRowClick={({ id }) => {
+					handleSelectDog(id as string);
+				}}
+				columns={columns}
+				disableColumnResize
+				disableColumnMenu
+				initialState={{ pagination: { paginationModel } }}
+				slots={{
+					pagination: CustomPagination,
+				}}
+				sx={{
+					border: 0,
+					width: "100%",
+					direction: "rtl",
+
+					"& .MuiDataGrid-columnHeaderTitle": {
+						fontFamily: "Rubik",
+					},
+					"& .MuiDataGrid-columnSeparator": {
+						display: "none",
+					},
+					"& .MuiDataGrid-main": {
+						border: `solid 1px ${TOASTED_PINE_NUT}`,
+						borderRadius: 4,
+					},
+					"& .MuiDataGrid-footerContainer": {
+						borderTop: "unset",
+					},
+					"& .MuiDataGrid-columnHeaderTitleContainer": {
+						color: BROWN_DARK,
+					},
+				}}
+			/>
 		);
 	};
 
 	return (
 		<Container>
-			<div
-				style={{
-					display: "flex",
-					gap: "10px",
-					alignItems: "center",
-					flexDirection: "column",
-					justifyContent: "center",
-				}}
-			>
-				<SearchInput
-					style={{ direction: "rtl" }}
-					type="text"
-					placeholder="חיפוש לפי שם הכלב"
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-				/>
-				{renderTable()}
-			</div>
+			<SearchInput
+				style={{ direction: "rtl" }}
+				type="text"
+				placeholder="חיפוש לפי שם הכלב"
+				value={searchTerm}
+				onChange={(e) => setSearchTerm(e.target.value)}
+			/>
+			{renderTable()}
 		</Container>
 	);
 };

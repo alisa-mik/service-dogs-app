@@ -4,6 +4,7 @@ import { YELLOW } from "../config/colors";
 
 export default function DogsActions() {
 	const [open, setOpen] = useState<boolean>(false);
+
 	return (
 		<div
 			style={{

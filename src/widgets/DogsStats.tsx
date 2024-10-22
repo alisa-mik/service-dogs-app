@@ -1,29 +1,33 @@
 import { useEffect, useState } from "react";
 import { BROWN_DARK } from "../config/colors";
-import { useFetchDogs } from "../hooks/useFetchDogs";
+import { useSelector } from "react-redux";
+import { RootState } from "../store";
 
 export default function DogsStats() {
-	const { dogs, loading, error } = useFetchDogs();
+	const {
+		dogs,
+		// status: dogStatus,
+		// error: dogError,
+	} = useSelector((state: RootState) => state.dogs);
+
 	const [count, setCount] = useState<number>(0);
-	const target = dogs.length; // Replace this with the actual number of dogs in your app
-	const duration = 2000; // Total animation time in milliseconds (e.g., 2 seconds)
+	const target = dogs.length;
+	const duration = 2000;
 
 	useEffect(() => {
-		// Calculate the time interval for each increment
-		const stepTime = Math.ceil(duration / target); // Time per step, adjust based on total number
+		const stepTime = Math.ceil(duration / target);
 
 		const interval = setInterval(() => {
 			setCount((prevCount) => {
 				if (prevCount < target) {
-					return prevCount + 1; // Increment by 1
+					return prevCount + 1;
 				} else {
-					clearInterval(interval); // Stop the interval when the target is reached
+					clearInterval(interval);
 					return prevCount;
 				}
 			});
 		}, stepTime);
 
-		// Cleanup interval on component unmount
 		return () => clearInterval(interval);
 	}, [target, duration]);
 

@@ -13,6 +13,7 @@ const Container = styled.div`
 	padding: 10px;
 	justify-content: center;
 	align-items: center;
+	display: flex;
 	overflow: auto;
 	box-sizing: border-box;
 `;

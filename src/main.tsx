@@ -13,6 +13,8 @@ import MainDashboard from "./pages/MainDashboard";
 import DogProfile from "./pages/DogProfile";
 import DogDashboard from "./pages/DogsDashboard";
 import UpdatesDashboard from "./pages/UpdatesDashboard";
+import { createTheme, ThemeProvider } from "@mui/material";
+import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -58,8 +60,21 @@ const router = createBrowserRouter([
 	},
 ]);
 
+const theme = createTheme({
+	palette: {
+		primary: {
+			main: YELLOW,
+		},
+		secondary: {
+			main: TOASTED_PINE_NUT,
+		},
+	},
+});
+
 root.render(
 	<Provider store={store}>
-		<RouterProvider router={router} />
+		<ThemeProvider theme={theme}>
+			<RouterProvider router={router} />
+		</ThemeProvider>
 	</Provider>
 );

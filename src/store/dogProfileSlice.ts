@@ -19,13 +19,23 @@ const initialState: DogProfileState = {
 export const fetchDogById = createAsyncThunk(
     "dogs/fetchDogById",
     async (dogId: string, { getState }) => {
-        const { dogProfile } = getState() as RootState; // Type the getState as RootState
+        const { dogProfile } = getState() as RootState;
 
         if (dogProfile.dog && dogProfile.dog.dogId === dogId) {
-            return dogProfile.dog; // Return cached dog if it exists
+            return dogProfile.dog;
         }
 
-        const response = await axios.get(`${apiConfig.dogByIdEndPoint}/${dogId}`);
+        // If not, fetch it from the API
+        const response = await axios.get(`${apiConfig.dogs}/${dogId}`);
+        return response.data;
+    }
+);
+
+// Optionally, you can provide a refetch action to force fetching fresh data
+export const refetchDogById = createAsyncThunk(
+    "dogs/refetchDogById",
+    async (dogId: string) => {
+        const response = await axios.get(`${apiConfig.dogs}/${dogId}`);
         return response.data;
     }
 );
@@ -46,6 +56,9 @@ const dogProfileSlice = createSlice({
             .addCase(fetchDogById.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message ?? null;
+            })
+            .addCase(refetchDogById.fulfilled, (state, action) => {
+                state.dog = action.payload;
             });
     },
 });
