@@ -37,3 +37,4 @@ export function formatDateFromSeconds(seconds: number) {
 
     return `${day}/${month}/${year}`; // Return the formatted date
 }
+

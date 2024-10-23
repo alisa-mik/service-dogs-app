@@ -50,7 +50,6 @@ export const DateText = styled.div`
 
 export const Content = styled.div<{ expanded: boolean }>`
     font-size: 14px;
-    line-height: 1.5;
     overflow: hidden;
     height:  ${({ expanded }) => (expanded ? '100px' : "60px")};
     max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 

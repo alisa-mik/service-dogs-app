@@ -5,34 +5,116 @@ import { v4 as uuidv4 } from "uuid";
 import { apiConfig } from "../config/apiConfig";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import { refetchDogById } from "../store/dogProfileSlice";
+import styled from "styled-components";
 
-// List of categories (you can change these to what you need)
-const availableCategories = [
-	{ name: "Training", color: "#FF6347" }, // Tomato
-	{ name: "Health", color: "#4682B4" }, // SteelBlue
-	{ name: "Behavior", color: "#32CD32" }, // LimeGreen
-];
+import { categoriesTranslation, CATEGORY_COLORS } from "../config/categories";
+import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
+import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
+
+const FormContainer = styled.form`
+	direction: rtl;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+	text-align: right;
+	padding: 20px;
+	background-color: #f9f9f9;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+`;
+
+const FormGroup = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+`;
+
+const Label = styled.label`
+	display: block;
+	font-weight: bold;
+`;
+
+const TextArea = styled.textarea`
+	width: 100%;
+	font-family: "Rubik";
+	height: 120px;
+	font-size: 16px;
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	resize: vertical;
+`;
+
+const CategoriesContainer = styled.div`
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+`;
+
+const CategoryTag = styled.span<{ selected: boolean; color: string }>`
+	padding: 8px 16px;
+	border-radius: 20px;
+	cursor: pointer;
+	user-select: none;
+	font-size: 14px;
+	color: ${({ selected }) => (selected ? "#fff" : "#333")};
+	background-color: ${({ selected, color }) =>
+		selected ? color : "#e0e0e0"};
+	transition: background-color 0.3s, color 0.3s;
+
+	&:hover {
+		opacity: 0.8;
+	}
+`;
+
+const DateInput = styled.input`
+	width: 20%;
+	padding: 10px;
+	font-size: 16px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+`;
+
+const SubmitButton = styled.button`
+	width: 100%;
+	padding: 12px;
+	background-color: ${YELLOW};
+	color: ${BROWN_DARK};
+	font-size: 16px;
+	font-family: "Rubik";
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: ${YELLOW_DARKER};
+	}
+`;
+
+const ErrorText = styled.div`
+	color: red;
+	font-size: 14px;
+	margin-top: 5px;
+`;
+
+const validate = (values: { content: string; date: string }) => {
+	const errors: { content?: string; date?: string } = {};
+
+	if (!values.content.trim()) {
+		errors.content = "שדה התוכן הוא שדה חובה";
+	}
+
+	if (!values.date) {
+		errors.date = "יש לבחור תאריך";
+	}
+
+	return errors;
+};
 
 interface AddUpdateFormProps {
 	dogId: string;
 	handleClose: () => void;
 }
-
-// Custom validation function without Yup
-const validate = (values: { content: string; timestamp: string }) => {
-	const errors: { content?: string; timestamp?: string } = {};
-
-	if (!values.content) {
-		errors.content = "שדה התוכן הוא שדה חובה";
-	}
-
-	if (!values.timestamp) {
-		errors.timestamp = "יש לבחור תאריך ושעה";
-	}
-
-	return errors;
-};
 
 const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 	dogId,
@@ -44,22 +126,28 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 	const formik = useFormik({
 		initialValues: {
 			content: "",
-			timestamp: new Date().toISOString(),
+			date: new Date().toISOString().split("T")[0],
 		},
-		validate, // Custom validate function
+		validate,
 		onSubmit: async (values, { resetForm }) => {
 			try {
 				const updateId = uuidv4();
+				console.log({
+					updateId: updateId,
+					dogId: dogId,
+					content: values.content,
+					categories: selectedCategories,
+					date: values.date,
+				});
 
-				// Make a POST request to add the update
 				await axios.post(
-					apiConfig.addUpdate, // Replace with your API endpoint
+					apiConfig.addUpdate,
 					{
-						updateId,
-						dogId, // Pass the correct dogId
+						updateId: updateId,
+						dogId: dogId,
 						content: values.content,
 						categories: selectedCategories,
-						timestamp: values.timestamp,
+						date: values.date,
 					},
 					{
 						headers: {
@@ -70,126 +158,73 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 
 				resetForm();
 				handleClose();
-				dispatch(refetchDogById(dogId));
+				dispatch(fetchUpdatesByDogId(dogId));
 			} catch (error) {
 				console.error("Error adding update:", error);
 			}
 		},
 	});
 
-	// Toggle the category selection
 	const toggleCategory = (categoryName: string) => {
-		if (selectedCategories.includes(categoryName)) {
-			setSelectedCategories(
-				selectedCategories.filter((cat) => cat !== categoryName)
-			);
-		} else {
-			setSelectedCategories([...selectedCategories, categoryName]);
-		}
+		setSelectedCategories((prev) =>
+			prev.includes(categoryName)
+				? prev.filter((cat) => cat !== categoryName)
+				: [...prev, categoryName]
+		);
 	};
 
 	return (
-		<form
-			onSubmit={formik.handleSubmit}
-			style={{ direction: "rtl", textAlign: "right" }}
-		>
-			<div
-				style={{
-					display: "flex",
-					flexDirection: "column",
-					gap: "20px",
-				}}
-			>
-				{/* Content input (textarea to make it larger) */}
-				<label htmlFor="content">תוכן</label>
-				<textarea
+		<FormContainer onSubmit={formik.handleSubmit}>
+			<FormGroup>
+				<Label htmlFor="content">הוספת עדכון חדש</Label>
+				<TextArea
 					id="content"
 					name="content"
 					value={formik.values.content}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					style={{
-						width: "100%",
-						height: "120px", // Larger height for textarea
-						fontSize: "16px",
-						padding: "10px",
-						borderRadius: "8px",
-						border: "1px solid gray",
-					}}
+					placeholder="הכנס תוכן כאן..."
 				/>
 				{formik.touched.content && formik.errors.content && (
-					<div style={{ color: "red" }}>{formik.errors.content}</div>
+					<ErrorText>{formik.errors.content}</ErrorText>
 				)}
+			</FormGroup>
 
-				{/* Categories selection */}
-				<div
-					style={{
-						display: "flex",
-						justifyContent: "space-around",
-						marginTop: "10px",
-					}}
-				>
-					{availableCategories.map((category) => (
-						<div
-							key={category.name}
-							onClick={() => toggleCategory(category.name)}
-							style={{
-								padding: "10px 20px",
-								borderRadius: "8px",
-								cursor: "pointer",
-								backgroundColor: selectedCategories.includes(
-									category.name
-								)
-									? category.color
-									: "gray",
-								color: "white",
-								textAlign: "center",
-							}}
+			<FormGroup>
+				<Label>קטגוריות</Label>
+				<CategoriesContainer>
+					{Object.entries(CATEGORY_COLORS).map(([name, color]) => (
+						<CategoryTag
+							key={name}
+							selected={selectedCategories.includes(name)}
+							color={color}
+							onClick={() => toggleCategory(name)}
 						>
-							{category.name}
-						</div>
+							{categoriesTranslation[name]}
+						</CategoryTag>
 					))}
-				</div>
+				</CategoriesContainer>
+			</FormGroup>
 
-				{/* Timestamp input */}
-				<label htmlFor="timestamp">תאריך ושעה</label>
-				<input
-					id="timestamp"
-					name="timestamp"
-					type="datetime-local"
-					value={formik.values.timestamp}
+			{/* Date Selection */}
+			<FormGroup>
+				<Label htmlFor="date">תאריך</Label>
+				<DateInput
+					id="date"
+					name="date"
+					type="date"
+					value={formik.values.date}
 					onChange={formik.handleChange}
 					onBlur={formik.handleBlur}
-					style={{
-						width: "100%",
-						fontSize: "16px",
-						padding: "10px",
-						borderRadius: "8px",
-						border: "1px solid gray",
-					}}
 				/>
-				{formik.touched.timestamp && formik.errors.timestamp && (
-					<div style={{ color: "red" }}>
-						{formik.errors.timestamp}
-					</div>
+				{formik.touched.date && formik.errors.date && (
+					<ErrorText>{formik.errors.date}</ErrorText>
 				)}
+			</FormGroup>
 
-				{/* Submit Button */}
-				<button
-					type="submit"
-					style={{
-						backgroundColor: "#4CAF50",
-						color: "white",
-						padding: "10px 20px",
-						borderRadius: "8px",
-						border: "none",
-						cursor: "pointer",
-					}}
-				>
-					הוסף עדכון
-				</button>
-			</div>
-		</form>
+			{/* Submit Button */}
+			<SubmitButton type="submit">הוסף עדכון</SubmitButton>
+		</FormContainer>
 	);
 };
 

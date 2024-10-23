@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import UpdateTag from "./UpdateTag";
-import { CATEGORY_COLORS } from "../config/categories";
+import { categoriesTranslation, CATEGORY_COLORS } from "../config/categories";
 
 interface CategoryFilterProps {
 	categories: string[];
@@ -23,8 +23,6 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 	onChange,
 }) => {
 	const handleTagClick = (category: string) => {
-		console.log({ CATEGORY_COLORS });
-
 		if (selectedCategories.includes(category)) {
 			onChange(selectedCategories.filter((cat) => cat !== category));
 		} else {
@@ -37,7 +35,7 @@ const CategoryFilter: React.FC<CategoryFilterProps> = ({
 			{categories.map((category) => (
 				<UpdateTag
 					key={category}
-					label={category}
+					label={categoriesTranslation[category]}
 					color={CATEGORY_COLORS[category] || "#757575"}
 					selected={selectedCategories.includes(category)}
 					onClick={() => handleTagClick(category)}

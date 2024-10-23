@@ -6,8 +6,9 @@ export interface Author {
 }
 
 export interface Update {
+    dogId: string;
     updateId: string;
-    timestamp: string;
+    date: string;
     author: Author;
     categories: string[];
     content: string;
