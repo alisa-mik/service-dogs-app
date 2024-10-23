@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddDogDialog from "../components/AddDogDialog";
-import { YELLOW } from "../config/colors";
+import { Button } from "../components/commonParts/Buttons";
 
 export default function DogsActions() {
 	const [open, setOpen] = useState<boolean>(false);
@@ -21,32 +21,10 @@ export default function DogsActions() {
 					gap: "10px",
 				}}
 			>
-				<button
-					onClick={() => setOpen(true)}
-					style={{
-						// border: "1px solid black",
-						backgroundColor: YELLOW,
-					}}
-				>
-					הוספת כלב
-				</button>
+				<Button onClick={() => setOpen(true)}>הוספת כלב</Button>
 				<AddDogDialog open={open} setOpen={setOpen} />
-				<button
-					style={{
-						// border: "1px solid black",
-						backgroundColor: YELLOW,
-					}}
-				>
-					הוספת קבוצה חדשה
-				</button>
-				<button
-					style={{
-						// border: "1px solid black",
-						backgroundColor: YELLOW,
-					}}
-				>
-					לארכיון
-				</button>
+				<Button>הוספת קבוצה חדשה</Button>
+				<Button>לארכיון</Button>
 			</div>
 			<div>
 				<img style={{ width: "90%" }} src="/dogs.jpg" alt="dogs" />

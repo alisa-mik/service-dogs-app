@@ -17,6 +17,7 @@ import FormStep4 from "./FormStep4.tsx";
 import { AddDogFormValues } from "../../types/dogTypes.ts";
 import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
+import { Button } from "../commonParts/Buttons.tsx";
 
 const AddDogForm: React.FC = () => {
 	const navigate = useNavigate();
@@ -113,17 +114,17 @@ const AddDogForm: React.FC = () => {
 					{renderStep()}
 					<ButtonGroup>
 						{currentStep > 1 && (
-							<button type="button" onClick={prevStep}>
+							<Button type="button" onClick={prevStep}>
 								חזור
-							</button>
+							</Button>
 						)}
 						{currentStep < 4 && (
-							<button type="button" onClick={nextStep}>
+							<Button type="button" onClick={nextStep}>
 								הבא
-							</button>
+							</Button>
 						)}
 						{currentStep === 4 && (
-							<button type="submit">שלח</button>
+							<Button type="submit">שלח</Button>
 						)}
 					</ButtonGroup>
 				</form>

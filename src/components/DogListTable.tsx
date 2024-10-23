@@ -15,7 +15,7 @@ import { CircularProgress, Pagination } from "@mui/material";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDogs } from "../store/dogsSlice";
-import { TOASTED_PINE_NUT, BROWN_DARK } from "../config/colors";
+import { TOASTED_PINE_NUT } from "../config/colors";
 
 const Container = styled.div`
 	padding: 10px;
@@ -77,6 +77,7 @@ export const DogListTable: React.FC = () => {
 				style={{
 					textAlign: "start",
 					fontFamily: "Rubik, sans-serif",
+					fontWeight: 400,
 				}}
 			>
 				{displayValue}
@@ -94,7 +95,6 @@ export const DogListTable: React.FC = () => {
 				style={{
 					display: "flex",
 					width: "100%",
-					alignSelf: "self-end",
 				}}
 			>
 				<Pagination
@@ -110,7 +110,7 @@ export const DogListTable: React.FC = () => {
 	};
 
 	const renderTable = () => {
-		const commonProps = { renderCell: BasicCell, flex: 1 };
+		const commonProps = { renderCell: BasicCell, flex: 0.7 };
 
 		const columns: GridColDef[] = [
 			{
@@ -138,6 +138,7 @@ export const DogListTable: React.FC = () => {
 				...commonProps,
 				field: "birthDate",
 				headerName: "תאריך לידה",
+				flex: 0.8,
 				valueGetter: (value, row) =>
 					`${
 						row.birthDate
@@ -147,8 +148,9 @@ export const DogListTable: React.FC = () => {
 			},
 			{
 				...commonProps,
-				field: "birthDate",
+				field: "age",
 				headerName: "גיל",
+				flex: 0.5,
 				valueGetter: (value, row) =>
 					`${row.birthDate ? getAgeFromSeconds(row.birthDate) : "-"}`,
 			},
@@ -195,25 +197,16 @@ export const DogListTable: React.FC = () => {
 					pagination: CustomPagination,
 				}}
 				sx={{
-					border: 0,
 					width: "100%",
 					direction: "rtl",
+					border: `solid 1px ${TOASTED_PINE_NUT}`,
+					borderRadius: 4,
 
 					"& .MuiDataGrid-columnHeaderTitle": {
 						fontFamily: "Rubik",
 					},
 					"& .MuiDataGrid-columnSeparator": {
 						display: "none",
-					},
-					"& .MuiDataGrid-main": {
-						border: `solid 1px ${TOASTED_PINE_NUT}`,
-						borderRadius: 4,
-					},
-					"& .MuiDataGrid-footerContainer": {
-						borderTop: "unset",
-					},
-					"& .MuiDataGrid-columnHeaderTitleContainer": {
-						color: BROWN_DARK,
 					},
 				}}
 			/>
@@ -223,7 +216,10 @@ export const DogListTable: React.FC = () => {
 	return (
 		<Container>
 			<SearchInput
-				style={{ direction: "rtl" }}
+				style={{
+					direction: "rtl",
+					border: `solid 1px ${TOASTED_PINE_NUT}`,
+				}}
 				type="text"
 				placeholder="חיפוש לפי שם הכלב"
 				value={searchTerm}

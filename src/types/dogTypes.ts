@@ -6,7 +6,7 @@ export interface Author {
 }
 
 export interface Update {
-    id: string;
+    updateId: string;
     timestamp: string;
     author: Author;
     categories: string[];

@@ -13,6 +13,7 @@ import DogSummary from "../widgets/DogSummary";
 import DogProfileNav from "../widgets/DogProfileNav";
 import { fetchDogById } from "../store/dogProfileSlice";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
+import { Center } from "../components/commonParts/Center";
 
 const Container = styled.div`
 	width: 100%;
@@ -49,7 +50,9 @@ export default function DogProfile() {
 			{
 				layout: { w: 7, h: 60, x: 2, y: 37, i: "a" },
 				widget: {
-					props: {},
+					props: {
+						padding: "0px",
+					},
 					display: true,
 					type: DogUpdates,
 				},
@@ -99,7 +102,11 @@ export default function DogProfile() {
 	);
 
 	if (dogStatus === "loading" || updatesStatus === "loading") {
-		return <CircularProgress />;
+		return (
+			<Center>
+				<CircularProgress />;
+			</Center>
+		);
 	}
 
 	// Handle error state for dog and updates
