@@ -14,7 +14,6 @@ const FilterContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
-	padding: 10px;
 `;
 
 const CategoryFilter: React.FC<CategoryFilterProps> = ({

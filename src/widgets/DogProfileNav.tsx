@@ -5,7 +5,6 @@ import { AppDispatch, RootState } from "../store";
 import { useNavigate } from "react-router-dom";
 import { refetchDogs } from "../store/dogsSlice";
 import { Button } from "../components/commonParts/Buttons";
-// import { toast } from 'react-toastify';
 
 const StyledNav = styled.div`
 	position: relative;
@@ -29,20 +28,6 @@ export default function DogProfileNav() {
 		navigate("/app/dogs");
 	};
 
-	// const handleDelete = async () => {
-	//     const confirmDelete = window.confirm(`Are you sure you want to delete ${dog.dogName}?`);
-	//     if (!confirmDelete) return;
-
-	//     try {
-	//         await deleteDog(dog.dogId);
-	//         toast.success(`Dog ${dog.dogName} deleted successfully.`);
-	//         onDelete(dog.dogId);
-	//     } catch (error) {
-	//         console.error('Error deleting dog:', error);
-	//         toast.error('Failed to delete dog. Please try again.');
-	//     }
-	// };
-
 	return (
 		<div style={{ position: "relative", height: "100%", width: "100%" }}>
 			<StyledNav>
@@ -51,7 +36,7 @@ export default function DogProfileNav() {
 				<Button>תיק רפואי</Button>
 				<Button>מסמכים</Button>
 				<Button>עדכוני משפחה</Button>
-				<Button onClick={handleDelete}>הסר</Button>
+				<Button onClick={handleDelete}>מחק כלב</Button>
 			</StyledNav>
 		</div>
 	);

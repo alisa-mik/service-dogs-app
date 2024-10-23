@@ -1,5 +1,5 @@
 // src/components/DogUpdates.tsx
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import AddUpdateModal from "../components/AddUpdateModal";
@@ -11,7 +11,7 @@ import CategoryFilter from "../components/UpdateCategoriesFilter";
 import { categoriesTranslation } from "../config/categories";
 
 const WidgetHeader = styled.div`
-	height: 70px;
+	height: 50px;
 	width: 100%;
 	display: flex;
 	flex-direction: row;
@@ -24,9 +24,10 @@ const WidgetHeader = styled.div`
 
 const Body = styled.div`
 	flex: 1;
-	padding: 10px;
+	padding: 0 10px 10px 10px;
 	display: flex;
 	flex-direction: column;
+	direction: rtl;
 	text-align: right;
 	gap: 10px;
 	width: 100%;
@@ -52,15 +53,17 @@ export default function DogUpdates() {
 
 	const filteredUpdates = useMemo(() => {
 		if (selectedCategories.length === 0) {
-			return updates;
+			return [...updates].reverse();
 		}
-		return updates.filter(
-			(update) =>
-				Array.isArray(update.categories) &&
-				update.categories.some((cat) =>
-					selectedCategories.includes(cat)
-				)
-		);
+		return [...updates]
+			.filter(
+				(update) =>
+					Array.isArray(update.categories) &&
+					update.categories.some((cat) =>
+						selectedCategories.includes(cat)
+					)
+			)
+			.reverse();
 	}, [updates, selectedCategories]);
 
 	if (!dog) return <div>No dog</div>;
@@ -69,17 +72,18 @@ export default function DogUpdates() {
 		<>
 			<WidgetHeader>
 				<WidgetTitle>עדכונים</WidgetTitle>
-				<CategoryFilter
-					categories={categories}
-					selectedCategories={selectedCategories}
-					onChange={setSelectedCategories}
-				/>
+
 				<SquareButton padding="0px" weight={500} onClick={handleOpen}>
 					<Label style={{ cursor: "pointer" }}>+</Label>
 				</SquareButton>
 			</WidgetHeader>
 
 			<Body>
+				<CategoryFilter
+					categories={categories}
+					selectedCategories={selectedCategories}
+					onChange={setSelectedCategories}
+				/>
 				{filteredUpdates.length > 0 ? (
 					filteredUpdates.map((update) => (
 						<UpdateCard key={update.updateId} update={update} />

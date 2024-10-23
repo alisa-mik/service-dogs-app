@@ -49,9 +49,9 @@ export const DateText = styled.div`
 `;
 
 export const Content = styled.div<{ expanded: boolean }>`
-    font-size: 14px;
+    font-size: 16px;
     overflow: hidden;
-    height:  ${({ expanded }) => (expanded ? '100px' : "60px")};
+    height:  ${({ expanded }) => (expanded ? 'fit-content' : "30px")};
     max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 
     transition: all 0.5s ease;
 `;

@@ -183,6 +183,8 @@ export const DogListTable: React.FC = () => {
 
 		const paginationModel = { page: 0, pageSize: 15 };
 
+		if (filteredDogs.length === 0) return <div>אין כלבים במערכת</div>;
+
 		return (
 			<DataGrid
 				rows={filteredDogs}

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 import styled from "styled-components";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
-import { BROWN_DARK } from "../config/colors";
 import { WidgetTitle } from "../components/commonParts/Labels";
 
 const Section = styled.section`
@@ -18,7 +17,7 @@ const Row = styled.div`
 
 const Label = styled.span`
 	font-weight: bold;
-	color: #717171;
+	color: #888888;
 `;
 
 const Value = styled.span`
@@ -41,7 +40,6 @@ const WidgetHeader = styled.div`
 	justify-content: space-between;
 	align-items: center;
 	padding: 0 10px;
-	background-color: #fff;
 `;
 const Body = styled.div`
 	flex: 1;
@@ -55,8 +53,6 @@ const Body = styled.div`
 	direction: rtl;
 `;
 
-// Reusable Label-Value Component
-
 interface LabelValueProps {
 	label: string;
 	value: React.ReactNode;
@@ -68,8 +64,6 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 		<Value>{value || "-"}</Value>
 	</Row>
 );
-
-// Main Component
 
 const DogDetails: React.FC = () => {
 	const dog = useSelector((state: RootState) => state.dogProfile.dog);

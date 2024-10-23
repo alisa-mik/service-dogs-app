@@ -20,6 +20,7 @@ const FormStep1: React.FC<AddDogFormStepProps> = ({ formik }) => (
 				name="birthDate"
 				value={formik.values.birthDate}
 				onChange={formik.handleChange}
+				style={{ width: "150px" }}
 			/>
 		</FormItem>
 		<FormItem>

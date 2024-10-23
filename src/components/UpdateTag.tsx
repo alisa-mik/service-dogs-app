@@ -10,13 +10,12 @@ interface TagProps {
 }
 
 const StyledTag = styled.span<{ selected: boolean; color: string }>`
-	display: inline-flex;
-	align-items: center;
-	padding: 5px 5px;
-	border-radius: 15px;
-	font-size: 12px;
+	padding: 5px 0px;
+	border-radius: 20px;
+	text-align: center;
+	width: 100px;
+	font-size: 14px;
 	cursor: pointer;
-	user-select: none;
 	transition: background-color 0.3s, color 0.3s;
 
 	${({ selected, color }) =>

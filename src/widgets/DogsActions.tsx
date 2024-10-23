@@ -1,6 +1,7 @@
 import { useState } from "react";
-import AddDogDialog from "../components/AddDogDialog";
 import { Button } from "../components/commonParts/Buttons";
+import CustomDialog from "../components/CustomDialog";
+import AddDogForm from "../components/AddDog/AddDogForm";
 
 export default function DogsActions() {
 	const [open, setOpen] = useState<boolean>(false);
@@ -22,7 +23,13 @@ export default function DogsActions() {
 				}}
 			>
 				<Button onClick={() => setOpen(true)}>הוספת כלב</Button>
-				<AddDogDialog open={open} setOpen={setOpen} />
+				<CustomDialog
+					open={open}
+					setOpen={setOpen}
+					title="הוספת כלב חדש"
+				>
+					<AddDogForm />
+				</CustomDialog>
 				<Button>הוספת קבוצה חדשה</Button>
 				<Button>לארכיון</Button>
 			</div>
