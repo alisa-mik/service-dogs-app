@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { Update } from "../types/dogTypes"; // Assuming you have the Update interface
 import { apiConfig } from "../config/apiConfig";
+import { RootState } from ".";
 // import { RootState } from "../store";
 
 interface UpdatesState {
@@ -45,5 +46,7 @@ const updatesByDogIdSlice = createSlice({
             });
     },
 });
+
+export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId;
 
 export default updatesByDogIdSlice.reducer;

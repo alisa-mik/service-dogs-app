@@ -1,7 +1,5 @@
-// src/components/DogUpdates.tsx
 import { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import AddUpdateModal from "../components/AddUpdateModal";
 import styled from "styled-components";
 import { SquareButton } from "../components/commonParts/Buttons";
@@ -9,6 +7,9 @@ import { Label, WidgetTitle } from "../components/commonParts/Labels";
 import UpdateCard from "../components/UpdateCard";
 import CategoryFilter from "../components/UpdateCategoriesFilter";
 import { categoriesTranslation } from "../config/categories";
+import { Center } from "../components/commonParts/Center";
+import { selectDogId } from "../store/dogProfileSlice";
+import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 
 const WidgetHeader = styled.div`
 	height: 50px;
@@ -28,6 +29,18 @@ const Body = styled.div`
 	display: flex;
 	flex-direction: column;
 	direction: rtl;
+
+	gap: 10px;
+	width: 100%;
+	overflow: hidden;
+`;
+
+const UpdatesContainer = styled.div`
+	flex: 1;
+	padding: 0 10px 10px 10px;
+	display: flex;
+	flex-direction: column;
+
 	text-align: right;
 	gap: 10px;
 	width: 100%;
@@ -35,14 +48,12 @@ const Body = styled.div`
 `;
 
 export default function DogUpdates() {
-	const { updates } = useSelector((state: RootState) => state.updatesByDogId);
-	const { dog } = useSelector((state: RootState) => state.dogProfile);
+	const updates = useSelector(selectUpdatesByDogId);
+	const dogId = useSelector(selectDogId);
 	const [open, setOpen] = useState(false);
 	console.log({ updates });
 
 	const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-
-	const { dogId } = dog;
 
 	const handleOpen = () => setOpen(true);
 	const handleClose = () => setOpen(false);
@@ -66,7 +77,14 @@ export default function DogUpdates() {
 			.reverse();
 	}, [updates, selectedCategories]);
 
-	if (!dog) return <div>No dog</div>;
+	const renderUpdates = () => {
+		if (filteredUpdates.length === 0)
+			return <Center>לא נמצאו עידכונים</Center>;
+
+		return filteredUpdates.map((update) => (
+			<UpdateCard key={update.updateId} update={update} />
+		));
+	};
 
 	return (
 		<>
@@ -84,13 +102,7 @@ export default function DogUpdates() {
 					selectedCategories={selectedCategories}
 					onChange={setSelectedCategories}
 				/>
-				{filteredUpdates.length > 0 ? (
-					filteredUpdates.map((update) => (
-						<UpdateCard key={update.updateId} update={update} />
-					))
-				) : (
-					<div>לא נמצאו עידכונים</div>
-				)}
+				<UpdatesContainer>{renderUpdates()}</UpdatesContainer>
 			</Body>
 
 			<AddUpdateModal
