@@ -204,6 +204,10 @@ export const DogListTable: React.FC = () => {
 					border: `solid 1px ${TOASTED_PINE_NUT}`,
 					borderRadius: 4,
 
+					"& .MuiDataGrid-main": {
+						"--DataGrid-rowBorderColor": TOASTED_PINE_NUT,
+					},
+
 					"& .MuiDataGrid-columnHeaderTitle": {
 						fontFamily: "Rubik",
 					},
