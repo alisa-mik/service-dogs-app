@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
-import { apiConfig } from "../config/apiConfig";
+import { apiClient, apiConfig } from "../config/apiConfig";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import styled from "styled-components";
@@ -140,21 +139,13 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 					date: values.date,
 				});
 
-				await axios.post(
-					apiConfig.addUpdate,
-					{
-						updateId: updateId,
-						dogId: dogId,
-						content: values.content,
-						categories: selectedCategories,
-						date: values.date,
-					},
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					}
-				);
+				await apiClient.post(apiConfig.addUpdate, {
+					updateId: updateId,
+					dogId: dogId,
+					content: values.content,
+					categories: selectedCategories,
+					date: values.date,
+				});
 
 				resetForm();
 				handleClose();

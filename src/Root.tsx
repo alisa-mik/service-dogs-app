@@ -5,6 +5,7 @@ import { RootState } from "./store";
 import { styled } from "styled-components";
 import { checkSessionOnStart } from "./utils/authUtils";
 import { BEIGE_LIGHT } from "./config/colors";
+import LoginBoundaries from "./components/LoginBoundaries";
 
 const FullPageContainer = styled.div`
 	display: flex;
@@ -40,7 +41,9 @@ const Root = () => {
 
 	return (
 		<FullPageContainer>
-			<Outlet />
+			<LoginBoundaries>
+				<Outlet />
+			</LoginBoundaries>
 		</FullPageContainer>
 	);
 };

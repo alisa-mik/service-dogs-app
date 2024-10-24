@@ -1,9 +1,11 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import styled from "styled-components";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
 import { WidgetTitle } from "../components/commonParts/Labels";
+import { selectDog } from "../store/dogProfileSlice";
+import { isEmpty } from "lodash";
+import { Dog } from "../types/dogTypes";
 
 const Section = styled.section`
 	flex: 1;
@@ -41,6 +43,7 @@ const WidgetHeader = styled.div`
 	align-items: center;
 	padding: 0 10px;
 `;
+
 const Body = styled.div`
 	flex: 1;
 	padding: 0 10px 10px 10px;
@@ -66,9 +69,9 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 );
 
 const DogDetails: React.FC = () => {
-	const dog = useSelector((state: RootState) => state.dogProfile.dog);
+	const dog = useSelector(selectDog);
 
-	if (!dog) {
+	if (isEmpty(dog)) {
 		return <NoProfile>No dog profile available.</NoProfile>;
 	}
 
@@ -85,7 +88,7 @@ const DogDetails: React.FC = () => {
 		groupId,
 		assignedFamilyId,
 		birthDate,
-	} = dog;
+	} = dog as Dog;
 
 	return (
 		<>

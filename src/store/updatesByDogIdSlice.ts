@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { Update } from "../types/dogTypes"; // Assuming you have the Update interface
-import { apiConfig } from "../config/apiConfig";
+import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from ".";
 // import { RootState } from "../store";
 
@@ -20,7 +19,7 @@ const initialState: UpdatesState = {
 export const fetchUpdatesByDogId = createAsyncThunk(
     "updatesByDogId/fetchUpdatesByDogId",
     async (dogId: string) => {
-        const response = await axios.get(`${apiConfig.updatesByDogIdEndPoint}/${dogId}`);
+        const response = await apiClient.get(`${apiConfig.updatesByDogIdEndPoint}/${dogId}`);
         console.log(response.data);
 
         return response.data;
@@ -47,6 +46,6 @@ const updatesByDogIdSlice = createSlice({
     },
 });
 
-export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId;
+export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId.updates;
 
 export default updatesByDogIdSlice.reducer;

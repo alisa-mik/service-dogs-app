@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { v4 as uuidv4 } from "uuid";
 import { FormikProps, useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import {
 	ButtonGroup,
@@ -18,9 +16,9 @@ import { AddDogFormValues } from "../../types/dogTypes.ts";
 import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
 import { Button } from "../commonParts/Buttons.tsx";
+import { apiClient } from "../../config/apiConfig.ts";
 
 const AddDogForm: React.FC = () => {
-	const navigate = useNavigate();
 	const dispatch = useDispatch<AppDispatch>();
 	const [currentStep, setCurrentStep] = useState(1); // Track the current step
 	const [formSubmitted, setFormSubmitted] = useState(false);
@@ -52,32 +50,11 @@ const AddDogForm: React.FC = () => {
 				),
 			};
 
-			try {
-				const response = await axios.post(
-					"https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-dog",
-					formattedValues,
-					{
-						headers: {
-							"Content-Type": "application/json",
-						},
-					}
-				);
-				setFormSubmitted(true);
-				dispatch(refetchDogs());
-				return response.data;
-			} catch (error) {
-				if (axios.isAxiosError(error)) {
-					console.log(error.response?.status);
+			const response = await apiClient.post("add-dog", formattedValues);
 
-					console.error("Error response data:", error.response?.data);
-					if (error?.response?.status === 401) {
-						navigate("/login");
-						localStorage.clear();
-					}
-				} else {
-					console.error("An unknown error occurred:", error);
-				}
-			}
+			setFormSubmitted(true);
+			dispatch(refetchDogs());
+			return response.data;
 		},
 	});
 
