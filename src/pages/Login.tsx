@@ -26,6 +26,7 @@ const StyledButton = styled(Button)`
 
 const MainTiTle = styled.div`
 	font-size: 35px;
+	color: ${BROWN_DARK};
 	padding: 10px;
 `;
 

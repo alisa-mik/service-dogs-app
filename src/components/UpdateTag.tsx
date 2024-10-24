@@ -15,6 +15,10 @@ const StyledTag = styled.span<{ selected: boolean; color: string }>`
 	text-align: center;
 	width: 100px;
 	font-size: 14px;
+	color: #fff;
+	font-weight: 500;
+	opacity: 0.9;
+
 	cursor: pointer;
 	transition: background-color 0.3s, color 0.3s;
 
@@ -22,15 +26,13 @@ const StyledTag = styled.span<{ selected: boolean; color: string }>`
 		selected
 			? css`
 					background-color: ${color};
-					color: #fff;
 			  `
 			: css`
 					background-color: #7f7f7f; /* Light grey for unselected */
-					color: #fff;
 			  `}
 
 	&:hover {
-		opacity: 0.8;
+		opacity: 1;
 	}
 `;
 
