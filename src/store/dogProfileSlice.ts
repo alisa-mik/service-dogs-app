@@ -63,4 +63,7 @@ const dogProfileSlice = createSlice({
     },
 });
 
+export const selectDogId = (state: RootState) => state.dogProfile.dog?.dogId ?? '';
+export const selectDog = (state: RootState) => state.dogProfile.dog ?? {}
+
 export default dogProfileSlice.reducer;
