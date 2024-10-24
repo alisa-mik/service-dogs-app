@@ -69,6 +69,10 @@ const tabs = [
 		label: "משפחות",
 		navigateTo: "families",
 	},
+	{
+		label: "פרויקטים",
+		navigateTo: "projects",
+	},
 ];
 
 export default function App() {

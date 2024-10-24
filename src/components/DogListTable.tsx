@@ -29,10 +29,11 @@ const Container = styled.div`
 
 const SearchInput = styled.input`
 	padding: 10px;
-	width: 50%;
+	width: 30%;
 	font-size: 14px;
 	border-radius: 5px;
 	border: 1px solid #ccc;
+	background-color: white;
 `;
 
 export const DogListTable: React.FC = () => {

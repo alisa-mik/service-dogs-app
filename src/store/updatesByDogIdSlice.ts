@@ -47,6 +47,6 @@ const updatesByDogIdSlice = createSlice({
     },
 });
 
-export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId;
+export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId.updates
 
 export default updatesByDogIdSlice.reducer;
