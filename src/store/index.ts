@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import errorsReducer from './errorsSlice';
 import userReducer from './userSlice';
 import dogsReducer from './dogsSlice';
 import dogProfileReducer from './dogProfileSlice';
@@ -8,6 +9,7 @@ const store = configureStore({
     reducer: {
         user: userReducer,
         dogs: dogsReducer,
+        errors: errorsReducer,
         dogProfile: dogProfileReducer,
         updatesByDogId: updatesByDogIdReducer,
     },

@@ -3,6 +3,7 @@ import decodeJWT from "../utils/jwtUtils";
 import { jwtConfig } from "../config/jwtConfig";
 import { setUser } from "../store/userSlice";
 import { Dispatch } from "@reduxjs/toolkit";
+import { apiClient } from "../config/apiConfig";
 
 const setUserOnStore = (accessToken: string, idToken: string, dispatch: Dispatch): void => {
     const decodedIdToken = decodeJWT(idToken);
@@ -11,7 +12,7 @@ const setUserOnStore = (accessToken: string, idToken: string, dispatch: Dispatch
     const isAdmin = userGroups?.includes("Admin") ?? false;
     const userGroup = userGroups[ 0 ];
 
-    axios.defaults.headers.common[ 'Authorization' ] = `Bearer ${accessToken}`;
+    apiClient.defaults.headers.common[ 'Authorization' ] = `Bearer ${accessToken}`;
 
     dispatch(setUser({ userId, userGroup, isAdmin, accessToken, idToken }));
 }

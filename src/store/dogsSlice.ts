@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { Dog } from "../types/dogTypes";
-import { apiConfig } from "../config/apiConfig";
+import { apiClient, apiConfig } from "../config/apiConfig";
 
 // Initial state for the dogs slice
 interface DogsState {
@@ -23,14 +22,14 @@ const modifiedDogs = (data: Dog[]) => {
 }
 
 export const fetchDogs = createAsyncThunk("dogs/fetchDogs", async () => {
-    const response = await axios.get(apiConfig.dogs);
+    const response = await apiClient.get(apiConfig.dogs);
 
 
     return modifiedDogs(response.data);
 });
 
 export const refetchDogs = createAsyncThunk("dogs/refetchDogs", async () => {
-    const response = await axios.get(apiConfig.dogs);
+    const response = await apiClient.get(apiConfig.dogs);
     return modifiedDogs(response.data);
 });
 

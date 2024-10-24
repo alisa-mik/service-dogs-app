@@ -1,7 +1,18 @@
+import axios from "axios";
+
+export const apiClient =
+    axios.create({
+        baseURL: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev",
+        timeout: 5000, // Request timeout
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
 export const apiConfig = {
-    dogs: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/dogs",
-    deleteDog: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/delete-dog",
-    updatesByDogIdEndPoint: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/updates-by-dogId",
-    addUpdate: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/add-update",
-    editDog: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev/edit-dog"
+    dogs: "dogs",
+    deleteDog: "delete-dog",
+    updatesByDogIdEndPoint: "updates-by-dogId",
+    addUpdate: "add-update",
+    editDog: "edit-dog"
 };

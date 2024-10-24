@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Dog } from "../types/dogTypes";
-import { apiConfig } from "../config/apiConfig";
-import axios from "axios";
+import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store"; // Import RootState type
 
 interface DogProfileState {
@@ -26,7 +25,7 @@ export const fetchDogById = createAsyncThunk(
         }
 
         // If not, fetch it from the API
-        const response = await axios.get(`${apiConfig.dogs}/${dogId}`);
+        const response = await apiClient.get(`${apiConfig.dogs}/${dogId}`);
         return response.data;
     }
 );
@@ -35,7 +34,7 @@ export const fetchDogById = createAsyncThunk(
 export const refetchDogById = createAsyncThunk(
     "dogs/refetchDogById",
     async (dogId: string) => {
-        const response = await axios.get(`${apiConfig.dogs}/${dogId}`);
+        const response = await apiClient.get(`${apiConfig.dogs}/${dogId}`);
         return response.data;
     }
 );
