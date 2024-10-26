@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { useEffect } from "react";
+import { fetchProjects } from "../store/projectsSlice";
+
 const Container = styled.div`
 	width: 100%;
 	height: 100%;
@@ -12,6 +17,13 @@ const Container = styled.div`
 `;
 
 export default function MainDashboard() {
+
+	const dispatch = useDispatch<AppDispatch>();
+
+	useEffect(() => {
+		dispatch(fetchProjects());
+	  }, [dispatch]);
+
 	const widgets: WidgetConfig[] = [
 		{
 			layout: { i: "a", x: 2, y: 0, w: 10, h: 46 },

@@ -25,7 +25,9 @@ const modifiedProjects = (data: Project[]) => {
 
 // Async thunk to fetch all projects
 export const fetchProjects = createAsyncThunk("projects/fetchProjects", async () => {
+    
     const response = await apiClient.get(apiConfig.projects); // Assumes apiConfig has a `projects` endpoint
+    console.log(response.data.projects);
     return modifiedProjects(response.data.projects);
 });
 

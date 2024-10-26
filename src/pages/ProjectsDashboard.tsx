@@ -11,6 +11,7 @@ const Container = styled.div`
 `;
 
 export const ProjectsDashboard = () => {
+
     const widgets: WidgetConfig[] = [
 		{
 			layout: { w: 10, h: 100, x: 2, y: 36, i: "a" },

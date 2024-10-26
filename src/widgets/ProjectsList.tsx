@@ -1,6 +1,4 @@
-// ProjectsList.tsx
-
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchProjects,
@@ -39,24 +37,35 @@ const Body = styled.div`
 `;
 
 const Column = styled.div`
-    flex: 1;
-    color: ${BROWN_DARK};
-`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: ${BROWN_DARK};
+`;
 
 export const ProjectsList = () => {
- 
-  const dispatch = useDispatch<AppDispatch>();
-  
   const projects = useSelector(selectProjects);
-  const [selectedProject, setSelectedProject] = useState('');
-  const status = useSelector(selectProjectsStatus);
+  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
+    null
+  );
   console.log({ projects });
 
-  useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
+  // const getDogIds = () => {
+  //   if (selectedProjectId) {
+  //     const project = projects.find((p) => p.projectId === selectedProjectId);
+  //     if (project) {
+  //       const dogIds = project.dogIds;
+  //       return dogIds;
+  //     }
+  //     return undefined;
+  //   }
+  //   return undefined;
+  // };
 
+  const status = useSelector(selectProjectsStatus);
 
+  // const dogIds = getDogIds();
 
   return (
     <>
@@ -65,23 +74,30 @@ export const ProjectsList = () => {
         <WidgetTitle>כלבים בפרויקט</WidgetTitle>
       </WidgetHeader>
 
-
-
       <Body>
         <Column>
-        {status === "succeeded" &&
-        projects.map((project) => (
-          <Accordion key={project.projectId} title={project.projectName}  projectId={project.projectId} isSelected={selectedProject === project.projectId} setSelectedProject={setSelectedProject}>
-            <ProjectCard project={project} />
-          </Accordion>
-        ))}
+          {status === "succeeded" &&
+            projects.map((project) => (
+              <Accordion
+                key={project.projectId}
+                id={project.projectId}
+                title={project.projectName}
+                isSelected={selectedProjectId === project.projectId}
+                setSelectedId={setSelectedProjectId}
+              >
+                <p>{project.description}</p>
+              </Accordion>
+            ))}
         </Column>
         <Column>
-        {selectedProject}
+          {/* {dogIds &&
+            dogIds.map((dog: string, index: number) => (
+              <div key={index}>{dog}</div>
+            ))} */}
         </Column>
 
-      {status === "loading" && <div>Loading projects...</div>}
-      {status === "failed" && <div>Failed to load projects.</div>}
+        {status === "loading" && <div>Loading projects...</div>}
+        {status === "failed" && <div>Failed to load projects.</div>}
       </Body>
     </>
   );

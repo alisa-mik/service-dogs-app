@@ -28,7 +28,7 @@ const FormStep1: React.FC<AddDogFormStepProps> = ({ formik }) => (
 			<Label>מין:</Label>
 			<Select
 				name="gender"
-				value={formik.values.gender}
+				value={formik.values.gender ?? ''}
 				onChange={formik.handleChange}
 			>
 				<option value="" label="בחר מין" />
@@ -41,7 +41,16 @@ const FormStep1: React.FC<AddDogFormStepProps> = ({ formik }) => (
 			<Input
 				type="text"
 				name="breed"
-				value={formik.values.breed}
+				value={formik.values.breed ?? ''}
+				onChange={formik.handleChange}
+			/>
+		</FormItem>
+		<FormItem>
+			<Label>צבע:</Label>
+			<Input
+				type="text"
+				name="color"
+				value={formik.values.color}
 				onChange={formik.handleChange}
 			/>
 		</FormItem>

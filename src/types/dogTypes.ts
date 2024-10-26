@@ -18,43 +18,60 @@ export interface Dog {
     dogId: string;
     dogName: string;
     birthDate: number;
-    gender: string;
-    breed: string;
+    gender: string | null;
+    breed: string | null;
     color: string;
-    momName: string;
-    dadName: string;
-    groupId: string;
+    momDog: ParentDog;
+    dadDog: ParentDog;
     active: boolean;
-    // level: string;
     dogStatus: string;
     image: string;
-    assignedFamilyId: string;
-    dropDate: number,
+    assignedFamily: AssignedFamily;
+    assignedProject: AssignedProject;
+    groupId: string | null;
+    dropDate: string,
     dropReason: string,
     chipNumber: string,
-    medicalInfo: string,
     updates: Update[];
     summary: string;
+    medicalInfo: string
 }
 
 export interface AddDogFormValues {
     dogName: string;
     birthDate: string;
-    gender: string;
-    breed: string;
+    gender: string | null;
+    breed: string | null;
     color: string;
-    momName: string;
-    dadName: string;
-    groupId: string;
-    assignedFamilyId: string;
+    momDog: ParentDog | null;
+    dadDog: ParentDog | null;
+    groupId: string | null;
+    assignedFamily: AssignedFamily | null;
+    assignedProject: AssignedProject | null;
     active: boolean;
     dogStatus: string;
     dropDate: string;
     dropReason: string;
-    chipNumber: string;
+    chipNumber: string | null;
+    summary: string | null;
     medicalInfo: string;
 }
 
 export interface AddDogFormStepProps {
-    formik: FormikProps<AddDogFormValues>; // Explicitly type formik
+    formik: FormikProps<AddDogFormValues>; 
+}
+
+export type AssignedFamily = {
+familyId: string;
+familyName: string;
+}
+
+export type AssignedProject = {
+projectId: string;
+projectName: string;
+}
+
+export type ParentDog = {
+    dogId: string;
+    dogName: string;
 }

@@ -8,124 +8,122 @@ import { isEmpty } from "lodash";
 import { Dog } from "../types/dogTypes";
 
 const Section = styled.section`
-	flex: 1;
+  flex: 1;
 `;
 
 const Row = styled.div`
-	display: flex;
-	gap: 10px;
-	font-size: 16px;
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
 `;
 
 const Label = styled.span`
-	font-weight: bold;
-	color: #888888;
+  font-weight: bold;
+  color: #888888;
 `;
 
 const Value = styled.span`
-	color: #333;
+  color: #333;
 `;
 
 const NoProfile = styled.div`
-	text-align: center;
-	color: #888;
-	font-size: 1.2em;
-	padding: 50px 0;
+  text-align: center;
+  color: #888;
+  font-size: 1.2em;
+  padding: 50px 0;
 `;
 
 const WidgetHeader = styled.div`
-	height: 50px;
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	direction: rtl;
-	justify-content: space-between;
-	align-items: center;
-	padding: 0 10px;
+  height: 50px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  direction: rtl;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
 `;
 
 const Body = styled.div`
-	flex: 1;
-	padding: 0 10px 10px 10px;
-	display: flex;
-	justify-content: space-between;
-	text-align: right;
-	gap: 10px;
-	width: 100%;
-	overflow: auto;
-	direction: rtl;
+  flex: 1;
+  padding: 0 10px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  text-align: right;
+  gap: 10px;
+  width: 100%;
+  overflow: auto;
+  direction: rtl;
 `;
 
 interface LabelValueProps {
-	label: string;
-	value: React.ReactNode;
+  label: string;
+  value: React.ReactNode;
 }
 
 const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
-	<Row>
-		<Label>{label}</Label>
-		<Value>{value || "-"}</Value>
-	</Row>
+  <Row>
+    <Label>{label}</Label>
+    <Value>{value || "-"}</Value>
+  </Row>
 );
 
 const DogDetails: React.FC = () => {
-	const dog = useSelector(selectDog);
+  const dog = useSelector(selectDog);
 
-	if (isEmpty(dog)) {
-		return <NoProfile>No dog profile available.</NoProfile>;
-	}
+  if (isEmpty(dog)) {
+    return <NoProfile>No dog profile available.</NoProfile>;
+  }
 
-	const {
-		dogName,
-		color,
-		breed,
-		dogStatus,
-		momName,
-		dadName,
-		chipNumber,
-		dropDate,
-		dropReason,
-		groupId,
-		assignedFamilyId,
-		birthDate,
-	} = dog as Dog;
+  const {
+    dogName,
+    color,
+    breed,
+    dogStatus,
+    momDog,
+    dadDog,
+    chipNumber,
+    dropDate,
+    dropReason,
+    groupId,
+    assignedFamily,
+    assignedProject,
+    birthDate,
+  } = dog as Dog;
 
-	return (
-		<>
-			<WidgetHeader>
-				<WidgetTitle>פרטים כלליים</WidgetTitle>
-			</WidgetHeader>
+  console.log({ dog });
 
-			<Body>
-				<Section>
-					<LabelValue label="שם הכלב:" value={dogName} />
-					<LabelValue label="צבע:" value={color} />
-					<LabelValue label="גזע:" value={breed} />
-					<LabelValue
-						label="תאריך לידה:"
-						value={formatDateFromSeconds(birthDate)}
-					/>
-					<LabelValue
-						label="גיל:"
-						value={getAgeFromSeconds(birthDate)}
-					/>
-					<LabelValue label="שם האם:" value={momName} />
-					<LabelValue label="שם האב:" value={dadName} />
-				</Section>
-				<Section>
-					<LabelValue label="קבוצה:" value={groupId} />
-					<LabelValue
-						label="משויך למשפחה:"
-						value={assignedFamilyId}
-					/>
-					<LabelValue label="סטטוס:" value={dogStatus} />
-					<LabelValue label="מספר שבב:" value={chipNumber} />
-					<LabelValue label="תאריך פרישה:" value={dropDate} />
-					<LabelValue label="סיבת פרישה:" value={dropReason} />
-				</Section>
-			</Body>
-		</>
-	);
+  return (
+    <>
+      <WidgetHeader>
+        <WidgetTitle>פרטים כלליים</WidgetTitle>
+      </WidgetHeader>
+
+      <Body>
+        <Section>
+          <LabelValue label="שם הכלב:" value={dogName} />
+          <LabelValue label="צבע:" value={color} />
+          <LabelValue label="גזע:" value={breed} />
+          <LabelValue
+            label="תאריך לידה:"
+            value={formatDateFromSeconds(birthDate)}
+          />
+          <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} />
+          {/* <LabelValue label="שם האם:" value={momDog.dogName} />
+          <LabelValue label="שם האב:" value={dadDog.dogName} /> */}
+        </Section>
+        <Section>
+          <LabelValue label="קבוצה:" value={groupId} />
+          {/* <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} /> */}
+          <LabelValue label="פרויקט:" value={assignedProject.projectName} />
+          <LabelValue label="סטטוס:" value={dogStatus} />
+          <LabelValue label="מספר שבב:" value={chipNumber} />
+          <LabelValue label="תאריך פרישה:" value={dropDate} />
+          <LabelValue label="סיבת פרישה:" value={dropReason} />
+        </Section>
+      </Body>
+    </>
+  );
 };
 
 export default DogDetails;
