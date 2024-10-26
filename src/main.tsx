@@ -15,6 +15,7 @@ import DogDashboard from "./pages/DogsDashboard";
 import UpdatesDashboard from "./pages/UpdatesDashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
+import { ProjectsDashboard } from "./pages/ProjectsDashboard";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
@@ -43,12 +44,16 @@ const router = createBrowserRouter([
 						Component: DogProfile,
 					},
 					{
-						path: "family",
+						path: "families",
 						Component: FamilyDashboard,
 					},
 					{
 						path: "updates",
 						Component: UpdatesDashboard,
+					},
+					{
+						path: "projects",
+						Component: ProjectsDashboard,
 					},
 				],
 			},

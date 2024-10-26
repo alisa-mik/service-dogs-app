@@ -6,6 +6,7 @@ import EditSummaryForm from "../components/EditSummaryForm";
 import styled from "styled-components";
 import { Button } from "../components/commonParts/Buttons";
 import { WidgetTitle } from "../components/commonParts/Labels";
+import { BROWN_DARK } from "../config/colors";
 
 const WidgetHeader = styled.div`
 	height: 50px;
@@ -28,6 +29,7 @@ const Body = styled.div`
 	width: 100%;
 	overflow: auto;
 	direction: rtl;
+	color: ${BROWN_DARK};
 `;
 
 export default function DogSummary() {

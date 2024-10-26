@@ -1,5 +1,6 @@
 // src/components/UpdateCardStyles.tsx
 import styled from "styled-components";
+import { BROWN_DARK } from "../config/colors";
 
 interface CategoryTagProps {
     color: string;
@@ -50,6 +51,7 @@ export const DateText = styled.div`
 
 export const Content = styled.div<{ expanded: boolean }>`
     font-size: 16px;
+    color: ${BROWN_DARK};
     overflow: hidden;
     height:  ${({ expanded }) => (expanded ? 'fit-content' : "30px")};
     max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 

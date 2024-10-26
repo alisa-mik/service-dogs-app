@@ -9,6 +9,8 @@ import styled from "styled-components";
 import { categoriesTranslation, CATEGORY_COLORS } from "../config/categories";
 import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
+import { Label } from "./commonParts/Labels";
+import { TextArea, DateInput } from "./form/styledInputs";
 
 const FormContainer = styled.form`
 	direction: rtl;
@@ -26,22 +28,6 @@ const FormGroup = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
-`;
-
-const Label = styled.label`
-	display: block;
-	font-weight: bold;
-`;
-
-const TextArea = styled.textarea`
-	width: 100%;
-	font-family: "Rubik";
-	height: 120px;
-	font-size: 16px;
-	padding: 10px;
-	border-radius: 8px;
-	border: 1px solid #ccc;
-	resize: vertical;
 `;
 
 const CategoriesContainer = styled.div`
@@ -66,13 +52,7 @@ const CategoryTag = styled.span<{ selected: boolean; color: string }>`
 	}
 `;
 
-const DateInput = styled.input`
-	width: 20%;
-	padding: 10px;
-	font-size: 16px;
-	border-radius: 8px;
-	border: 1px solid #ccc;
-`;
+
 
 const SubmitButton = styled.button`
 	width: 100%;
@@ -144,7 +124,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
 					dogId: dogId,
 					content: values.content,
 					categories: selectedCategories,
-					date: values.date,
+					date: new Date(values.date),
 				});
 
 				resetForm();
