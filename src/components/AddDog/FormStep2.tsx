@@ -1,5 +1,6 @@
 import React from "react";
-import { FormItem, Input, Label } from "./FormStyles";
+import { FormItem, Label } from "./FormStyles";
+import { Input } from "../form/styledInputs";
 import { AddDogFormStepProps } from "../../types/dogTypes";
 
 const FormStep2: React.FC<AddDogFormStepProps> = ({ formik }) => (

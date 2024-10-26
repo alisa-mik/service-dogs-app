@@ -31,43 +31,6 @@ export const Label = styled.label`
   color: #444;
 `;
 
-// Text Input
-export const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  &:focus {
-    border-color: #007bff;
-  }
-`;
-
-// TextArea for medical info
-export const Textarea = styled.textarea`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  min-height: 100px;
-  &:focus {
-    border-color: #007bff;
-  }
-`;
-
-// Select input
-export const Select = styled.select`
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-  &:focus {
-    border-color: #007bff;
-  }
-`;
-
 // Button Group for form navigation buttons
 export const ButtonGroup = styled.div`
   display: flex;

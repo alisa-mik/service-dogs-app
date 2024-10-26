@@ -1,12 +1,13 @@
 import { AddDogFormStepProps } from "../../types/dogTypes";
-import { FormItem, Input, Label, Select, Textarea } from "./FormStyles";
+import { FormItem, Label } from "./FormStyles";
+import { Input, Select, TextArea, Checkbox } from "../form/styledInputs";
 
 const FormStep3: React.FC<AddDogFormStepProps> = ({ formik }) => (
 	<>
 		<FormItem>
 			<div style={{ display: "flex", gap: "10px" }}>
 				<Label>פעיל:</Label>
-				<Input
+				<Checkbox
 					type="checkbox"
 					name="active"
 					checked={formik.values.active}
@@ -65,7 +66,7 @@ const FormStep3: React.FC<AddDogFormStepProps> = ({ formik }) => (
 		</FormItem>
 		<FormItem>
 			<Label>מידע רפואי:</Label>
-			<Textarea
+			<TextArea
 				name="medicalInfo"
 				value={formik.values.medicalInfo}
 				onChange={formik.handleChange}

@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import {
 	ButtonGroup,
 	FormContainer,
-	FormTitle,
 	SuccessMessage,
 } from "./FormStyles";
 import FormStep1 from "./FormStep1.tsx";
@@ -87,7 +86,6 @@ const AddDogForm: React.FC = () => {
 					}}
 					onSubmit={formik.handleSubmit}
 				>
-					<FormTitle>טופס הוספת כלב</FormTitle>
 					{renderStep()}
 					<ButtonGroup>
 						{currentStep > 1 && (
