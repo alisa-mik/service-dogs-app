@@ -1,12 +1,16 @@
-import React, { Dispatch, SetStateAction, ReactNode } from "react";
+import React, { ReactNode } from "react";
 import styled from "styled-components";
 
 interface AccordionProps {
-  id: string; // Unique ID for each accordion item
+  id: string;
   title: string;
   children: ReactNode;
   isSelected: boolean;
-  setSelectedId: Dispatch<SetStateAction<string | null>>; // Function to update the selected item ID
+  setSelectedId: (id: string | null) => void;
+}
+
+interface AccordionContentProps {
+  isSelected: boolean;
 }
 
 const Accordion: React.FC<AccordionProps> = ({
@@ -41,7 +45,7 @@ const AccordionHeader = styled.div`
   background-color: #f7f7f7;
 `;
 
-const AccordionContent = styled.div<{ isSelected: boolean }>`
+const AccordionContent = styled.div<AccordionContentProps>`
   padding: 0 10px;
   text-align: start;
   overflow-y: auto;

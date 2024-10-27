@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchProjects,
   selectProjects,
   selectProjectsStatus,
+  selectSelectedProject,
+  setSelectedProject,
 } from "../store/projectsSlice";
 
-import { AppDispatch } from "../store";
 import Accordion from "../components/commonParts/Accordion";
-import ProjectCard from "../components/ProjectCard";
 import styled from "styled-components";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { BROWN_DARK } from "../config/colors";
+import CustomDialog from "../components/CustomDialog";
+import { Button } from "../components/commonParts/Buttons";
+import AddProjectForm from "../components/AddProjectForm";
 
 const WidgetHeader = styled.div`
   height: 50px;
@@ -29,73 +31,53 @@ const Body = styled.div`
   flex: 1;
   padding: 0 10px 10px 10px;
   display: flex;
+  flex-direction: column;
+  color: ${BROWN_DARK};
   direction: rtl;
-
-  gap: 30px;
+  gap: 10px;
   width: 100%;
   overflow: hidden;
 `;
 
-const Column = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  color: ${BROWN_DARK};
-`;
-
 export const ProjectsList = () => {
+  const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const projects = useSelector(selectProjects);
-  const [selectedProjectId, setSelectedProjectId] = useState<string | null>(
-    null
-  );
+  const status = useSelector(selectProjectsStatus);
+  const selectedProject = useSelector(selectSelectedProject);
   console.log({ projects });
 
-  // const getDogIds = () => {
-  //   if (selectedProjectId) {
-  //     const project = projects.find((p) => p.projectId === selectedProjectId);
-  //     if (project) {
-  //       const dogIds = project.dogIds;
-  //       return dogIds;
-  //     }
-  //     return undefined;
-  //   }
-  //   return undefined;
-  // };
-
-  const status = useSelector(selectProjectsStatus);
-
-  // const dogIds = getDogIds();
+  const handleSelectProject = (projectId: string | null) => {
+    dispatch(setSelectedProject(projectId));
+  };
 
   return (
     <>
       <WidgetHeader>
         <WidgetTitle>פרויקטים</WidgetTitle>
-        <WidgetTitle>כלבים בפרויקט</WidgetTitle>
+        <Button onClick={handleOpen}>הוסף פרויקט</Button>
+
+        <CustomDialog open={open} setOpen={setOpen}>
+          <AddProjectForm handleClose={handleClose} />
+        </CustomDialog>
       </WidgetHeader>
 
       <Body>
-        <Column>
-          {status === "succeeded" &&
-            projects.map((project) => (
-              <Accordion
-                key={project.projectId}
-                id={project.projectId}
-                title={project.projectName}
-                isSelected={selectedProjectId === project.projectId}
-                setSelectedId={setSelectedProjectId}
-              >
-                <p>{project.description}</p>
-              </Accordion>
-            ))}
-        </Column>
-        <Column>
-          {/* {dogIds &&
-            dogIds.map((dog: string, index: number) => (
-              <div key={index}>{dog}</div>
-            ))} */}
-        </Column>
-
+        {status === "succeeded" &&
+          projects.map((project) => (
+            <Accordion
+              key={project.projectId}
+              id={project.projectId}
+              title={project.projectName}
+              isSelected={selectedProject?.projectId === project.projectId}
+              setSelectedId={handleSelectProject}
+            >
+              <p>{project.description}</p>
+            </Accordion>
+          ))}
         {status === "loading" && <div>Loading projects...</div>}
         {status === "failed" && <div>Failed to load projects.</div>}
       </Body>
