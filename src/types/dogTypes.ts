@@ -12,8 +12,14 @@ export interface Update {
     author: Author;
     categories: string[];
     content: string;
+    dogDetails?: DogDetailsForUpdate
 }
 
+export interface DogDetailsForUpdate {
+    dogId: string;
+    dogName: string;
+    image: string;
+}
 export interface Dog {
     dogId: string;
     dogName: string;
@@ -36,6 +42,15 @@ export interface Dog {
     summary: string;
     medicalInfo: string
 }
+
+export interface DogBasic  {
+    dogId: string;
+    dogName: string;
+    dogStatus: string;
+    active: boolean;
+    groupId: string;
+  };
+  
 
 export interface AddDogFormValues {
     dogName: string;

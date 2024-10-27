@@ -11,12 +11,11 @@ export const CardContainer = styled.div`
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #c2c2c2;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
     background-color: #fff;
     cursor: pointer;
     transition: box-shadow 0.3s ease;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 
     &:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -63,3 +62,18 @@ export const ToggleIndicator = styled.div`
     color: #007bff;
     text-align: right;
 `;
+
+export const DogInfo = styled.div`
+flex: 0.1;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+color: ${BROWN_DARK};
+`
+
+export const MainContent = styled.div`
+display: flex;
+flex: 1;
+flex-direction: column;
+`

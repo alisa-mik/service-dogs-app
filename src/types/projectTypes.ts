@@ -1,4 +1,4 @@
-import { Dog } from "./dogTypes";
+import { DogBasic } from "./dogTypes";
 
 export interface Project {
     projectId: string;
@@ -16,5 +16,5 @@ export interface Project {
     dogIds: string[];
     startDate: number;
     endDate: number;
-    dogs?: Dog[]; 
+    dogs?: DogBasic[]; 
   }

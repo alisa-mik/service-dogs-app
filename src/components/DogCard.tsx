@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { DogBasic } from "../types/dogTypes";
 
 const Card = styled.div`
   padding: 10px;
@@ -10,6 +12,11 @@ const Card = styled.div`
   direction: rtl;
   border: 1px solid #cccccc;
   border-radius: 16px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
 `;
 
 const Row = styled.div`
@@ -38,11 +45,16 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
   </Row>
 );
 
-export const DogCard = ({ dog }) => {
+interface DogCardProps {
+  dog: DogBasic;
+}
+
+export const DogCard = ({ dog }: DogCardProps) => {
+  const navigate = useNavigate();
   const { dogId, dogName, dogStatus, active, groupId } = dog;
 
   return (
-    <Card>
+    <Card onClick={() => navigate(`/app/dogs/${dogId}`)}>
       <LabelValue label="שם הכלב:" value={dogName} />
       <LabelValue label="סטטוס:" value={dogStatus} />
       <LabelValue label="פעיל:" value={active ? "כן" : "לא"} />

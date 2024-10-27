@@ -11,10 +11,11 @@ export const apiClient =
 
 export const apiConfig = {
     dogs: "dogs",
-    projects: "projects",
+    editDog: "edit-dog",
     deleteDog: "delete-dog",
+    updates:"updates",
     updatesByDogIdEndPoint: "updates-by-dogId",
     addUpdate: "add-update",
+    projects: "projects",
     addProject:"add-project",
-    editDog: "edit-dog"
 };

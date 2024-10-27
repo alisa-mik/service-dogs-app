@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { useEffect } from "react";
 import { fetchProjects } from "../store/projectsSlice";
+import { fetchAllUpdates } from "../store/updatesSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -17,12 +18,6 @@ const Container = styled.div`
 `;
 
 export default function MainDashboard() {
-  const dispatch = useDispatch<AppDispatch>();
-
-  useEffect(() => {
-    dispatch(fetchProjects());
-  }, [dispatch]);
-
   const widgets: WidgetConfig[] = [
     {
       layout: { i: "a", x: 2, y: 0, w: 10, h: 46 },
