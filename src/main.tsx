@@ -18,68 +18,68 @@ import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
 import { ProjectsDashboard } from "./pages/ProjectsDashboard";
 
 const root = ReactDOM.createRoot(
-	document.getElementById("root") as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		Component: Root,
-		children: [
-			{ path: "login", Component: Login },
-			{
-				path: "app",
-				Component: App,
-				children: [
-					{
-						path: "main",
-						Component: MainDashboard,
-					},
-					{
-						path: "dogs",
-						Component: DogDashboard,
-					},
-					{
-						path: "dogs/:dogId",
-						Component: DogProfile,
-					},
-					{
-						path: "families",
-						Component: FamilyDashboard,
-					},
-					{
-						path: "updates",
-						Component: UpdatesDashboard,
-					},
-					{
-						path: "projects",
-						Component: ProjectsDashboard,
-					},
-				],
-			},
-			{
-				path: "family",
-				Component: FamilyDashboard,
-			},
-		],
-	},
+  {
+    path: "/",
+    Component: Root,
+    children: [
+      { path: "login", Component: Login },
+      {
+        path: "app",
+        Component: App,
+        children: [
+          {
+            path: "main",
+            Component: MainDashboard,
+          },
+          {
+            path: "dogs",
+            Component: DogDashboard,
+          },
+          {
+            path: "dogs/:dogId",
+            Component: DogProfile,
+          },
+          {
+            path: "families",
+            Component: FamilyDashboard,
+          },
+          {
+            path: "updates",
+            Component: UpdatesDashboard,
+          },
+          {
+            path: "projects",
+            Component: ProjectsDashboard,
+          },
+        ],
+      },
+      {
+        path: "family",
+        Component: FamilyDashboard,
+      },
+    ],
+  },
 ]);
 
 const theme = createTheme({
-	palette: {
-		primary: {
-			main: YELLOW,
-		},
-		secondary: {
-			main: TOASTED_PINE_NUT,
-		},
-	},
+  palette: {
+    primary: {
+      main: YELLOW,
+    },
+    secondary: {
+      main: TOASTED_PINE_NUT,
+    },
+  },
 });
 
 root.render(
-	<Provider store={store}>
-		<ThemeProvider theme={theme}>
-			<RouterProvider router={router} />
-		</ThemeProvider>
-	</Provider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ThemeProvider>
+  </Provider>
 );

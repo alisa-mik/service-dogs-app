@@ -1,9 +1,7 @@
 import { ReactElement, useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import { TOP_BAR_HIGHT } from "../config/constants";
-import { useSelector } from "react-redux";
-import { RootState } from "../store";
 import { BEIGE_LIGHT, BROWN_DARK, YELLOW } from "../config/colors";
 
 const Container = styled.div`
@@ -52,51 +50,72 @@ const Body = styled.div`
   flex: 1;
 `;
 
-const tabs = [
-  {
+// const tabs = [
+//   {
+//     label: "ראשי",
+//     navigateTo: "main",
+//   },
+//   {
+//     label: "כלבים",
+//     navigateTo: "dogs",
+//   },
+//   {
+//     label: "עידכונים",
+//     navigateTo: "updates",
+//   },
+//   {
+//     label: "משפחות",
+//     navigateTo: "families",
+//   },
+//   {
+//     label: "פרויקטים",
+//     navigateTo: "projects",
+//   },
+// ];
+
+const tabs = {
+  main: {
     label: "ראשי",
     navigateTo: "main",
   },
-  {
+  dogs: {
     label: "כלבים",
     navigateTo: "dogs",
   },
-  {
+  updates: {
     label: "עידכונים",
     navigateTo: "updates",
   },
-  {
+  families: {
     label: "משפחות",
     navigateTo: "families",
   },
-  {
+  projects: {
     label: "פרויקטים",
     navigateTo: "projects",
   },
-];
+};
 
 export default function App() {
-  const { isAdmin, userId, userGroup } = useSelector(
-    (state: RootState) => state.user
-  );
+  const location = useLocation();
 
-  const [selectedTab, setSelectedTab] = useState(tabs[0].label);
+  const tabByLocation = location.pathname.split("/")[2];
+
+  const [selectedTab, setSelectedTab] = useState(tabByLocation);
 
   const renderItems = (): ReactElement[] => {
-    return tabs.map(({ label, navigateTo }) => {
+    return Object.entries(tabs).map(([navigateTo, tab]) => {
       return (
         <StyledLink
-          key={label}
+          key={tab.label}
           to={navigateTo}
-          onClick={() => setSelectedTab(label)}
+          onClick={() => setSelectedTab(navigateTo)}
         >
-          <Tab selected={selectedTab === label}>{label}</Tab>
+          <Tab selected={selectedTab === navigateTo}>{tab.label}</Tab>
         </StyledLink>
       );
     });
   };
-
-  console.log({ isAdmin, userId, userGroup });
 
   return (
     <Container>
