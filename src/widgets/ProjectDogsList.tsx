@@ -4,6 +4,7 @@ import { selectSelectedProject } from "../store/projectsSlice";
 import styled from "styled-components";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { BROWN_DARK } from "../config/colors";
+import { DogCard } from "../components/DogCard";
 
 const WidgetHeader = styled.div`
   height: 50px;
@@ -29,6 +30,11 @@ const Body = styled.div`
   overflow: hidden;
 `;
 
+const ListContainer = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
 export const ProjectsDogsList = () => {
   const selectedProject = useSelector(selectSelectedProject);
 
@@ -40,16 +46,11 @@ export const ProjectsDogsList = () => {
       <Body>
         {selectedProject ? (
           selectedProject.dogs && selectedProject.dogs.length > 0 ? (
-            <ul>
-              {selectedProject.dogs.map((dog) => (
-                <li key={dog.dogId}>
-                  <strong>{dog.dogName}</strong>
-                  <p>Status: {dog.dogStatus}</p>
-                  <p>Active: {dog.active ? "Yes" : "No"}</p>
-                  {dog.image && <img src={dog.image} alt={`${dog.dogName}`} />}
-                </li>
-              ))}
-            </ul>
+            <ListContainer>
+              {selectedProject.dogs.map((dog) => {
+                return <DogCard dog={dog} />;
+              })}
+            </ListContainer>
           ) : (
             <p>No dogs found in this project.</p>
           )

@@ -1,19 +1,15 @@
 import styled from "styled-components";
 
-const Section = styled.section`
-  flex: 1;
-`;
-
-const Body = styled.div`
-  flex: 1;
-  padding: 0 10px 10px 10px;
+const Card = styled.div`
+  padding: 10px;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   text-align: right;
-  gap: 10px;
-  width: 100%;
+  width: 250px;
   overflow: auto;
   direction: rtl;
+  border: 1px solid #cccccc;
+  border-radius: 16px;
 `;
 
 const Row = styled.div`
@@ -23,7 +19,6 @@ const Row = styled.div`
 `;
 
 const Label = styled.span`
-  font-weight: bold;
   color: #888888;
 `;
 
@@ -43,32 +38,24 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
   </Row>
 );
 
-export const DogCard = () => {
+export const DogCard = ({ dog }) => {
+  const { dogId, dogName, dogStatus, active, groupId } = dog;
+
   return (
-    <Body>
-      {" "}
-      dogCard
-      {/* <Section>
+    <Card>
       <LabelValue label="שם הכלב:" value={dogName} />
-      <LabelValue label="צבע:" value={color} />
-      <LabelValue label="גזע:" value={breed} />
-      <LabelValue
-        label="תאריך לידה:"
-        value={formatDateFromSeconds(birthDate)}
-      />
-      <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} />
-      <LabelValue label="שם האם:" value={momDog.dogName} />
-      <LabelValue label="שם האב:" value={dadDog.dogName} />
-    </Section> */}
-      {/* <Section>
-      <LabelValue label="קבוצה:" value={groupId} />
-      <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} />
-      <LabelValue label="פרויקט:" value={assignedProject.projectName} />
       <LabelValue label="סטטוס:" value={dogStatus} />
-      <LabelValue label="מספר שבב:" value={chipNumber} />
-      <LabelValue label="תאריך פרישה:" value={dropDate} />
-      <LabelValue label="סיבת פרישה:" value={dropReason} />
-    </Section> */}
-    </Body>
+      <LabelValue label="פעיל:" value={active ? "כן" : "לא"} />
+      <LabelValue label="קבוצה:" value={groupId} />
+
+      {/* <LabelValue label="גזע:" value={breed} /> */}
+      {/* <LabelValue
+          label="תאריך לידה:"
+          value={formatDateFromSeconds(birthDate)}
+        /> */}
+      {/* <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} /> */}
+      {/* <LabelValue label="שם האם:" value={momDog.dogName} /> */}
+      {/* <LabelValue label="שם האב:" value={dadDog.dogName} /> */}
+    </Card>
   );
 };

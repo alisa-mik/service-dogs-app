@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import { BROWN_DARK } from "../config/colors";
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { selectProjects } from "../store/projectsSlice";
 
-export default function DogsStats() {
-  const {
-    dogs,
-    // status: dogStatus,
-    // error: dogError,
-  } = useSelector((state: RootState) => state.dogs);
+export default function ProjectsStats() {
+  const projects = useSelector(selectProjects);
 
   const [count, setCount] = useState<number>(0);
-  const target = dogs.length;
+  const target = projects.length;
   const duration = 2000;
 
   useEffect(() => {
@@ -37,7 +33,6 @@ export default function DogsStats() {
         display: "flex",
         flexDirection: "column",
         height: "100%",
-        // alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#fff",
       }}
@@ -45,7 +40,7 @@ export default function DogsStats() {
       <div style={{ fontSize: "45px", fontWeight: 600, color: BROWN_DARK }}>
         {count}
       </div>
-      <div style={{ color: BROWN_DARK }}>כלבים רשומים במערכת</div>
+      <div style={{ color: BROWN_DARK }}>פרויקטים רשומים במערכת</div>
     </div>
   );
 }

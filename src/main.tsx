@@ -16,6 +16,8 @@ import UpdatesDashboard from "./pages/UpdatesDashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
 import { ProjectsDashboard } from "./pages/ProjectsDashboard";
+import TrainingGroupsDashboard from "./pages/TrainingGroupsDashboard";
+import BreedingDogsDashboard from "./pages/BreedingDogsDashboard";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -52,8 +54,16 @@ const router = createBrowserRouter([
             Component: UpdatesDashboard,
           },
           {
+            path: "groups",
+            Component: TrainingGroupsDashboard,
+          },
+          {
             path: "projects",
             Component: ProjectsDashboard,
+          },
+          {
+            path: "breeding",
+            Component: BreedingDogsDashboard,
           },
         ],
       },

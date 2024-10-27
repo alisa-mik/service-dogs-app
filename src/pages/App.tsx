@@ -90,9 +90,17 @@ const tabs = {
     label: "משפחות",
     navigateTo: "families",
   },
+  groups: {
+    label: "קבוצות",
+    navigateTo: "groups",
+  },
   projects: {
     label: "פרויקטים",
     navigateTo: "projects",
+  },
+  breeding: {
+    label: "ממשיכי דרך",
+    navigateTo: "breeding",
   },
 };
 
