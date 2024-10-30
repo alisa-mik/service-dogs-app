@@ -54,7 +54,7 @@ export const Content = styled.div<{ expanded: boolean }>`
     overflow: hidden;
     height:  ${({ expanded }) => (expanded ? 'fit-content' : "30px")};
     max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 
-    transition: all 0.5s ease;
+    transition: all 2s ease;
 `;
 
 export const ToggleIndicator = styled.div`

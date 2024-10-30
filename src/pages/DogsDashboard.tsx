@@ -5,7 +5,6 @@ import { DogListTable } from "../components/DogListTable";
 import DogsActions from "../widgets/DogsActions";
 import DogsStats from "../widgets/DogsStats";
 import { useEffect } from "react";
-import { fetchProjects } from "../store/projectsSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
@@ -23,7 +22,6 @@ export default function DogDashboard() {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    dispatch(fetchProjects());
     dispatch(fetchAllUpdates({}));
   }, [dispatch]);
 

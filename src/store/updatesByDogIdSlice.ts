@@ -20,9 +20,7 @@ export const fetchUpdatesByDogId = createAsyncThunk(
     "updatesByDogId/fetchUpdatesByDogId",
     async (dogId: string) => {
         const response = await apiClient.get(`${apiConfig.updatesByDogIdEndPoint}/${dogId}`);
-        console.log(response.data);
-
-        return response.data;
+        return response.data; 
     }
 );
 
@@ -46,6 +44,6 @@ const updatesByDogIdSlice = createSlice({
     },
 });
 
-export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId.updates;
+export const selectUpdatesByDogId = (state: RootState) => state.updatesByDogId.updates || [];
 
 export default updatesByDogIdSlice.reducer;

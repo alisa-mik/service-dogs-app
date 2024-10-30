@@ -17,7 +17,7 @@ const focus = css`
   &:focus {
     border-color: #007bff;
   }
-`
+`;
 
 export const Input = styled.input`
   ${common}
@@ -32,17 +32,17 @@ export const TextArea = styled.textarea`
 `;
 
 export const Checkbox = styled.input`
-    width: fit-content;
-`
+  width: fit-content;
+`;
 
 export const Select = styled.select`
-    ${common}
-    ${focus}
-    -webkit-appearance: none;  /* Chrome, Safari, Edge */
-    appearance: none;
+  ${common}
+  ${focus}
+    -webkit-appearance: none; /* Chrome, Safari, Edge */
+  appearance: none;
 `;
 
 export const DateInput = styled.input`
   ${common}
-  width: 140px;
+  width: 160px;
 `;

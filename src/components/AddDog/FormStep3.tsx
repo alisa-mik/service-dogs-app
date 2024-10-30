@@ -25,11 +25,12 @@ const FormStep3: React.FC<AddDogFormStepProps> = ({ formik }) => (
         <option value="" label="בחר סטטוס" />
         <option value="לפני אומנה">לפני אומנה</option>
         <option value="באומנה">באומנה</option>
-        <option value="אימון מתקדם">אימון מתקדם</option>
+        <option value="הכשרה">אימון מתקדם</option>
         <option value="עובד">עובד</option>
         <option value="בפנסיה">בפנסיה</option>
         <option value="נשר">נשר</option>
         <option value="עבר להרבעה">עבר להרבעה</option>
+        <option value="מת">מת</option>
       </Select>
     </FormItem>
 

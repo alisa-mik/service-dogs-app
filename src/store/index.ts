@@ -3,7 +3,6 @@ import errorsReducer from './errorsSlice';
 import userReducer from './userSlice';
 import dogsReducer from './dogsSlice';
 import dogProfileReducer from './dogProfileSlice';
-import projectsReducer from './projectsSlice';
 import updatesByDogIdReducer from './updatesByDogIdSlice';
 import updatesReducer from './updatesSlice';
 
@@ -12,7 +11,6 @@ const store = configureStore({
         user: userReducer,
         dogs: dogsReducer,
         updates: updatesReducer,
-        projects: projectsReducer,
         errors: errorsReducer,
         dogProfile: dogProfileReducer,
         updatesByDogId: updatesByDogIdReducer,

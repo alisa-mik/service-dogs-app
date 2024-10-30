@@ -94,14 +94,18 @@ const tabs = {
     label: "קבוצות",
     navigateTo: "groups",
   },
-  projects: {
-    label: "פרויקטים",
-    navigateTo: "projects",
+  "dogs-in-training": {
+    label: "הכשרה",
+    navigateTo: "dogs-in-training",
   },
-  breeding: {
-    label: "ממשיכי דרך",
-    navigateTo: "breeding",
-  },
+  // "2-on-4": {
+  //   label: "2 על 4",
+  //   navigateTo: "2-on-4",
+  // },
+  // "dogs-for-soldiers": {
+  //   label: "כלבים ללוחמים",
+  //   navigateTo: "dogs-for-soldiers",
+  // },
 };
 
 export default function App() {

@@ -20,15 +20,16 @@ interface FetchAllUpdatesArgs {
     endDate?: string;
 }
 
+
 export const fetchAllUpdates = createAsyncThunk(
     "allUpdates/fetchAllUpdates",
-    async ({ startDate, endDate }:FetchAllUpdatesArgs) => {
+    async ({ startDate, endDate }: FetchAllUpdatesArgs) => {
         const queryParams = new URLSearchParams();
         if (startDate) queryParams.append("startDate", startDate);
         if (endDate) queryParams.append("endDate", endDate);
 
         const response = await apiClient.get(`${apiConfig.updates}?${queryParams}`);
-        return response.data; 
+        return response.data.updates; // Access the `updates` array directly
     }
 );
 
@@ -52,6 +53,5 @@ const updatesSlice = createSlice({
     },
 });
 
-export const selectAllUpdates = (state: RootState) => state.updates.updates;
-
+export const selectAllUpdates = (state: RootState) => state.updates.updates || [];
 export default updatesSlice.reducer;

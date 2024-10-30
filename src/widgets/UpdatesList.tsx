@@ -1,8 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { selectAllUpdates } from "../store/updatesSlice";
+import { fetchAllUpdates, selectAllUpdates } from "../store/updatesSlice";
 import UpdateCard from "../components/UpdateCard";
 import { Center } from "../components/commonParts/Center";
+import { useEffect, useMemo, useState } from "react";
+import { categoriesTranslation } from "../config/categories";
+import { Update } from "../types/dogTypes";
+import {
+  fetchUpdatesByDogId,
+  selectUpdatesByDogId,
+} from "../store/updatesByDogIdSlice";
+import CategoryFilter from "../components/UpdateCategoriesFilter";
+import { AppDispatch } from "../store";
 
 const UpdatesContainer = styled.div`
   flex: 1;
@@ -15,17 +24,68 @@ const UpdatesContainer = styled.div`
   overflow: auto;
 `;
 
-export const UpdatesList = () => {
-  const allUpdates = useSelector(selectAllUpdates);
-  console.log({ allUpdates });
+const Body = styled.div`
+  flex: 1;
+  padding: 0 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  direction: rtl;
+
+  gap: 10px;
+  width: 100%;
+  overflow: hidden;
+`;
+
+interface UpdatesListProps {
+  dogId?: string;
+}
+
+export const UpdatesList = ({ dogId }: UpdatesListProps) => {
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [displayUpdates, setDisplayUpdates] = useState<Update[]>([]);
+
+  const updates =
+    useSelector(dogId ? selectUpdatesByDogId : selectAllUpdates) || [];
+
+  console.log({ updates });
+
+  useEffect(() => {
+    setDisplayUpdates(updates);
+  }, [updates]);
+
+  const filteredUpdates = useMemo(() => {
+    if (selectedCategories.length === 0) {
+      return [...updates].reverse();
+    }
+    return [...displayUpdates]
+      .filter(
+        (update) =>
+          Array.isArray(update.categories) &&
+          update.categories.some((cat) => selectedCategories.includes(cat))
+      )
+      .reverse();
+  }, [updates, selectedCategories]);
+
+  const categories = useMemo(() => {
+    return Object.keys(categoriesTranslation);
+  }, []);
 
   const renderUpdates = () => {
-    if (allUpdates.updates?.length === 0)
+    if (filteredUpdates?.length === 0)
       return <Center>לא נמצאו עידכונים</Center>;
-    return allUpdates.updates?.map((update) => (
+    return filteredUpdates.map((update) => (
       <UpdateCard key={update.updateId} update={update} showDogInfo={true} />
     ));
   };
 
-  return <UpdatesContainer>{renderUpdates()}</UpdatesContainer>;
+  return (
+    <Body>
+      <CategoryFilter
+        categories={categories}
+        selectedCategories={selectedCategories}
+        onChange={setSelectedCategories}
+      />
+      <UpdatesContainer>{renderUpdates()}</UpdatesContainer>
+    </Body>
+  );
 };

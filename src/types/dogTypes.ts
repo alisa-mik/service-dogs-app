@@ -27,13 +27,14 @@ export interface Dog {
     gender: string | null;
     breed: string | null;
     color: string;
-    momDog: ParentDog;
-    dadDog: ParentDog;
+    // momDog: ParentDog;
+    momDog: string;
+    // dadDog: ParentDog;
+    dadDog: string;
     active: boolean;
     dogStatus: string;
     image: string;
     assignedFamily: AssignedFamily;
-    assignedProject: AssignedProject;
     groupId: string | null;
     dropDate: string,
     dropReason: string,
@@ -58,11 +59,10 @@ export interface AddDogFormValues {
     gender: string | null;
     breed: string | null;
     color: string;
-    momDog: ParentDog | null;
-    dadDog: ParentDog | null;
+    momDog: string | null;
+    dadDog: string | null;
     groupId: string | null;
     assignedFamily: AssignedFamily | null;
-    assignedProject: AssignedProject | null;
     active: boolean;
     dogStatus: string;
     dropDate: string;
@@ -81,12 +81,9 @@ familyId: string;
 familyName: string;
 }
 
-export type AssignedProject = {
-projectId: string;
-projectName: string;
-}
 
-export type ParentDog = {
-    dogId: string;
-    dogName: string;
-}
+
+// export type ParentDog = {
+//     dogId: string;
+//     dogName: string;
+// }

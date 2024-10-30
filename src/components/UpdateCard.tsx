@@ -17,6 +17,8 @@ import {
   CATEGORY_COLORS,
   DEFAULT_CATEGORY_COLOR,
 } from "../config/categories";
+import EditIcon from "@mui/icons-material/Edit";
+import { BROWN_DARK } from "../config/colors";
 
 interface UpdateCardProps {
   update: Update;
@@ -43,7 +45,10 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, showDogInfo }) => {
     <CardContainer onClick={toggleExpanded}>
       {showDogInfo && dogDetails && (
         <DogInfo>
-          <img style={{ height: "50px" }} src={dogDetails.image} />
+          <img
+            style={{ height: "60px", borderRadius: "50%" }}
+            src={dogDetails.image}
+          />
           <span>{dogDetails.dogName}</span>
         </DogInfo>
       )}
@@ -51,16 +56,20 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, showDogInfo }) => {
       <MainContent>
         <HeaderRow>
           <DateText>{formattedDate}</DateText>
-          <CategoriesContainer>
-            {update.categories.map((category) => {
-              const color = CATEGORY_COLORS[category] || DEFAULT_CATEGORY_COLOR;
-              return (
-                <CategoryTag key={category} color={color}>
-                  {categoriesTranslation[category]}
-                </CategoryTag>
-              );
-            })}
-          </CategoriesContainer>
+          <div style={{ display: "flex", gap: "10px" }}>
+            <CategoriesContainer>
+              {update.categories.map((category) => {
+                const color =
+                  CATEGORY_COLORS[category] || DEFAULT_CATEGORY_COLOR;
+                return (
+                  <CategoryTag key={category} color={color}>
+                    {categoriesTranslation[category]}
+                  </CategoryTag>
+                );
+              })}
+            </CategoriesContainer>
+            <EditIcon style={{ color: BROWN_DARK }} />
+          </div>
         </HeaderRow>
         <Content expanded={expanded}>{update.content}</Content>
         {!expanded && update.content.split("\n").length > 4 && (

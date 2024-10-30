@@ -1,5 +1,4 @@
 import { useSelector } from "react-redux";
-import { selectSelectedProject } from "../store/projectsSlice";
 
 import styled from "styled-components";
 import { WidgetTitle } from "../components/commonParts/Labels";
@@ -36,11 +35,9 @@ const ListContainer = styled.div`
 `;
 
 export const ProjectsDogsList = () => {
-  const selectedProject = useSelector(selectSelectedProject);
-
   return (
     <>
-      <WidgetHeader>
+      {/* <WidgetHeader>
         <WidgetTitle>כלבים בפרויקט</WidgetTitle>
       </WidgetHeader>
       <Body>
@@ -57,7 +54,7 @@ export const ProjectsDogsList = () => {
         ) : (
           <p>בחר פרויקט להצגת הכלבים</p>
         )}
-      </Body>
+      </Body> */}
     </>
   );
 };

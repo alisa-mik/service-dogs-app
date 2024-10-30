@@ -18,6 +18,9 @@ import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
 import { ProjectsDashboard } from "./pages/ProjectsDashboard";
 import TrainingGroupsDashboard from "./pages/TrainingGroupsDashboard";
 import BreedingDogsDashboard from "./pages/BreedingDogsDashboard";
+import { DogsForSoldiersDashboard } from "./pages/DogsForSoldiersDashboard";
+import { TwoOnFourDashboard } from "./pages/TwoOnFourDashboard";
+import { DogsInTrainingDashboard } from "./pages/DogsInTrainingDashboard";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -57,13 +60,17 @@ const router = createBrowserRouter([
             path: "groups",
             Component: TrainingGroupsDashboard,
           },
+          // {
+          //   path: "2-on-4",
+          //   Component: TwoOnFourDashboard,
+          // },
+          // {
+          //   path: "dogs-for-soldiers",
+          //   Component: DogsForSoldiersDashboard,
+          // },
           {
-            path: "projects",
-            Component: ProjectsDashboard,
-          },
-          {
-            path: "breeding",
-            Component: BreedingDogsDashboard,
+            path: "dogs-in-training",
+            Component: DogsInTrainingDashboard,
           },
         ],
       },

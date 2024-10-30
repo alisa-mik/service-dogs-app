@@ -1,20 +1,18 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
+import { ProjectsDogsList } from "../widgets/ProjectDogsList";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
   border-radius: 16px;
-  background-image: url("/placeholder.jpg");
-  background-size: 200px 200px;
-  background-repeat: repeat;
 `;
 
-export default function MainDashboard() {
+export const DogsForSoldiersDashboard = () => {
   const widgets: WidgetConfig[] = [
     {
-      layout: { i: "a", x: 2, y: 0, w: 10, h: 46 },
+      layout: { w: 2, h: 100, x: 10, y: 0, i: "a" },
       widget: {
         props: {},
         display: true,
@@ -22,7 +20,7 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "b", x: 2, y: 46, w: 5, h: 54 },
+      layout: { w: 4, h: 80, x: 8, y: 36, i: "b" },
       widget: {
         props: {},
         display: true,
@@ -30,19 +28,11 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "c", x: 7, y: 46, w: 5, h: 54 },
+      layout: { w: 8, h: 80, x: 0, y: 36, i: "c" },
       widget: {
         props: {},
         display: true,
-        type: Container,
-      },
-    },
-    {
-      layout: { i: "d", x: 0, y: 0, w: 2, h: 100 },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
+        type: ProjectsDogsList,
       },
     },
   ];
@@ -50,7 +40,7 @@ export default function MainDashboard() {
   return (
     <WidgetManager
       onLayoutChange={console.log}
-      config={{ spacing: "10px", widgets }}
+      config={{ spacing: "20px", widgets }}
     />
   );
-}
+};
