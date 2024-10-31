@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
@@ -6,6 +6,11 @@ import { WidgetTitle } from "../components/commonParts/Labels";
 import { selectDog } from "../store/dogProfileSlice";
 import { isEmpty } from "lodash";
 import { Dog } from "../types/dogTypes";
+
+import EditIcon from "@mui/icons-material/Edit";
+import { BROWN_DARK } from "../config/colors";
+import CustomDialog from "../components/CustomDialog";
+import DogForm from "../components/DogForm/DogForm";
 
 const Section = styled.section`
   flex: 1;
@@ -69,6 +74,12 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 );
 
 const DogDetails: React.FC = () => {
+  const [open, setOpen] = useState<boolean>(false);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const dog = useSelector(selectDog);
 
   if (isEmpty(dog)) {
@@ -96,6 +107,13 @@ const DogDetails: React.FC = () => {
     <>
       <WidgetHeader>
         <WidgetTitle>פרטים כלליים</WidgetTitle>
+        <EditIcon
+          style={{ color: BROWN_DARK, cursor: "pointer" }}
+          onClick={() => setOpen(true)}
+        />
+        <CustomDialog open={open} title="הוספת כלב חדש">
+          <DogForm onClose={handleClose} data={dog} />
+        </CustomDialog>
       </WidgetHeader>
 
       <Body>

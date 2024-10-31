@@ -4,17 +4,16 @@ import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
 import { apiClient } from "../../config/apiConfig.ts";
 import Form, { configType } from "../form/Form.tsx";
+import { Dog } from "../../types/dogTypes.ts";
+import { refetchDogById } from "../../store/dogProfileSlice.ts";
 
-const DogForm = ({ onClose }: { onClose: () => void }) => {
+const DogForm = ({ onClose, data }: { onClose: () => void; data: Dog }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values) => {
-    console.log({ values });
-
     const formattedValues = {
       ...values,
-      dogId: uuidv4(),
-      birthDate: Math.floor(new Date(values.birthDate).getTime() / 1000),
+      dogId: values.dogId ? values.dogId : uuidv4(),
     };
 
     console.log("Submitted values:", formattedValues);
@@ -22,6 +21,9 @@ const DogForm = ({ onClose }: { onClose: () => void }) => {
     const response = await apiClient.post("add-dog", formattedValues);
     alert("כלב נוסף בהצלחה!");
     onClose();
+    {
+      values.dogId && dispatch(refetchDogById(values.dogId));
+    }
     dispatch(refetchDogs());
     return response.data;
   };
@@ -193,25 +195,6 @@ const DogForm = ({ onClose }: { onClose: () => void }) => {
       itemType: "done",
     },
   ];
-
-  const data = {
-    dogName: "",
-    birthDate: "",
-    gender: "",
-    breed: "",
-    color: "",
-    momDog: "",
-    dadDog: "",
-    groupId: null,
-    assignedFamily: null,
-    active: true,
-    dogStatus: "",
-    dropDate: "",
-    dropReason: "",
-    chipNumber: "",
-    medicalInfo: "",
-    summary: "",
-  };
 
   return (
     <>

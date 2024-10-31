@@ -10,6 +10,25 @@ export default function DogsActions() {
     setOpen(false);
   };
 
+  const data = {
+    dogName: "",
+    birthDate: "",
+    gender: "",
+    breed: "",
+    color: "",
+    momDog: "",
+    dadDog: "",
+    groupId: null,
+    assignedFamily: null,
+    active: true,
+    dogStatus: "",
+    dropDate: "",
+    dropReason: "",
+    chipNumber: "",
+    medicalInfo: "",
+    summary: "",
+  };
+
   return (
     <div
       style={{
@@ -28,7 +47,7 @@ export default function DogsActions() {
       >
         <Button onClick={() => setOpen(true)}>הוספת כלב</Button>
         <CustomDialog open={open} title="הוספת כלב חדש">
-          <DogForm onClose={handleClose} />
+          <DogForm onClose={handleClose} data={data} />
         </CustomDialog>
         <Button>הוספת קבוצה חדשה</Button>
         <Button>לארכיון</Button>
