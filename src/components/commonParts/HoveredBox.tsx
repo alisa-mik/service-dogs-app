@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 import { WHITE } from "../../config/colors";
 
-const HoveredBox = styled.div<{ show: boolean }>`
+const StyledHoveredBox = styled.div<{ show: boolean }>`
   width: 100%;
   height: 100%;
   inset: 0;
@@ -22,18 +22,18 @@ interface IdateText {
   children: React.ReactNode;
 }
 
-const HoveredButtons: FC<IdateText> = ({ children }) => {
+const HoveredBox: FC<IdateText> = ({ children }) => {
   const [isHover, setIsHover] = useState(false);
 
   return (
-    <HoveredBox
+    <StyledHoveredBox
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
       show={isHover}
     >
       {children}
-    </HoveredBox>
+    </StyledHoveredBox>
   );
 };
 
-export default HoveredButtons;
+export default HoveredBox;

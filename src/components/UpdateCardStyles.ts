@@ -53,16 +53,10 @@ export const Content = styled.div<{ expanded: boolean }>`
     transition: all 2s ease;
 `;
 
-export const ToggleIndicator = styled.div`
-    font-size: 12px;
-    color: #007bff;
-    text-align: right;
-`;
-
 export const DogInfo = styled.div`
-flex: 0.1;
 display: flex;
 flex-direction: column;
+flex: 0.1;
 align-items: center;
 justify-content: flex-start;
 color: ${BROWN_DARK};
@@ -70,6 +64,6 @@ color: ${BROWN_DARK};
 
 export const MainContent = styled.div`
 display: flex;
-flex: 1;
 flex-direction: column;
+flex: 1;
 `

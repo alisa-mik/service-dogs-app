@@ -6,6 +6,7 @@ import DatePicker from "./inputs/DatePicker";
 import Select from "./inputs/Select";
 import Checkbox from "./inputs/CheckBox";
 import TextArea from "./inputs/TextArea";
+import CategoryInput from "./inputs/CategoryInput";
 
 export type InputType = "select" | "text" | "date" | "checkbox" | "texterea";
 
@@ -36,6 +37,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     select: Select,
     checkbox: Checkbox,
     texterea: TextArea,
+    category: CategoryInput,
   };
 
   const Component = inputsMap[inputType];

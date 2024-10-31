@@ -8,7 +8,7 @@ export interface Author {
 export interface Update {
     dogId: string;
     updateId: string;
-    date: string;
+    date: number;
     author: Author;
     categories: string[];
     content: string;

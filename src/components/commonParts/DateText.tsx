@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/he"; // Import Hebrew locale
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { LIGHT_GREY } from "../../config/colors";
+import { formatDateFromSeconds } from "../../utils/converts";
 
 const DateText = styled.div<{ size: string }>`
   font-size: ${({ size }) => size};
@@ -10,7 +11,7 @@ const DateText = styled.div<{ size: string }>`
 `;
 
 interface IdateText {
-  date: string | number;
+  date: number;
   size?: string;
 }
 
@@ -18,7 +19,9 @@ export default ({ date, size = "12px" }: IdateText) => {
   dayjs.extend(localizedFormat);
   dayjs.locale("he");
 
-  const formattedDate = dayjs(date).format("D [ב]MMMM YYYY");
+  console.log(formatDateFromSeconds(date));
+
+  const formattedDate = dayjs.unix(date).format("D [ב]MMMM YYYY");
 
   return <DateText size={size}>{formattedDate}</DateText>;
 };

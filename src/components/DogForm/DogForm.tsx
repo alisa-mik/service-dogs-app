@@ -16,8 +16,6 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: Dog }) => {
       dogId: values.dogId ? values.dogId : uuidv4(),
     };
 
-    console.log("Submitted values:", formattedValues);
-
     const response = await apiClient.post("add-dog", formattedValues);
     alert("כלב נוסף בהצלחה!");
     onClose();
@@ -197,9 +195,7 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: Dog }) => {
   ];
 
   return (
-    <>
-      <Form formType="steps" config={config} data={data} onSubmit={onSubmit} />
-    </>
+    <Form formType="steps" config={config} data={data} onSubmit={onSubmit} />
   );
 };
 
