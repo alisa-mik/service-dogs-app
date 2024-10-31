@@ -1,6 +1,6 @@
 // src/components/UpdateCardStyles.tsx
 import styled from "styled-components";
-import { BROWN_DARK } from "../config/colors";
+import { BROWN_DARK, WHITE } from "../config/colors";
 
 interface CategoryTagProps {
     color: string;
@@ -15,7 +15,8 @@ export const CardContainer = styled.div`
     cursor: pointer;
     transition: box-shadow 0.3s ease;
     display: flex;
-    /* flex-direction: column; */
+    position: relative;
+    opacity: 0;
 
     &:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -37,15 +38,10 @@ export const CategoriesContainer = styled.div`
 
 export const CategoryTag = styled.span<CategoryTagProps>`
     background-color: ${({ color }) => color};
-    color: #fff;
+    color: ${WHITE};
     padding: 3px 8px;
     border-radius: 12px;
     font-size: 12px;
-`;
-
-export const DateText = styled.div`
-    font-size: 12px;
-    color: #858585;
 `;
 
 export const Content = styled.div<{ expanded: boolean }>`

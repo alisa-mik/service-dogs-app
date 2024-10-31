@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { WHITE } from '../config/colors';
 
 const theme = createTheme({
     palette: {
@@ -10,7 +11,7 @@ const theme = createTheme({
         },
         background: {
             default: '#f7f7f7',
-            paper: '#ffffff',
+            paper: WHITE,
         },
         text: {
             primary: '#264653',

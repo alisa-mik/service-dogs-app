@@ -6,8 +6,13 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import styled from "styled-components";
 
-import { categoriesTranslation, CATEGORY_COLORS } from "../config/categories";
-import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
+import { categoriesTranslation } from "../config/categories";
+import {
+  BROWN_DARK,
+  CATEGORY_COLORS,
+  YELLOW,
+  YELLOW_DARKER,
+} from "../config/colors";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { Label } from "./commonParts/Labels";
 import { TextArea, DateInput } from "./form/styledInputs";

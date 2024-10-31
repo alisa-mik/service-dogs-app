@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { BROWN_DARK } from "../../config/colors";
+import { BROWN_DARK, WHITE } from "../../config/colors";
 
 const common = css`
   width: 100%;
@@ -8,7 +8,7 @@ const common = css`
   font-size: 16px;
   border-radius: 8px;
   border: 1px solid #ccc;
-  background-color: #ffffff;
+  background-color: ${WHITE};
   color: ${BROWN_DARK};
   outline: none;
 `;

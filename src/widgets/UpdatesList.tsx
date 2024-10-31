@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { fetchAllUpdates, selectAllUpdates } from "../store/updatesSlice";
 import UpdateCard from "../components/UpdateCard";
-import { Center } from "../components/commonParts/Center";
+import { Center } from "../components/commonParts/Layouts";
 import { useEffect, useMemo, useState } from "react";
 import { categoriesTranslation } from "../config/categories";
 import { Update } from "../types/dogTypes";
@@ -47,8 +47,6 @@ export const UpdatesList = ({ dogId }: UpdatesListProps) => {
   const updates =
     useSelector(dogId ? selectUpdatesByDogId : selectAllUpdates) || [];
 
-  console.log({ updates });
-
   useEffect(() => {
     setDisplayUpdates(updates);
   }, [updates]);
@@ -73,8 +71,8 @@ export const UpdatesList = ({ dogId }: UpdatesListProps) => {
   const renderUpdates = () => {
     if (filteredUpdates?.length === 0)
       return <Center>לא נמצאו עידכונים</Center>;
-    return filteredUpdates.map((update) => (
-      <UpdateCard key={update.updateId} update={update} />
+    return filteredUpdates.map((update, index) => (
+      <UpdateCard key={update.updateId} index={index} update={update} />
     ));
   };
 
