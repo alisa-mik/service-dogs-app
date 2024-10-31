@@ -74,7 +74,7 @@ export const UpdatesList = ({ dogId }: UpdatesListProps) => {
     if (filteredUpdates?.length === 0)
       return <Center>לא נמצאו עידכונים</Center>;
     return filteredUpdates.map((update) => (
-      <UpdateCard key={update.updateId} update={update} showDogInfo={true} />
+      <UpdateCard key={update.updateId} update={update} />
     ));
   };
 

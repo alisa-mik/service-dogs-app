@@ -1,6 +1,6 @@
 import { FormikProps } from "formik";
 import { configType } from "./Form";
-import { FormItem, Label } from "../AddDog/FormStyles";
+import { FormItem, Label } from "../DogForm/FormStyles";
 import Text from "./inputs/Text";
 import DatePicker from "./inputs/DatePicker";
 import Select from "./inputs/Select";

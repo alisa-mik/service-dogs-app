@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FormikProps, useFormik } from "formik";
 import { Button } from "../commonParts/Buttons.tsx";
-import { FormContainer } from "../AddDog/FormStyles.ts";
+import { FormContainer } from "../DogForm/FormStyles.ts";
 import SectionInjector from "./SectionInjector.tsx";
 import styled from "styled-components";
 import { noop } from "lodash";

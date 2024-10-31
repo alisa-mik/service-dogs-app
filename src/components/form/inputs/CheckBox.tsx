@@ -1,7 +1,7 @@
 import React from "react";
 import { Checkbox as StyledCheckbox } from "../styledInputs";
 import { IInput } from "../InputInjector";
-import { Label } from "../../AddDog/FormStyles";
+import { Label } from "../../DogForm/FormStyles";
 
 interface ICheckbox extends IInput {
   label: string;

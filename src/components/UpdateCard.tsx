@@ -22,10 +22,9 @@ import { BROWN_DARK } from "../config/colors";
 
 interface UpdateCardProps {
   update: Update;
-  showDogInfo: boolean;
 }
 
-const UpdateCard: React.FC<UpdateCardProps> = ({ update, showDogInfo }) => {
+const UpdateCard: React.FC<UpdateCardProps> = ({ update }) => {
   const [expanded, setExpanded] = useState(false);
 
   const { dogDetails } = update;
@@ -43,10 +42,10 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, showDogInfo }) => {
 
   return (
     <CardContainer onClick={toggleExpanded}>
-      {showDogInfo && dogDetails && (
+      {dogDetails && (
         <DogInfo>
           <img
-            style={{ height: "60px", borderRadius: "50%" }}
+            style={{ height: "60px", borderRadius: "16px" }}
             src={dogDetails.image}
           />
           <span>{dogDetails.dogName}</span>

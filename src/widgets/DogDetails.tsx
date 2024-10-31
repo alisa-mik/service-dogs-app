@@ -87,7 +87,6 @@ const DogDetails: React.FC = () => {
     dropReason,
     groupId,
     assignedFamily,
-    assignedProject,
     birthDate,
   } = dog as Dog;
 
@@ -109,17 +108,20 @@ const DogDetails: React.FC = () => {
             value={formatDateFromSeconds(birthDate)}
           />
           <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} />
-          {/* <LabelValue label="שם האם:" value={momDog.dogName} />
-          <LabelValue label="שם האב:" value={dadDog.dogName} /> */}
+          <LabelValue label="שם האם:" value={momDog} />
+          <LabelValue label="שם האב:" value={dadDog} />
         </Section>
         <Section>
           <LabelValue label="קבוצה:" value={groupId} />
           {/* <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} /> */}
-          <LabelValue label="פרויקט:" value={assignedProject.projectName} />
           <LabelValue label="סטטוס:" value={dogStatus} />
           <LabelValue label="מספר שבב:" value={chipNumber} />
-          <LabelValue label="תאריך פרישה:" value={dropDate} />
-          <LabelValue label="סיבת פרישה:" value={dropReason} />
+          {dogStatus === "נשר" && (
+            <>
+              <LabelValue label="תאריך נשירה:" value={dropDate} />
+              <LabelValue label="סיבת נשירה:" value={dropReason} />
+            </>
+          )}
         </Section>
       </Body>
     </>

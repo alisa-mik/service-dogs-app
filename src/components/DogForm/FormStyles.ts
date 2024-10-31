@@ -36,10 +36,3 @@ export const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-// Success Message
-export const SuccessMessage = styled.div`
-  color: green;
-  font-weight: bold;
-  text-align: center;
-`;

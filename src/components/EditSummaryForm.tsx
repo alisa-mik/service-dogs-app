@@ -3,7 +3,6 @@ import { apiClient, apiConfig } from "../config/apiConfig";
 import { Button } from "./commonParts/Buttons";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { SuccessMessage } from "./AddDog/FormStyles";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { refetchDogById } from "../store/dogProfileSlice";
@@ -85,9 +84,7 @@ export default function EditSummaryForm({
           <Button type="submit">שלח</Button>
         </div>
       </FormContainer>
-      {formSubmitted && (
-        <SuccessMessage>התרשמות עודכנה בהצלחה! </SuccessMessage>
-      )}
+      {formSubmitted && <div>התרשמות עודכנה בהצלחה! </div>}
     </div>
   );
 }
