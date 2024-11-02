@@ -20,14 +20,16 @@ interface Itable {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	rows: any[];
 	onRowClick?: GridEventListener<"rowClick">;
+	hideFooter: boolean;
 }
 
 export const Table: React.FC<Itable> = ({
 	columns,
 	rows,
 	onRowClick = noop,
+	hideFooter = false,
 }) => {
-	const paginationModel = { page: 0, pageSize: 15 };
+	const paginationModel = { page: 0, pageSize: hideFooter ? 100 : 15 };
 
 	const CustomPagination = () => {
 		const apiRef = useGridApiContext();
@@ -55,8 +57,8 @@ export const Table: React.FC<Itable> = ({
 	};
 
 	const modifeidColumns = columns.map((r) => ({
-		...r,
 		renderCell: BasicCell,
+		...r,
 	}));
 
 	return (
@@ -66,6 +68,7 @@ export const Table: React.FC<Itable> = ({
 			columns={modifeidColumns}
 			disableColumnResize
 			disableColumnMenu
+			hideFooter={hideFooter}
 			initialState={{ pagination: { paginationModel } }}
 			slots={{
 				pagination: CustomPagination,
