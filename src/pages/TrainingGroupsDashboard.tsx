@@ -6,6 +6,14 @@ import { GroupAttendance } from "../widgets/GroupAttendance";
 import GroupsList from "../widgets/GroupsList";
 import GroupDetails from "../widgets/GroupDetails";
 import GroupUpdates from "../widgets/GroupUpdates";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "../store";
+import {
+  fetchGroups,
+  selectGroupsError,
+  selectGroupsStatus,
+} from "../store/trainingGroupsSlice";
+import { useEffect } from "react";
 
 const Container = styled.div`
   width: 100%;
@@ -17,6 +25,24 @@ const Container = styled.div`
 `;
 
 export default function TrainingGroupsDashboard() {
+  const dispatch = useDispatch<AppDispatch>();
+  const groupsStatus = useSelector(selectGroupsStatus);
+  const groupsError = useSelector(selectGroupsError);
+
+  useEffect(() => {
+    if (groupsStatus === "idle") {
+      dispatch(fetchGroups());
+    }
+  }, [groupsStatus, dispatch]);
+
+  if (groupsStatus === "loading") {
+    return <div>Loading groups...</div>;
+  }
+
+  if (groupsStatus === "failed") {
+    return <div>Error: {groupsError}</div>;
+  }
+
   const widgets: WidgetConfig[] = [
     {
       layout: { w: 9, h: 40, x: 3, y: 60, i: "a" },

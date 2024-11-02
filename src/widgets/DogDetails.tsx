@@ -11,6 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { BROWN_DARK } from "../config/colors";
 import CustomDialog from "../components/CustomDialog";
 import DogForm from "../components/DogForm/DogForm";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 
 const Section = styled.section`
   flex: 1;
@@ -36,29 +37,6 @@ const NoProfile = styled.div`
   color: #888;
   font-size: 1.2em;
   padding: 50px 0;
-`;
-
-const WidgetHeader = styled.div`
-  height: 50px;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  direction: rtl;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 10px;
-`;
-
-const Body = styled.div`
-  flex: 1;
-  padding: 0 10px 10px 10px;
-  display: flex;
-  justify-content: space-between;
-  text-align: right;
-  gap: 10px;
-  width: 100%;
-  overflow: auto;
-  direction: rtl;
 `;
 
 interface LabelValueProps {
@@ -116,7 +94,7 @@ const DogDetails: React.FC = () => {
         </CustomDialog>
       </WidgetHeader>
 
-      <Body>
+      <WidgetBody>
         <Section>
           <LabelValue label="שם הכלב:" value={dogName} />
           <LabelValue label="צבע:" value={color} />
@@ -141,7 +119,7 @@ const DogDetails: React.FC = () => {
             </>
           )}
         </Section>
-      </Body>
+      </WidgetBody>
     </>
   );
 };

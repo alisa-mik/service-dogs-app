@@ -2,26 +2,60 @@
 
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchGroups, selectAllGroups } from "../store/trainingGroupsSlice";
+import {
+  fetchGroups,
+  selectGroupIds,
+  selectGroups,
+  setSelectedGroup,
+  selectGroupsStatus,
+  selectGroupsError,
+} from "../store/trainingGroupsSlice";
 import { AppDispatch } from "../store";
+import { CardContainer } from "../components/UpdateCardStyles";
+import { Column } from "../components/commonParts/Layouts";
+import { Label } from "../components/commonParts/Labels";
 
 const GroupList1: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const groups = useSelector(selectAllGroups);
+  // Get groupIds and groups from the store
+  const groupIds = useSelector(selectGroupIds);
+  const groupsStatus = useSelector(selectGroupsStatus);
+  const groupsError = useSelector(selectGroupsError);
 
-  console.log({ groups });
-
+  // Fetch groups when the component mounts if not already loaded
   useEffect(() => {
-    dispatch(fetchGroups());
-  }, [dispatch]);
+    if (groupsStatus === "idle") {
+      dispatch(fetchGroups());
+    }
+  }, [groupsStatus, dispatch]);
+
+  const handleGroupClick = (groupId: string) => {
+    dispatch(setSelectedGroup(groupId));
+  };
+
+  if (groupsStatus === "loading") {
+    return <div>Loading groups...</div>;
+  }
+
+  if (groupsStatus === "failed") {
+    return <div>Error: {groupsError}</div>;
+  }
 
   return (
-    <div>
-      {groups?.map((group) => (
-        <div key={group.groupId}>{group.groupId}</div>
-      ))}
-    </div>
+    <Column>
+      {groupIds?.map((groupId) => {
+        return (
+          <CardContainer
+            key={groupId}
+            onClick={() => handleGroupClick(groupId)}
+            style={{ cursor: "pointer", opacity: 1 }}
+          >
+            <Label>{groupId}</Label>
+          </CardContainer>
+        );
+      })}
+    </Column>
   );
 };
 

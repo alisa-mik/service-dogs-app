@@ -101,7 +101,7 @@ export default function DogProfile() {
     []
   );
 
-  if (dogStatus === "loading" || updatesStatus === "loading") {
+  if (dogStatus === "loading") {
     return (
       <Center>
         <CircularProgress />

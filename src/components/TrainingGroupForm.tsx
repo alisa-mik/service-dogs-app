@@ -1,17 +1,13 @@
 import React from "react";
-import { v4 as uuidv4 } from "uuid";
 import { apiClient, apiConfig } from "../config/apiConfig";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store";
-import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
-import { fetchAllUpdates } from "../store/updatesSlice";
+
 import Form, { configType } from "./form/Form";
 
-const validate = (values: { content: string; date: string }) => {
-  const errors: { content?: string; date?: string } = {};
+const validate = (values: { groupId: string }) => {
+  const errors: { groupId?: string } = {};
 
   if (!values.groupId) {
-    errors.content = "שדה הקבוצה הוא שדה חובה";
+    errors.groupId = "שדה הקבוצה הוא שדה חובה";
   }
 
   return errors;
@@ -26,8 +22,6 @@ const TrainingGroupForm: React.FC<TrainingGroupFormProps> = ({
   data,
   onClose,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const onSubmit = async (values) => {
     console.log({ values });
 
@@ -70,7 +64,9 @@ const TrainingGroupForm: React.FC<TrainingGroupFormProps> = ({
           itemGroup: "input",
           itemType: "checkbox",
           path: "active",
-          label: "פעילה:",
+          itemProps: {
+            label: "פעילה:",
+          },
         },
       ],
     },

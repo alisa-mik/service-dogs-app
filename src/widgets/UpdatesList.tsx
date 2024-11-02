@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { fetchAllUpdates, selectAllUpdates } from "../store/updatesSlice";
 import UpdateCard from "../components/UpdateCard";
-import { Center } from "../components/commonParts/Layouts";
+import { Center, WidgetBody } from "../components/commonParts/Layouts";
 import { useEffect, useMemo, useState } from "react";
 import { categoriesTranslation } from "../config/categories";
 import { Update } from "../types/dogTypes";
@@ -22,18 +22,6 @@ const UpdatesContainer = styled.div`
   gap: 10px;
   width: 100%;
   overflow: auto;
-`;
-
-const Body = styled.div`
-  flex: 1;
-  padding: 0 10px 10px 10px;
-  display: flex;
-  flex-direction: column;
-  direction: rtl;
-
-  gap: 10px;
-  width: 100%;
-  overflow: hidden;
 `;
 
 interface UpdatesListProps {
@@ -77,13 +65,13 @@ export const UpdatesList = ({ dogId }: UpdatesListProps) => {
   };
 
   return (
-    <Body>
+    <WidgetBody>
       <CategoryFilter
         categories={categories}
         selectedCategories={selectedCategories}
         onChange={setSelectedCategories}
       />
       <UpdatesContainer>{renderUpdates()}</UpdatesContainer>
-    </Body>
+    </WidgetBody>
   );
 };
