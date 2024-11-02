@@ -39,6 +39,10 @@ const NoProfile = styled.div`
 	padding: 50px 0;
 `;
 
+const Body = styled(WidgetBody)`
+	flex-wrap: wrap;
+`;
+
 interface LabelValueProps {
 	label: string;
 	value: React.ReactNode;
@@ -79,8 +83,6 @@ const DogDetails: React.FC = () => {
 		birthDate,
 	} = dog as Dog;
 
-	console.log({ dog });
-
 	return (
 		<>
 			<WidgetHeader>
@@ -98,7 +100,7 @@ const DogDetails: React.FC = () => {
 				</CustomDialog>
 			</WidgetHeader>
 
-			<WidgetBody>
+			<Body>
 				<Section>
 					<LabelValue label="שם הכלב:" value={dogName} />
 					<LabelValue label="צבע:" value={color} />
@@ -129,7 +131,7 @@ const DogDetails: React.FC = () => {
 						</>
 					)}
 				</Section>
-			</WidgetBody>
+			</Body>
 		</>
 	);
 };
