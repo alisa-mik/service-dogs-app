@@ -12,6 +12,11 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
 `;
 
+const ButtonSingleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export type configType = {
   itemGroup: "section" | "input";
   itemType: InputType | string; // secionType
@@ -23,12 +28,13 @@ export type configType = {
 
 interface Iform {
   formType: "steps" | "single";
-  data?: { [key: string]: any };
-  config?: configType[];
+  data: { [key: string]: any };
+  config: configType[];
+  validate: (values: { [key: string]: any }) => { [key: string]: any };
   onSubmit: (values: { [key: string]: any }) => void;
 }
 
-const Form = ({ data = d, config = c, onSubmit, formType }: Iform) => {
+const Form = ({ data, config, onSubmit, formType, validate }: Iform) => {
   const [currentStep, setCurrentStep] = useState(0);
   const lastStepIndex = config.length - 1;
 
@@ -36,6 +42,7 @@ const Form = ({ data = d, config = c, onSubmit, formType }: Iform) => {
     [key: string]: any;
   }>({
     initialValues: data,
+    validate: validate,
     onSubmit: onSubmit,
   });
 
@@ -72,13 +79,17 @@ const Form = ({ data = d, config = c, onSubmit, formType }: Iform) => {
 
   const renderButtons = () => {
     if (formType === "single")
-      return <ButtonGroup>{renderButton("שלח", noop, "submit")}</ButtonGroup>;
+      return (
+        <ButtonSingleContainer>
+          {renderButton("שלח", noop, "submit")}
+        </ButtonSingleContainer>
+      );
 
     return (
       <ButtonGroup>
+        {currentStep > 0 ? renderButton("חזור", prevStep) : <span></span>}
         {currentStep < lastStepIndex && renderButton("הבא", nextStep)}
         {currentStep === lastStepIndex && renderButton("שלח", noop, "submit")}
-        {currentStep > 0 && renderButton("חזור", prevStep)}
       </ButtonGroup>
     );
   };

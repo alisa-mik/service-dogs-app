@@ -10,49 +10,37 @@ import Form, { configType } from "./form/Form";
 const validate = (values: { content: string; date: string }) => {
   const errors: { content?: string; date?: string } = {};
 
-  if (!values.content.trim()) {
-    errors.content = "שדה התוכן הוא שדה חובה";
-  }
-
-  if (!values.date) {
-    errors.date = "יש לבחור תאריך";
+  if (!values.groupId) {
+    errors.content = "שדה הקבוצה הוא שדה חובה";
   }
 
   return errors;
 };
 
-interface AddUpdateFormProps {
-  dogId: string;
-  handleClose: () => void;
+interface TrainingGroupFormProps {
+  data: any;
+  onClose: () => void;
 }
 
-const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
-  dogId,
-  handleClose,
+const TrainingGroupForm: React.FC<TrainingGroupFormProps> = ({
+  data,
+  onClose,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const initialValues = {
-    content: "",
-    categories: [],
-    date: new Date().toISOString().split("T")[0],
-  };
-
   const onSubmit = async (values) => {
+    console.log({ values });
+
     try {
-      const updateId = uuidv4();
-
-      await apiClient.post(apiConfig.addUpdate, {
-        updateId: updateId,
-        dogId: dogId,
-        content: values.content,
-        categories: values.categories,
-        date: values.date,
+      await apiClient.post(apiConfig.addTrainingGroup, {
+        groupId: values.groupId,
+        startDate: values.startDate,
+        active: values.active,
       });
-
-      handleClose();
-      dispatch(fetchUpdatesByDogId(dogId));
-      dispatch(fetchAllUpdates({}));
+      alert("yey");
+      onClose();
+      //   dispatch(fetchUpdatesByDogId(dogId));
+      //   dispatch(fetchAllUpdates({}));
     } catch (error) {
       console.error("Error adding update:", error);
     }
@@ -65,23 +53,24 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
       items: [
         {
           itemGroup: "input",
-          itemType: "texterea",
-          path: "content",
-          label: "תוכן:",
-          itemProps: {
-            placeholder: "הכנס תוכן כאן...",
-          },
+          itemType: "text",
+          path: "groupId",
+          label: "קבוצה:",
+          //   itemProps: {
+          //     placeholder: "הכנס תוכן כאן...",
+          //   },
         },
         {
           itemGroup: "input",
           itemType: "date",
-          path: "date",
-          label: "תאריך",
+          path: "startDate",
+          label: "תאריך התחלה",
         },
         {
           itemGroup: "input",
-          itemType: "category",
-          path: "categories",
+          itemType: "checkbox",
+          path: "active",
+          label: "פעילה:",
         },
       ],
     },
@@ -91,11 +80,11 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
     <Form
       formType="single"
       config={config}
-      data={initialValues}
+      data={data}
       validate={validate}
       onSubmit={onSubmit}
     />
   );
 };
 
-export default AddUpdateForm;
+export default TrainingGroupForm;

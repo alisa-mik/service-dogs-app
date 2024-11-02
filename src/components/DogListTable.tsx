@@ -158,7 +158,6 @@ export const DogListTable: React.FC = () => {
         ...commonProps,
         field: "momDog",
         headerName: "שם האם",
-        valueGetter: (value, row) => `${row.momDog ? row.momDog.dogName : "-"}`,
       },
       {
         ...commonProps,

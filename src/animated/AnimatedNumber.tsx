@@ -9,7 +9,7 @@ export default function AnimatedNumber({ target }: { target: number }) {
   useEffect(() => {
     const controls = animate(count, target, { duration: 2 });
     return () => controls.stop();
-  }, []);
+  }, [target]);
 
   return (
     <motion.div
