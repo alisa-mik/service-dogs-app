@@ -7,37 +7,39 @@ import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 
 export default function GroupsList() {
-  const [open, setOpen] = useState<boolean>(false);
+	const [open, setOpen] = useState<boolean>(false);
 
-  const handleClose = () => {
-    console.log("close");
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-    setOpen(false);
-  };
+	const data = {
+		groupId: "",
+		startDate: "",
+		endDate: "",
+		active: true,
+		dogIds: [],
+		familyIds: [],
+		meetings: [],
+		updates: [],
+	};
 
-  const data = {
-    groupId: "",
-    startDate: "",
-    endDate: "",
-    active: true,
-    dogIds: [],
-    familyIds: [],
-    meetings: [],
-    updates: [],
-  };
-
-  return (
-    <>
-      <WidgetHeader>
-        <WidgetTitle>קבוצות</WidgetTitle>
-        <Button onClick={() => setOpen(true)}>הוסף קבוצה</Button>
-      </WidgetHeader>
-      <WidgetBody>
-        <CustomDialog open={open} title="הוספת קבוצה חדשה">
-          <TrainingGroupForm onClose={handleClose} data={data} />
-        </CustomDialog>
-        <GroupList1 />
-      </WidgetBody>
-    </>
-  );
+	return (
+		<>
+			<WidgetHeader>
+				<WidgetTitle>קבוצות</WidgetTitle>
+				<Button onClick={() => setOpen(true)}>הוסף קבוצה</Button>
+			</WidgetHeader>
+			<WidgetBody>
+				<CustomDialog
+					onClose={handleClose}
+					open={open}
+					title="הוספת קבוצה חדשה"
+				>
+					<TrainingGroupForm onClose={handleClose} data={data} />
+				</CustomDialog>
+				<GroupList1 />
+			</WidgetBody>
+		</>
+	);
 }
