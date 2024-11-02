@@ -14,6 +14,8 @@ import {
   selectGroupsStatus,
 } from "../store/trainingGroupsSlice";
 import { useEffect } from "react";
+import { CircularProgress } from "@mui/material";
+import { Center } from "../components/commonParts/Layouts";
 
 const Container = styled.div`
   width: 100%;
@@ -36,7 +38,11 @@ export default function TrainingGroupsDashboard() {
   }, [groupsStatus, dispatch]);
 
   if (groupsStatus === "loading") {
-    return <div>Loading groups...</div>;
+    return (
+      <Center>
+        <CircularProgress />
+      </Center>
+    );
   }
 
   if (groupsStatus === "failed") {

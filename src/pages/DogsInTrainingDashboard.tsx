@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import { ProjectsDogsList } from "../widgets/ProjectDogsList";
 
 const Container = styled.div`
   width: 100%;
@@ -32,7 +31,7 @@ export const DogsInTrainingDashboard = () => {
       widget: {
         props: {},
         display: true,
-        type: ProjectsDogsList,
+        type: Container,
       },
     },
   ];

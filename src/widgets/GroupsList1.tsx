@@ -14,6 +14,7 @@ import { AppDispatch } from "../store";
 import { CardContainer } from "../components/UpdateCardStyles";
 import { Column } from "../components/commonParts/Layouts";
 import { Label } from "../components/commonParts/Labels";
+import { CircularProgress } from "@mui/material";
 
 const GroupList1: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -35,7 +36,7 @@ const GroupList1: React.FC = () => {
   };
 
   if (groupsStatus === "loading") {
-    return <div>Loading groups...</div>;
+    return <CircularProgress />;
   }
 
   if (groupsStatus === "failed") {
