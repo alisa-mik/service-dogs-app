@@ -55,7 +55,7 @@ export default function TrainingGroupsDashboard() {
       widget: {
         props: {},
         display: true,
-        type: GroupAttendance,
+        type: GroupTeams,
       },
     },
     {
@@ -71,7 +71,7 @@ export default function TrainingGroupsDashboard() {
       widget: {
         props: {},
         display: true,
-        type: GroupUpdates,
+        type: GroupAttendance,
       },
     },
     {
@@ -95,7 +95,7 @@ export default function TrainingGroupsDashboard() {
       widget: {
         props: {},
         display: true,
-        type: GroupTeams,
+        type: GroupUpdates,
       },
     },
   ];
