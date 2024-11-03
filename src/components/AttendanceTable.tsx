@@ -2,30 +2,25 @@
 import React, { useEffect, useState } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { formatDateFromSeconds } from "../utils/converts";
-// import { CircularProgress } from "@mui/material";
-// import { useDispatch, useSelector } from "react-redux";
-// import { fetchDogs } from "../store/dogsSlice";
+import { useSelector } from "react-redux";
 import { Table } from "./table/Table";
-// import { Center } from "./commonParts/Layouts";
-import { groupData } from "../config/groupAttendence";
 import VCell from "./table/VCell";
 import { Center } from "./commonParts/Layouts";
 import { isEmpty } from "lodash";
+import {
+	selectSelectedGroupDogs,
+	selectSelectedGroupUpdates,
+} from "../store/trainingGroupsSlice";
 
 const AttendanceTable: React.FC = () => {
-	// const {
-	// 	dogs,
-	// 	status: dogStatus,
-	// 	error: dogError,
-	// } = useSelector((state: RootState) => state.dogs);
-
+	const gruopDogs = useSelector(selectSelectedGroupDogs);
+	const groupUpdates = useSelector(selectSelectedGroupUpdates);
 	const [enrichUpdates, setEnrichUpdates] = useState<any>([]);
 
 	useEffect(() => {
-		const attendanceUpdates = groupData.groups.group1.updates.filter(
+		const attendanceUpdates = groupUpdates.filter(
 			(update) => update.type === "meeting"
 		);
-		const gruopDogs = groupData.groups.group1.dogs;
 
 		const enrich = attendanceUpdates.map((en) => {
 			return gruopDogs.reduce(
@@ -40,7 +35,7 @@ const AttendanceTable: React.FC = () => {
 		});
 
 		setEnrichUpdates(enrich);
-	}, []);
+	}, [groupUpdates, gruopDogs]);
 
 	const getColumns = () => {
 		const columns: GridColDef[] = [
@@ -52,7 +47,7 @@ const AttendanceTable: React.FC = () => {
 			},
 		];
 
-		groupData.groups.group1.dogs.forEach((dog) => {
+		gruopDogs.forEach((dog) => {
 			columns.push({
 				field: dog.dogName,
 				headerName: dog.dogName,
