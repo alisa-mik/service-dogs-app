@@ -6,7 +6,7 @@ interface CategoryTagProps {
     color: string;
 }
 
-export const CardContainer = styled.div<{ selected: boolean }>`
+export const CardContainer = styled.div<{ selected?: boolean }>`
     direction: rtl;
     padding: 15px;
     border-radius: 8px;
@@ -49,7 +49,7 @@ export const Content = styled.div<{ expanded: boolean }>`
     font-size: 16px;
     color: ${BROWN_DARK};
     overflow: hidden;
-    height:  ${({ expanded }) => (expanded ? 'fit-content' : "30px")};
+    height:  ${({ expanded }) => (expanded ? 'fit-content' : "29px")};
     max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 
     transition: all 2s ease;
 `;

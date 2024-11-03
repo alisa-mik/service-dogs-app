@@ -6,7 +6,7 @@ import {
   CategoriesContainer,
   CategoryTag,
   Content,
-  ToggleIndicator,
+  // ToggleIndicator,
   DogInfo,
   MainContent,
 } from "./UpdateCardStyles";
@@ -19,7 +19,7 @@ import {
   DEFAULT_CATEGORY_COLOR,
 } from "../config/colors";
 import DateText from "./commonParts/DateText";
-import { Gap } from "./commonParts/Layouts";
+import { Gap, Row } from "./commonParts/Layouts";
 import HoveredButtons from "./commonParts/HoveredBox";
 import { useAnimate } from "framer-motion";
 interface UpdateCardProps {
@@ -30,6 +30,13 @@ interface UpdateCardProps {
 const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
   const [expanded, setExpanded] = useState(false);
   const [scope, animate] = useAnimate();
+  const [hover, setHover] = useState(false);
+
+  console.log({ update });
+
+  const modifiedUpdate = update.attendance
+    ? { ...update, categories: ["groupTraining"] }
+    : update;
 
   useEffect(() => {
     scope.current &&
@@ -40,22 +47,23 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
-    // console.log(`Card ${update.updateId} expanded: ${!expanded}`);
   };
 
   const renderCategories = () => {
     return (
       <Gap>
-        <CategoriesContainer>
-          {update.categories.map((category) => {
-            const color = CATEGORY_COLORS[category] || DEFAULT_CATEGORY_COLOR;
-            return (
-              <CategoryTag key={category} color={color}>
-                {categoriesTranslation[category]}
-              </CategoryTag>
-            );
-          })}
-        </CategoriesContainer>
+        {modifiedUpdate.categories && (
+          <CategoriesContainer>
+            {modifiedUpdate.categories.map((category) => {
+              const color = CATEGORY_COLORS[category] || DEFAULT_CATEGORY_COLOR;
+              return (
+                <CategoryTag key={category} color={color}>
+                  {categoriesTranslation[category]}
+                </CategoryTag>
+              );
+            })}
+          </CategoriesContainer>
+        )}
       </Gap>
     );
   };
@@ -66,9 +74,9 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
     };
 
     return (
-      <HoveredButtons>
-        <EditIcon onClick={handleClick} style={{ color: BROWN_DARK }} />
-      </HoveredButtons>
+      // <HoveredButtons>
+      <EditIcon onClick={handleClick} style={{ color: BROWN_DARK }} />
+      // </HoveredButtons>
     );
   };
 
@@ -86,13 +94,20 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
   };
 
   return (
-    <CardContainer ref={scope} onClick={toggleExpanded}>
-      {/* {renderButtons()} */}
+    <CardContainer
+      ref={scope}
+      onClick={toggleExpanded}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
       {renderDogInfo()}
       <MainContent>
         <HeaderRow>
           <DateText date={update.date} />
-          {renderCategories()}
+          <div style={{ display: "flex", gap: "10px" }}>
+            {renderCategories()}
+            {hover && renderButtons()}
+          </div>
         </HeaderRow>
         <Content expanded={expanded}>{update.content}</Content>
       </MainContent>

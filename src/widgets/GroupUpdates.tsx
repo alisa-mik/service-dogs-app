@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { selectSelectedGroup } from "../store/trainingGroupsSlice";
-import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import {
+  Column,
+  Gap,
+  WidgetBody,
+  WidgetHeader,
+} from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { Button } from "../components/commonParts/Buttons";
 import CustomDialog from "../components/CustomDialog";
 import GroupUpdateForm from "../components/GroupUpdateForm";
+import UpdateCard from "../components/UpdateCard";
 
 export const GroupUpdates: React.FC = () => {
   const [openMeeting, setOpenMeetingForm] = useState<boolean>(false);
@@ -19,7 +25,10 @@ export const GroupUpdates: React.FC = () => {
 
   const { updates } = selectedGroup;
 
-  const sortedUpdates = (updates || []).slice().sort((a, b) => b.date - a.date);
+  const sortedUpdates = (updates || [])
+    .slice()
+    .sort((a, b) => b.date - a.date)
+    .reverse();
 
   const handleClose = () => {
     setOpenMeetingForm(false);
@@ -59,16 +68,19 @@ export const GroupUpdates: React.FC = () => {
         {(!updates || updates.length === 0) && (
           <div>אין עדכונים או מפגשים בקבוצה זו</div>
         )}
-        {sortedUpdates.map((event) => (
-          <div key={event.id}>
-            <strong>{event.type === "meeting" ? "סיכום מפגש" : "עדכון"}</strong>
-            : {new Date(event.date * 1000).toLocaleDateString()}
-            <div>{event.content || ""}</div>
-            {event.type === "meeting" && event.attendance && (
-              <div>משתתפים: {event.attendance.join(", ")}</div>
-            )}
-          </div>
-        ))}
+        <Column>
+          {sortedUpdates.map((update, index) => (
+            <UpdateCard update={update} index={index} />
+            // <div key={event.id}>
+            //   <strong>{event.type === "meeting" ? "סיכום מפגש" : "עדכון"}</strong>
+            //   : {new Date(event.date * 1000).toLocaleDateString()}
+            //   <div>{event.content || ""}</div>
+            //   {event.type === "meeting" && event.attendance && (
+            //     <div>משתתפים: {event.attendance.join(", ")}</div>
+            //   )}
+            // </div>
+          ))}
+        </Column>
       </WidgetBody>
     </>
   );

@@ -6,12 +6,13 @@ export interface Author {
 }
 
 export interface Update {
-    dogId: string;
+    dogId?: string;
     updateId: string;
     date: number;
-    author: Author;
-    categories: string[];
+    author?: Author;
     content: string;
+    categories?: string[];
+    attendance?: string[]
     dogDetails?: DogDetailsForUpdate
 }
 
