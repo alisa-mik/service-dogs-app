@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
-import { apiClient } from "../config/apiConfig.ts";
+import { apiClient, apiConfig } from "../config/apiConfig.ts";
 import Form, { configType } from "./form/Form.tsx";
+import { selectSelectedGroupDogs } from "../store/trainingGroupsSlice.ts";
 
 const GroupUpdateForm = ({
   onClose,
@@ -13,20 +14,25 @@ const GroupUpdateForm = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const selectedGroupDogs = useSelector(selectSelectedGroupDogs);
+
   const onSubmit = async (values) => {
     const formattedValues = {
       ...values,
       updateId: values.updateId ? values.updateId : uuidv4(),
     };
-    // const response = await apiClient.post("add-dog", formattedValues);
-    // alert("כלב נוסף בהצלחה!");
     console.log({ formattedValues });
+    const response = await apiClient.post(
+      apiConfig.addGroupTrainingUpdate,
+      formattedValues
+    );
+    alert("עדכון קבוצתי נוסף בהצלחה!");
     // onClose();
     // {
     //   values.dogId && dispatch(refetchDogById(values.dogId));
     // }
     // dispatch(refetchDogs());
-    // return response.data;
+    return response.data;
   };
 
   const attendanceSection: configType = {
@@ -35,8 +41,11 @@ const GroupUpdateForm = ({
     items: [
       {
         itemGroup: "input",
-        itemType: "text",
-        path: "content",
+        itemType: "attendance",
+        itemProps: {
+          dogs: selectedGroupDogs,
+        },
+        path: "attendance",
         label: "נוכחות:",
       },
     ],
@@ -50,7 +59,7 @@ const GroupUpdateForm = ({
         {
           itemGroup: "input",
           itemType: "date",
-          path: "birthDate",
+          path: "date",
           label: "תאריך:",
         },
         {

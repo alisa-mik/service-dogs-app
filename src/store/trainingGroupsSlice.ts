@@ -1,10 +1,9 @@
-// src/slices/trainingGroupsSlice.ts
+
 
 import { createAsyncThunk, createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
 
-// Dog interface remains the same
 export interface Dog {
   dogId: string;
   dogName: string;
@@ -15,18 +14,16 @@ export interface Dog {
   gender: string;
 }
 
-// Update interface now includes 'type' and optional 'attendance'
 export interface Update {
   id: string;
-  type: "meeting" | "update"; // type can be "meeting" or "update"
+  type: "meeting" | "update";
   date: number;
   content: string;
-  attendance?: string[]; // Only present if type is "meeting"
+  attendance?: string[]; 
+
 }
 
-// Remove the Meeting interface, as it's no longer needed
 
-// Group interface updated to remove 'meetings' and only have 'updates'
 export interface Group {
   groupId: string;
   startDate: number;
@@ -36,10 +33,9 @@ export interface Group {
   dogs: Dog[];
   familyIds: string[];
   updates: Update[];
-  // 'meetings' removed as per your request
 }
 
-// GroupsState interface remains the same
+
 interface GroupsState {
   groupIds: string[];
   groups: { [groupId: string]: Group };
@@ -147,7 +143,6 @@ export const selectAllGroups = createSelector(
 export const selectGroupById = (state: RootState, groupId: string) =>
   state.trainingGroups.groups[groupId];
 
-// Select all dogs from all groups
 export const selectAllGroupDogs = createSelector(
   [selectAllGroups],
   (groups) => groups.flatMap((group) => group.dogs || [])
@@ -168,6 +163,6 @@ export const selectSelectedGroupDogs = createSelector(
   [selectSelectedGroup],
   (selectedGroup) => (selectedGroup ? selectedGroup.dogs : [])
 );
-// Remove selectAllMeetings, as meetings are now part of updates
+
 
 export default trainingGroupsSlice.reducer;

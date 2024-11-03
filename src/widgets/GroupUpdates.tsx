@@ -30,6 +30,7 @@ export const GroupUpdates: React.FC = () => {
     date: "",
     content: "",
     attendance: [],
+    groupId: selectedGroup.groupId,
   };
 
   return (
