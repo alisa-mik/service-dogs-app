@@ -70,7 +70,7 @@ export const GroupUpdates: React.FC = () => {
         )}
         <Column>
           {sortedUpdates.map((update, index) => (
-            <UpdateCard update={update} index={index} />
+            <UpdateCard key={update.updateId} update={update} index={index} />
             // <div key={event.id}>
             //   <strong>{event.type === "meeting" ? "סיכום מפגש" : "עדכון"}</strong>
             //   : {new Date(event.date * 1000).toLocaleDateString()}

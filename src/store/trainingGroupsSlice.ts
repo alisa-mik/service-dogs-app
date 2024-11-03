@@ -15,7 +15,7 @@ export interface Dog {
 }
 
 export interface Update {
-  id: string;
+  updateId: string;
   type: "meeting" | "update";
   date: number;
   content: string;

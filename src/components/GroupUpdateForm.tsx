@@ -21,7 +21,6 @@ const GroupUpdateForm = ({
       ...values,
       updateId: values.updateId ? values.updateId : uuidv4(),
     };
-    console.log({ formattedValues });
     const response = await apiClient.post(
       apiConfig.addGroupTrainingUpdate,
       formattedValues
