@@ -8,7 +8,8 @@ import CustomDialog from "../components/CustomDialog";
 import GroupUpdateForm from "../components/GroupUpdateForm";
 
 export const GroupUpdates: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
+  const [openMeeting, setOpenMeetingForm] = useState<boolean>(false);
+  const [openUpdate, setOpenUpdateForm] = useState<boolean>(false);
 
   const selectedGroup = useSelector(selectSelectedGroup);
 
@@ -21,11 +22,11 @@ export const GroupUpdates: React.FC = () => {
   const sortedUpdates = (updates || []).slice().sort((a, b) => b.date - a.date);
 
   const handleClose = () => {
-    setOpen(false);
+    setOpenMeetingForm(false);
+    setOpenUpdateForm(false);
   };
 
   const data = {
-    type: "meeting",
     date: "",
     content: "",
     attendance: [],
@@ -35,10 +36,21 @@ export const GroupUpdates: React.FC = () => {
     <>
       <WidgetHeader>
         <WidgetTitle>עדכונים ומפגשים</WidgetTitle>
-        <Button onClick={() => setOpen(true)}>הוסף סיכום מפגש</Button>
-        <Button onClick={() => setOpen(true)}>הוסף עדכון</Button>
-        <CustomDialog onClose={handleClose} open={open}>
-          <GroupUpdateForm onClose={handleClose} data={data} type="meeting" />
+        <Button onClick={() => setOpenMeetingForm(true)}>
+          הוסף סיכום מפגש
+        </Button>
+        <Button onClick={() => setOpenUpdateForm(true)}>הוסף עדכון</Button>
+        <CustomDialog onClose={handleClose} open={openMeeting}>
+          <GroupUpdateForm
+            onClose={handleClose}
+            data={{ ...data, type: "meeting" }}
+          />
+        </CustomDialog>
+        <CustomDialog onClose={handleClose} open={openUpdate}>
+          <GroupUpdateForm
+            onClose={handleClose}
+            data={{ ...data, type: "update" }}
+          />
         </CustomDialog>
       </WidgetHeader>
 

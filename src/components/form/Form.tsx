@@ -61,6 +61,7 @@ const Form = ({ data, config, onSubmit, formType, validate }: Iform) => {
         sectionType={config[currentStep].itemType}
         config={config[currentStep].items as configType[]}
         formik={formik}
+        itemProps={config[currentStep].itemProps}
       />
     );
   };
