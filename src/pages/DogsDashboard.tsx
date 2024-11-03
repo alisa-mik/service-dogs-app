@@ -29,7 +29,9 @@ export default function DogDashboard() {
 		{
 			layout: { w: 10, h: 63, x: 2, y: 36, i: "a" },
 			widget: {
-				props: {},
+				props: {
+					showExpnded: true,
+				},
 				display: true,
 				type: DogTable,
 			},

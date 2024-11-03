@@ -47,7 +47,7 @@ const AttendanceTable: React.FC = () => {
 			{
 				field: "date",
 				headerName: "תאריך פגישה",
-				width: 150,
+				width: 120,
 				valueGetter: (value, row) => formatDateFromSeconds(row.date),
 			},
 		];
@@ -56,7 +56,9 @@ const AttendanceTable: React.FC = () => {
 			columns.push({
 				field: dog.dogName,
 				headerName: dog.dogName,
+				width: 60,
 				renderCell: VCell,
+				sortable: false,
 			});
 		});
 
