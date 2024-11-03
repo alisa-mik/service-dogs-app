@@ -1,45 +1,65 @@
-import { useState } from "react";
-import { Button } from "../components/commonParts/Buttons";
-import CustomDialog from "../components/CustomDialog";
-import TrainingGroupForm from "../components/TrainingGroupForm";
-import GroupList1 from "./GroupsList1";
-import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
-import { WidgetTitle } from "../components/commonParts/Labels";
+// src/components/GroupList.tsx
 
-export default function GroupsList() {
-	const [open, setOpen] = useState<boolean>(false);
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import {
+	fetchGroups,
+	selectGroupIds,
+	selectSelectedGroupId,
+	setSelectedGroup,
+	selectGroupsStatus,
+	selectGroupsError,
+} from "../store/trainingGroupsSlice";
+import { AppDispatch } from "../store";
+import { CardContainer } from "../components/UpdateCardStyles";
+import { Column } from "../components/commonParts/Layouts";
+import { Label } from "../components/commonParts/Labels";
+import { CircularProgress } from "@mui/material";
 
-	const handleClose = () => {
-		setOpen(false);
+const GroupList1: React.FC = () => {
+	const dispatch = useDispatch<AppDispatch>();
+
+	// Get groupIds and groups from the store
+	const selectedGroupId = useSelector(selectSelectedGroupId);
+	const groupIds = useSelector(selectGroupIds);
+	const groupsStatus = useSelector(selectGroupsStatus);
+	const groupsError = useSelector(selectGroupsError);
+
+	// Fetch groups when the component mounts if not already loaded
+	useEffect(() => {
+		if (groupsStatus === "idle") {
+			dispatch(fetchGroups());
+		}
+	}, [groupsStatus, dispatch]);
+
+	const handleGroupClick = (groupId: string) => {
+		dispatch(setSelectedGroup(groupId));
 	};
 
-	const data = {
-		groupId: "",
-		startDate: "",
-		endDate: "",
-		active: true,
-		dogIds: [],
-		familyIds: [],
-		meetings: [],
-		updates: [],
-	};
+	if (groupsStatus === "loading") {
+		return <CircularProgress />;
+	}
+
+	if (groupsStatus === "failed") {
+		return <div>Error: {groupsError}</div>;
+	}
 
 	return (
-		<>
-			<WidgetHeader>
-				<WidgetTitle>קבוצות</WidgetTitle>
-				<Button onClick={() => setOpen(true)}>הוסף קבוצה</Button>
-			</WidgetHeader>
-			<WidgetBody>
-				<CustomDialog
-					onClose={handleClose}
-					open={open}
-					title="הוספת קבוצה חדשה"
-				>
-					<TrainingGroupForm onClose={handleClose} data={data} />
-				</CustomDialog>
-				<GroupList1 />
-			</WidgetBody>
-		</>
+		<Column>
+			{groupIds?.map((groupId) => {
+				return (
+					<CardContainer
+						selected={selectedGroupId === groupId}
+						key={groupId}
+						onClick={() => handleGroupClick(groupId)}
+						style={{ cursor: "pointer", opacity: 1 }}
+					>
+						<Label>{groupId}</Label>
+					</CardContainer>
+				);
+			})}
+		</Column>
 	);
-}
+};
+
+export default GroupList1;

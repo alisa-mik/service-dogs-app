@@ -3,7 +3,7 @@ import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { GroupTeams } from "../widgets/GroupTeams";
 import { GroupAttendance } from "../widgets/GroupAttendance";
-import GroupsList from "../widgets/GroupsList";
+import GroupsList from "../widgets/GroupsWidget";
 import GroupDetails from "../widgets/GroupDetails";
 import GroupUpdates from "../widgets/GroupUpdates";
 import { useDispatch, useSelector } from "react-redux";

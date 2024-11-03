@@ -19,7 +19,7 @@ export interface Update {
   type: "meeting" | "update";
   date: number;
   content: string;
-  attendance?: string[]; 
+  attendance?: string[];
 
 }
 
@@ -38,7 +38,7 @@ export interface Group {
 
 interface GroupsState {
   groupIds: string[];
-  groups: { [groupId: string]: Group };
+  groups: { [ groupId: string ]: Group };
   selectedGroupId: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
@@ -84,6 +84,7 @@ const trainingGroupsSlice = createSlice({
         state.status = "succeeded";
         state.groupIds = action.payload.groupIds;
         state.groups = action.payload.groups;
+        state.selectedGroupId = action.payload.groupIds[ 0 ]
         state.error = null;
       })
       .addCase(fetchGroups.rejected, (state, action) => {
@@ -123,8 +124,8 @@ export const selectSelectedGroupId = (state: RootState) => state.trainingGroups.
 
 // Select selectedGroup object
 export const selectSelectedGroup = createSelector(
-  [selectGroups, selectSelectedGroupId],
-  (groups, selectedGroupId) => (selectedGroupId ? groups[selectedGroupId] : null)
+  [ selectGroups, selectSelectedGroupId ],
+  (groups, selectedGroupId) => (selectedGroupId ? groups[ selectedGroupId ] : null)
 );
 
 // Select status
@@ -135,32 +136,32 @@ export const selectGroupsError = (state: RootState) => state.trainingGroups.erro
 
 // Select all groups as an array
 export const selectAllGroups = createSelector(
-  [selectGroups],
+  [ selectGroups ],
   (groups) => Object.values(groups)
 );
 
 // Select specific group by ID
 export const selectGroupById = (state: RootState, groupId: string) =>
-  state.trainingGroups.groups[groupId];
+  state.trainingGroups.groups[ groupId ];
 
 export const selectAllGroupDogs = createSelector(
-  [selectAllGroups],
+  [ selectAllGroups ],
   (groups) => groups.flatMap((group) => group.dogs || [])
 );
 
 // Select all updates from all groups (includes both updates and meetings)
 export const selectAllUpdates = createSelector(
-  [selectAllGroups],
+  [ selectAllGroups ],
   (groups) => groups.flatMap((group) => group.updates || [])
 );
 export const selectSelectedGroupUpdates = createSelector(
-  [selectSelectedGroup],
+  [ selectSelectedGroup ],
   (selectedGroup) => (selectedGroup ? selectedGroup.updates : [])
 );
 
 // Selector to get the dogs of the selected group
 export const selectSelectedGroupDogs = createSelector(
-  [selectSelectedGroup],
+  [ selectSelectedGroup ],
   (selectedGroup) => (selectedGroup ? selectedGroup.dogs : [])
 );
 

@@ -1,13 +1,13 @@
 // src/components/UpdateCardStyles.tsx
 import styled from "styled-components";
-import { BROWN_DARK, WHITE } from "../config/colors";
+import { BEAMING_SUN, BROWN_DARK, WHITE } from "../config/colors";
 
 interface CategoryTagProps {
     color: string;
 }
 
-export const CardContainer = styled.div`
-    direction: rtl; /* Ensure RTL layout */
+export const CardContainer = styled.div<{ selected: boolean }>`
+    direction: rtl;
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #c2c2c2;
@@ -17,6 +17,7 @@ export const CardContainer = styled.div`
     display: flex;
     position: relative;
     opacity: 0;
+    background: ${({ selected }) => selected ? BEAMING_SUN : WHITE};
 
     &:hover {
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
