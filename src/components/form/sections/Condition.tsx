@@ -49,7 +49,7 @@ const Condition: React.FC<IConditions> = ({ config, formik, conditions }) => {
     });
   };
 
-  if (!renderSection) return <></>;
+  if (!renderSection) return undefined;
 
   return <>{renderSectionsAndInputs()}</>;
 };

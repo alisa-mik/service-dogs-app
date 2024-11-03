@@ -8,6 +8,7 @@ import Checkbox from "./inputs/CheckBox";
 import TextArea from "./inputs/TextArea";
 import CategoryInput from "./inputs/CategoryInput";
 import styled from "styled-components";
+import { AttendanceInput } from "./inputs/AttendanceInput";
 
 const ErrorText = styled.div`
   color: red;
@@ -51,6 +52,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     checkbox: Checkbox,
     textarea: TextArea,
     category: CategoryInput,
+    attendance: AttendanceInput,
   };
 
   const Component = inputsMap[inputType];

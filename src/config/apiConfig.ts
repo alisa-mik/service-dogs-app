@@ -16,6 +16,7 @@ export const apiConfig = {
     updates:"updates",
     updatesByDogIdEndPoint: "updates-by-dogId",
     addUpdate: "add-update",
+    trainingGroups: "training-groups",
     addTrainingGroup: "add-training-group",
-    trainingGroups: "training-groups"
+    addGroupTrainingUpdate: "add-group-training-update"
 };
