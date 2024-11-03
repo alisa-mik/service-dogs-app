@@ -20,7 +20,7 @@ export type InputType =
   | "text"
   | "date"
   | "checkbox"
-  | "texterea"
+  | "textarea"
   | "category";
 
 export interface IInput {
@@ -49,7 +49,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     date: DatePicker,
     select: Select,
     checkbox: Checkbox,
-    texterea: TextArea,
+    textarea: TextArea,
     category: CategoryInput,
   };
 

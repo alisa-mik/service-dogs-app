@@ -65,7 +65,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
       items: [
         {
           itemGroup: "input",
-          itemType: "texterea",
+          itemType: "textarea",
           path: "content",
           label: "תוכן:",
           itemProps: {

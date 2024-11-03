@@ -4,9 +4,11 @@ import { selectSelectedGroup } from "../store/trainingGroupsSlice";
 import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { Button } from "../components/commonParts/Buttons";
+import CustomDialog from "../components/CustomDialog";
+import GroupUpdateForm from "../components/GroupUpdateForm";
 
 export const GroupUpdates: React.FC = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   const selectedGroup = useSelector(selectSelectedGroup);
 
@@ -14,21 +16,20 @@ export const GroupUpdates: React.FC = () => {
     return <div>בחר קבוצה</div>;
   }
 
-  const { meetings, updates } = selectedGroup;
+  const { updates } = selectedGroup;
 
-  const normalizedMeetings = (meetings || []).map((meeting) => ({
-    ...meeting,
+  const sortedUpdates = (updates || []).slice().sort((a, b) => b.date - a.date);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const data = {
     type: "meeting",
-  }));
-
-  const normalizedUpdates = (updates || []).map((update) => ({
-    ...update,
-    type: "update",
-  }));
-
-  const combinedEvents = [...normalizedMeetings, ...normalizedUpdates].sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+    date: "",
+    content: "",
+    attendance: [],
+  };
 
   return (
     <>
@@ -36,18 +37,23 @@ export const GroupUpdates: React.FC = () => {
         <WidgetTitle>עדכונים ומפגשים</WidgetTitle>
         <Button onClick={() => setOpen(true)}>הוסף סיכום מפגש</Button>
         <Button onClick={() => setOpen(true)}>הוסף עדכון</Button>
+        <CustomDialog onClose={handleClose} open={open}>
+          <GroupUpdateForm onClose={handleClose} data={data} type="meeting" />
+        </CustomDialog>
       </WidgetHeader>
 
       <WidgetBody>
-        {(!meetings || meetings.length === 0) &&
-          (!updates || updates.length === 0) && (
-            <div>אין עדכונים או מפגשים בקבוצה זו</div>
-          )}
-        {combinedEvents.map((event, index) => (
-          <div key={index}>
+        {(!updates || updates.length === 0) && (
+          <div>אין עדכונים או מפגשים בקבוצה זו</div>
+        )}
+        {sortedUpdates.map((event) => (
+          <div key={event.id}>
             <strong>{event.type === "meeting" ? "סיכום מפגש" : "עדכון"}</strong>
-            : {new Date(event.date).toLocaleDateString()}
+            : {new Date(event.date * 1000).toLocaleDateString()}
             <div>{event.content || ""}</div>
+            {event.type === "meeting" && event.attendance && (
+              <div>משתתפים: {event.attendance.join(", ")}</div>
+            )}
           </div>
         ))}
       </WidgetBody>

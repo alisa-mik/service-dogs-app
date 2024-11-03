@@ -23,11 +23,13 @@ export const GroupTeams: React.FC = () => {
         <WidgetTitle>כלבים בקבוצה</WidgetTitle>
       </WidgetHeader>
       <WidgetBody>
-        {dogs.map((dog: any) => (
-          <div key={dog.dogId}>
-            <strong>{dog.dogName}</strong> ({dog.breed})
-          </div>
-        ))}
+        <div>
+          {dogs.map((dog: any) => (
+            <div key={dog.dogId}>
+              <strong>{dog.dogName}</strong> ({dog.breed})
+            </div>
+          ))}
+        </div>
       </WidgetBody>
     </>
   );
