@@ -84,7 +84,7 @@ const trainingGroupsSlice = createSlice({
         state.status = "succeeded";
         state.groupIds = action.payload.groupIds;
         state.groups = action.payload.groups;
-        state.selectedGroupId = action.payload.groupIds[ 0 ]
+        state.selectedGroupId = action.payload.groupIds.at(-1)
         state.error = null;
       })
       .addCase(fetchGroups.rejected, (state, action) => {

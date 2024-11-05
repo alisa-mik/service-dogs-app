@@ -43,7 +43,7 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
       animate(scope.current, { opacity: 1 }, { duration: 0.5 + 0.5 * index });
   }, [scope]);
 
-  const { dogDetails } = update;
+  const { dogDetails, groupId } = update;
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
@@ -82,6 +82,13 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
 
   const renderDogInfo = () => {
     if (!dogDetails) return undefined;
+    if (groupId)
+      return (
+        <DogInfo>
+          <span>קבוצה</span>
+          {groupId}
+        </DogInfo>
+      );
     return (
       <DogInfo>
         <img

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { BROWN_DARK, WHITE } from "../../config/colors";
+import { BROWN_DARK, WHITE, YELLOW } from "../../config/colors";
 
 const common = css`
   width: 100%;
@@ -32,7 +32,8 @@ export const TextArea = styled.textarea`
 `;
 
 export const Checkbox = styled.input`
-  width: fit-content;
+  accent-color: ${YELLOW};
+  width: 15px;
 `;
 
 export const Select = styled.select`

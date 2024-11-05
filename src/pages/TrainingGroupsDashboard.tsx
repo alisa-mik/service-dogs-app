@@ -32,10 +32,8 @@ export default function TrainingGroupsDashboard() {
   const groupsError = useSelector(selectGroupsError);
 
   useEffect(() => {
-    if (groupsStatus === "idle") {
-      dispatch(fetchGroups());
-    }
-  }, [groupsStatus, dispatch]);
+    dispatch(fetchGroups());
+  }, [dispatch]);
 
   if (groupsStatus === "loading") {
     return (
@@ -51,7 +49,7 @@ export default function TrainingGroupsDashboard() {
 
   const widgets: WidgetConfig[] = [
     {
-      layout: { w: 9, h: 40, x: 3, y: 60, i: "a" },
+      layout: { w: 9.5, h: 40, x: 2.5, y: 60, i: "a" },
       widget: {
         props: { showExpnded: true },
         display: true,
@@ -75,7 +73,7 @@ export default function TrainingGroupsDashboard() {
       },
     },
     {
-      layout: { w: 1, h: 60, x: 3, y: 40, i: "k" },
+      layout: { w: 1.5, h: 60, x: 2.5, y: 40, i: "k" },
       widget: {
         props: {},
         display: true,
@@ -83,7 +81,7 @@ export default function TrainingGroupsDashboard() {
       },
     },
     {
-      layout: { w: 3, h: 100, x: 0, y: 0, i: "e" },
+      layout: { w: 2.5, h: 100, x: 0, y: 0, i: "e" },
       widget: {
         props: {},
         display: true,
