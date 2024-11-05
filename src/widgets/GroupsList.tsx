@@ -1,6 +1,4 @@
-// src/components/GroupList.tsx
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
 	fetchGroups,
@@ -8,24 +6,68 @@ import {
 	selectSelectedGroupId,
 	setSelectedGroup,
 	selectGroupsStatus,
-	selectGroupsError,
 } from "../store/trainingGroupsSlice";
 import { AppDispatch } from "../store";
-import { CardContainer } from "../components/UpdateCardStyles";
 import { Column } from "../components/commonParts/Layouts";
 import { Label } from "../components/commonParts/Labels";
-import { CircularProgress } from "@mui/material";
+import DragIndicatorIcon from "@mui/icons-material/DragIndicator";
 
-const GroupList1: React.FC = () => {
+import {
+	SortableContainer,
+	SortableElement,
+	SortableHandle,
+} from "react-sortable-hoc";
+import styled from "styled-components";
+import { BEAMING_SUN, TOASTED_PINE_NUT, WHITE } from "../config/colors";
+
+export const CardContainer = styled.div<{ selected?: boolean }>`
+	direction: rtl;
+	display: flex;
+	align-items: center;
+	padding: 15px;
+	border-radius: 8px;
+	border: 1px solid ${TOASTED_PINE_NUT};
+	cursor: pointer;
+	background: ${({ selected }) => (selected ? BEAMING_SUN : WHITE)};
+	gap: 10px;
+
+	&:hover {
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+	}
+`;
+
+function arrayMove<T>(items: T[], oldIndex: number, newIndex: number): T[] {
+	// Ensure the indices are within bounds
+	if (
+		oldIndex < 0 ||
+		oldIndex >= items.length ||
+		newIndex < 0 ||
+		newIndex >= items.length
+	) {
+		throw new Error("Invalid indices");
+	}
+
+	const result = [...items]; // Create a shallow copy of the array
+	const [movedItem] = result.splice(oldIndex, 1); // Remove item from oldIndex
+	result.splice(newIndex, 0, movedItem); // Insert item at newIndex
+
+	return result;
+}
+
+interface SortableListProps {
+	items: string[]; // Define the type of `items` as an array of strings
+}
+
+const GroupList: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 
 	// Get groupIds and groups from the store
 	const selectedGroupId = useSelector(selectSelectedGroupId);
 	const groupIds = useSelector(selectGroupIds);
 	const groupsStatus = useSelector(selectGroupsStatus);
-	const groupsError = useSelector(selectGroupsError);
 
-	// Fetch groups when the component mounts if not already loaded
+	const [sortedList, setSortedList] = useState<string[]>(groupIds);
+
 	useEffect(() => {
 		if (groupsStatus === "idle") {
 			dispatch(fetchGroups());
@@ -36,30 +78,58 @@ const GroupList1: React.FC = () => {
 		dispatch(setSelectedGroup(groupId));
 	};
 
-	if (groupsStatus === "loading") {
-		return <CircularProgress />;
-	}
+	const handleSortEnd = ({
+		oldIndex,
+		newIndex,
+	}: {
+		oldIndex: number;
+		newIndex: number;
+	}) => {
+		setSortedList(arrayMove<string>(sortedList, oldIndex, newIndex));
+	};
 
-	if (groupsStatus === "failed") {
-		return <div>Error: {groupsError}</div>;
-	}
+	const DragHandle = SortableHandle(() => (
+		<DragIndicatorIcon fontSize="small" sx={{ cursor: "grab" }} />
+	));
+
+	const SortableItem = SortableElement<{ groupId: string }>(
+		({ groupId }: { groupId: string }) => {
+			return (
+				<CardContainer
+					selected={selectedGroupId === groupId}
+					key={groupId}
+					onClick={() => handleGroupClick(groupId)}
+				>
+					<DragHandle />
+					<Label>{groupId}</Label>
+				</CardContainer>
+			);
+		}
+	);
+
+	const SortableList = SortableContainer<SortableListProps>(
+		({ items }: SortableListProps) => {
+			return (
+				<Column>
+					{items.map((groupId: string, index: number) => (
+						<SortableItem
+							key={`group-${groupId}`}
+							index={index}
+							groupId={groupId}
+						/>
+					))}
+				</Column>
+			);
+		}
+	);
 
 	return (
-		<Column>
-			{groupIds?.map((groupId) => {
-				return (
-					<CardContainer
-						selected={selectedGroupId === groupId}
-						key={groupId}
-						onClick={() => handleGroupClick(groupId)}
-						style={{ cursor: "pointer", opacity: 1 }}
-					>
-						<Label>{groupId}</Label>
-					</CardContainer>
-				);
-			})}
-		</Column>
+		<SortableList
+			items={sortedList}
+			onSortEnd={handleSortEnd}
+			useDragHandle
+		/>
 	);
 };
 
-export default GroupList1;
+export default GroupList;
