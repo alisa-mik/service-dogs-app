@@ -8,61 +8,61 @@ import VCell from "./table/VCell";
 import { Center } from "./commonParts/Layouts";
 import { isEmpty } from "lodash";
 import {
-	selectSelectedGroupDogs,
-	selectSelectedGroupUpdates,
+  selectSelectedGroupDogs,
+  selectSelectedGroupUpdates,
 } from "../store/trainingGroupsSlice";
 
 const AttendanceTable: React.FC = () => {
-	const gruopDogs = useSelector(selectSelectedGroupDogs);
-	const groupUpdates = useSelector(selectSelectedGroupUpdates);
-	const [enrichUpdates, setEnrichUpdates] = useState<any>([]);
+  const gruopDogs = useSelector(selectSelectedGroupDogs);
+  const groupUpdates = useSelector(selectSelectedGroupUpdates);
+  const [enrichUpdates, setEnrichUpdates] = useState<any>([]);
 
-	useEffect(() => {
-		const attendanceUpdates = groupUpdates.filter(
-			(update) => update.type === "meeting"
-		);
+  useEffect(() => {
+    const attendanceUpdates = groupUpdates.filter(
+      (update) => update.type === "meeting"
+    );
 
-		const enrich = attendanceUpdates.map((en) => {
-			return gruopDogs.reduce(
-				(res, dog) => {
-					return {
-						...res,
-						[dog.dogName]: en.attendance?.includes(dog.dogId),
-					};
-				},
-				{ id: en.date, date: en.date }
-			);
-		});
+    const enrich = attendanceUpdates.map((en) => {
+      return gruopDogs.reduce(
+        (res, dog) => {
+          return {
+            ...res,
+            [dog.dogName]: en.attendance?.includes(dog.dogId),
+          };
+        },
+        { id: en.date, date: en.date }
+      );
+    });
 
-		setEnrichUpdates(enrich);
-	}, [groupUpdates, gruopDogs]);
+    setEnrichUpdates(enrich);
+  }, [groupUpdates, gruopDogs]);
 
-	const getColumns = () => {
-		const columns: GridColDef[] = [
-			{
-				field: "date",
-				headerName: "תאריך פגישה",
-				width: 120,
-				valueGetter: (value, row) => formatDateFromSeconds(row.date),
-			},
-		];
+  const getColumns = () => {
+    const columns: GridColDef[] = [
+      {
+        field: "date",
+        headerName: "תאריך פגישה",
+        width: 150,
+        valueGetter: (value, row) => formatDateFromSeconds(row.date),
+      },
+    ];
 
-		gruopDogs.forEach((dog) => {
-			columns.push({
-				field: dog.dogName,
-				headerName: dog.dogName,
-				width: 60,
-				renderCell: VCell,
-				sortable: false,
-			});
-		});
+    gruopDogs.forEach((dog) => {
+      columns.push({
+        field: dog.dogName,
+        headerName: dog.dogName,
+        width: 120,
+        renderCell: VCell,
+        sortable: false,
+      });
+    });
 
-		return columns;
-	};
+    return columns;
+  };
 
-	if (isEmpty(enrichUpdates)) return <Center>לא נרשמו מפגשים</Center>;
+  if (isEmpty(enrichUpdates)) return <Center>לא נרשמו מפגשים</Center>;
 
-	return <Table hideFooter columns={getColumns()} rows={enrichUpdates} />;
+  return <Table hideFooter columns={getColumns()} rows={enrichUpdates} />;
 };
 
 export default AttendanceTable;

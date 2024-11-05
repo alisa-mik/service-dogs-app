@@ -17,7 +17,6 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: Dog }) => {
     };
 
     const response = await apiClient.post("add-dog", formattedValues);
-    alert("כלב נוסף בהצלחה!");
     onClose();
     {
       values.dogId && dispatch(refetchDogById(values.dogId));

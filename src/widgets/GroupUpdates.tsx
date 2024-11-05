@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import { selectSelectedGroup } from "../store/trainingGroupsSlice";
 import {
   Column,
-  Gap,
   WidgetBody,
   WidgetHeader,
 } from "../components/commonParts/Layouts";
@@ -71,14 +70,6 @@ export const GroupUpdates: React.FC = () => {
         <Column>
           {sortedUpdates.map((update, index) => (
             <UpdateCard key={update.updateId} update={update} index={index} />
-            // <div key={event.id}>
-            //   <strong>{event.type === "meeting" ? "סיכום מפגש" : "עדכון"}</strong>
-            //   : {new Date(event.date * 1000).toLocaleDateString()}
-            //   <div>{event.content || ""}</div>
-            //   {event.type === "meeting" && event.attendance && (
-            //     <div>משתתפים: {event.attendance.join(", ")}</div>
-            //   )}
-            // </div>
           ))}
         </Column>
       </WidgetBody>

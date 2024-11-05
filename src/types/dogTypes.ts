@@ -48,6 +48,10 @@ export interface Dog {
 export interface DogBasic  {
     dogId: string;
     dogName: string;
+    gender: string;
+    breed: string;
+    birthDate: number;
+    assignedFamily: string;
     dogStatus: string;
     active: boolean;
     groupId: string;

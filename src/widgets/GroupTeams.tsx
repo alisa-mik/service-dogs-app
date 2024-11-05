@@ -1,8 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectSelectedGroup } from "../store/trainingGroupsSlice";
-import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import {
+  Column,
+  WidgetBody,
+  WidgetHeader,
+} from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
+import { DogCard } from "../components/DogCard";
 
 export const GroupTeams: React.FC = () => {
   const selectedGroup = useSelector(selectSelectedGroup);
@@ -23,13 +28,11 @@ export const GroupTeams: React.FC = () => {
         <WidgetTitle>כלבים בקבוצה</WidgetTitle>
       </WidgetHeader>
       <WidgetBody>
-        <div>
+        <Column>
           {dogs.map((dog: any) => (
-            <div key={dog.dogId}>
-              <strong>{dog.dogName}</strong> ({dog.breed})
-            </div>
+            <DogCard dog={dog} />
           ))}
-        </div>
+        </Column>
       </WidgetBody>
     </>
   );

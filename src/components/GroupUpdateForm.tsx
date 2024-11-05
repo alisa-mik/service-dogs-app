@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
 import { apiClient, apiConfig } from "../config/apiConfig.ts";
 import Form, { configType } from "./form/Form.tsx";
-import { selectSelectedGroupDogs } from "../store/trainingGroupsSlice.ts";
+import {
+  refetchGroups,
+  selectSelectedGroupDogs,
+} from "../store/trainingGroupsSlice.ts";
 
 const GroupUpdateForm = ({
   onClose,
@@ -25,12 +28,13 @@ const GroupUpdateForm = ({
       apiConfig.addGroupTrainingUpdate,
       formattedValues
     );
-    alert("עדכון קבוצתי נוסף בהצלחה!");
-    // onClose();
+    // alert("עדכון קבוצתי נוסף בהצלחה!");
+    onClose();
     // {
     //   values.dogId && dispatch(refetchDogById(values.dogId));
     // }
     // dispatch(refetchDogs());
+    dispatch(refetchGroups());
     return response.data;
   };
 
