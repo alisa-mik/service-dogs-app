@@ -24,6 +24,7 @@ const FullPageContainer = styled.div`
 
 const getNav = (pathname: string): string => {
   if (pathname.includes("login")) return "/app/dogs";
+  if (pathname === "/") return "/app/dogs";
 
   return pathname;
 };
@@ -49,8 +50,6 @@ const Root = () => {
       if (!hasToken) return navigate("/login");
       if (userGroup === "Admin") {
         const navTo = getNav(location.pathname);
-
-        console.log({ navTo });
 
         navigate(navTo);
       } else if (userGroup === "Families") {

@@ -15,12 +15,13 @@ import DogDashboard from "./pages/DogsDashboard";
 import UpdatesDashboard from "./pages/UpdatesDashboard";
 import { createTheme, ThemeProvider } from "@mui/material";
 import { TOASTED_PINE_NUT, YELLOW } from "./config/colors";
-import { ProjectsDashboard } from "./pages/ProjectsDashboard";
+// import { ProjectsDashboard } from "./pages/ProjectsDashboard";
 import TrainingGroupsDashboard from "./pages/TrainingGroupsDashboard";
-import BreedingDogsDashboard from "./pages/BreedingDogsDashboard";
-import { DogsForSoldiersDashboard } from "./pages/DogsForSoldiersDashboard";
-import { TwoOnFourDashboard } from "./pages/TwoOnFourDashboard";
+// import BreedingDogsDashboard from "./pages/BreedingDogsDashboard";
+// import { DogsForSoldiersDashboard } from "./pages/DogsForSoldiersDashboard";
+// import { TwoOnFourDashboard } from "./pages/TwoOnFourDashboard";
 import { DogsInTrainingDashboard } from "./pages/DogsInTrainingDashboard";
+import { errorsIgnore } from "./utils/errorsIgnore";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -92,6 +93,8 @@ const theme = createTheme({
     },
   },
 });
+
+errorsIgnore();
 
 root.render(
   <Provider store={store}>

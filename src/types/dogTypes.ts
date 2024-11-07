@@ -11,6 +11,7 @@ export interface Update {
     date: number;
     author?: Author;
     content: string;
+    groupId?: string;
     categories?: string[];
     attendance?: string[]
     dogDetails?: DogDetailsForUpdate

@@ -1,8 +1,9 @@
-import { ReactElement, useState } from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { ReactElement, useEffect, useState } from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TOP_BAR_HIGHT } from "../config/constants";
 import { BEIGE_LIGHT, BROWN_DARK, YELLOW } from "../config/colors";
+import { isEmpty } from "lodash";
 
 const Container = styled.div`
   width: 100%;
@@ -17,7 +18,6 @@ const TopBar = styled.div`
   display: flex;
   align-items: end;
   justify-content: flex-start;
-  /* gap: 1px; */
   padding: 0 10px;
 `;
 
@@ -50,34 +50,11 @@ const Body = styled.div`
   flex: 1;
 `;
 
-// const tabs = [
-//   {
-//     label: "ראשי",
-//     navigateTo: "main",
-//   },
-//   {
-//     label: "כלבים",
-//     navigateTo: "dogs",
-//   },
-//   {
-//     label: "עידכונים",
-//     navigateTo: "updates",
-//   },
-//   {
-//     label: "משפחות",
-//     navigateTo: "families",
-//   },
-//   {
-//     label: "פרויקטים",
-//     navigateTo: "projects",
-//   },
-// ];
-
 const tabs = {
-  main: {
-    label: "ראשי",
-    navigateTo: "main",
-  },
+  // main: {
+  //   label: "ראשי",
+  //   navigateTo: "main",
+  // },
   dogs: {
     label: "כלבים",
     navigateTo: "dogs",
@@ -94,10 +71,10 @@ const tabs = {
     label: "קבוצות",
     navigateTo: "groups",
   },
-  "dogs-in-training": {
-    label: "הכשרה",
-    navigateTo: "dogs-in-training",
-  },
+  // "dogs-in-training": {
+  //   label: "הכשרה",
+  //   navigateTo: "dogs-in-training",
+  // },
   // "2-on-4": {
   //   label: "2 על 4",
   //   navigateTo: "2-on-4",
@@ -110,10 +87,19 @@ const tabs = {
 
 export default function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const tabByLocation = location.pathname.split("/")[2];
+  const [selectedTab, setSelectedTab] = useState("");
 
-  const [selectedTab, setSelectedTab] = useState(tabByLocation);
+  useEffect(() => {
+    const tabByLocation = location.pathname.split("/")[2];
+    if (isEmpty(tabByLocation)) navigate("/app/dogs");
+  }, [location]);
+
+  useEffect(() => {
+    const tabByLocation = location.pathname.split("/")[2];
+    setSelectedTab(tabByLocation);
+  }, [location]);
 
   const renderItems = (): ReactElement[] => {
     return Object.entries(tabs).map(([navigateTo, tab]) => {

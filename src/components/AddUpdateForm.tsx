@@ -35,7 +35,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
   const initialValues = {
     content: "",
     categories: [],
-    date: new Date().toISOString().split("T")[0],
+    date: Math.floor(new Date().getTime() / 1000),
   };
 
   const onSubmit = async (values) => {
