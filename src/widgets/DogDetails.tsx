@@ -15,6 +15,9 @@ import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 
 const Section = styled.section`
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 `;
 
 const Row = styled.div`
@@ -40,7 +43,9 @@ const NoProfile = styled.div`
 `;
 
 const Body = styled(WidgetBody)`
-  flex-wrap: wrap;
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
 `;
 
 interface LabelValueProps {

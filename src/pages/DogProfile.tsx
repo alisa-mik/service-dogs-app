@@ -21,6 +21,7 @@ import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { Center } from "../components/commonParts/Layouts";
 import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
+import { fetchFamilies } from "../store/familiesSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -49,13 +50,14 @@ export default function DogProfile() {
       dispatch(fetchDogById(dogId));
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(setSelectedDogId(dogId));
+      dispatch(fetchFamilies());
     }
   }, [dispatch, dogId]);
 
   const widgets: WidgetConfig[] = useMemo(
     () => [
       {
-        layout: { w: 6, h: 100, x: 3, y: 0, i: "a" },
+        layout: { w: 5, h: 100, x: 3, y: 0, i: "a" },
         widget: {
           props: {
             padding: "0px",
@@ -73,7 +75,7 @@ export default function DogProfile() {
       //   },
       // },
       {
-        layout: { w: 3, h: 40, x: 9, y: 0, i: "c" },
+        layout: { w: 4, h: 40, x: 8, y: 0, i: "c" },
         widget: {
           props: {},
           display: true,
@@ -81,7 +83,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 70, x: 0, y: 30, i: "d" },
+        layout: { w: 3, h: 60, x: 0, y: 30, i: "d" },
         widget: {
           props: {},
           display: true,
@@ -89,7 +91,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 30, x: 0, y: 0, i: "e" },
+        layout: { w: 3, h: 40, x: 0, y: 0, i: "e" },
         widget: {
           props: {},
           display: true,
@@ -97,7 +99,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 60, x: 9, y: 50, i: "f" },
+        layout: { w: 4, h: 60, x: 8, y: 50, i: "f" },
         widget: {
           props: {},
           display: true,

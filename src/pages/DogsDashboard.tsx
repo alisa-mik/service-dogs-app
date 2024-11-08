@@ -10,6 +10,7 @@ import { AppDispatch } from "../store";
 import DogsList from "../widgets/DogsList";
 import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
+import { fetchFamilies } from "../store/familiesSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -26,11 +27,12 @@ export default function DogDashboard() {
   useEffect(() => {
     dispatch(fetchAllUpdates({}));
     dispatch(setSelectedDogId(null));
+    dispatch(fetchFamilies());
   }, [dispatch]);
 
   const widgets: WidgetConfig[] = [
     {
-      layout: { w: 6.5, h: 100, x: 5.5, y: 0, i: "a" },
+      layout: { w: 5.5, h: 100, x: 5.5, y: 0, i: "a" },
       widget: {
         props: {
           showExpnded: true,

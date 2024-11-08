@@ -57,7 +57,6 @@ export default function DogsList() {
     dropDate: "",
     dropReason: "",
     chipNumber: "",
-    medicalInfo: "",
     summary: "",
   };
 

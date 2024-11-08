@@ -5,11 +5,19 @@ import { RootState } from "../store";
 export interface Family {
   familyId: string;
   familyName: string;
-  contactInfo: string;
-  assignedDogId: string | null;
-  address: string;
+  contactName: string;
+  contactInfo: ContactInfo;
+  dogIds: string[];
   active: boolean;
-  notes: string[];
+  joinedAt: number;
+  generalInfo: string;
+}
+
+export interface ContactInfo {
+  phoneNumber: string;
+  email: string;
+  address: string;
+  city: string;
 }
 
 interface FamiliesState {
@@ -103,4 +111,7 @@ export const selectAllFamilies = createSelector(
   (families) => Object.values(families)
 );
 
+export const selectFamilyById = (familyId: string) => (state: RootState) => {
+  return state.families.families[familyId] || null;
+};
 export default familiesSlice.reducer;

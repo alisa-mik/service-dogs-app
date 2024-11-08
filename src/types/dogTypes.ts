@@ -34,13 +34,12 @@ export interface Dog {
     active: boolean;
     dogStatus: string;
     image: string;
-    assignedFamily: AssignedFamily;
+    assignedFamily: string | null;
     groupId: string | null;
     dropDate: string,
     dropReason: string,
     chipNumber: string,
     summary?: string;
-    medicalInfo?: string
 }
 
 export interface DogBasic  {

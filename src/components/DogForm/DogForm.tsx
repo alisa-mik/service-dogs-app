@@ -1,14 +1,16 @@
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
 import { apiClient } from "../../config/apiConfig.ts";
 import Form, { configType } from "../form/Form.tsx";
 import { Dog } from "../../types/dogTypes.ts";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
+import { selectFamiliesArray } from "../../store/familiesSlice.ts";
 
 const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const families = useSelector(selectFamiliesArray);
 
   const onSubmit = async (values) => {
     const formattedValues = {
@@ -24,6 +26,13 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
     dispatch(refetchDogs());
     return response.data;
   };
+
+  const assignedFamilyOptions = families.map((fam) => {
+    return {
+      label: `${fam.familyName} ${fam.contactName}`,
+      value: fam.familyId,
+    };
+  });
 
   const config: configType[] = [
     {
@@ -111,6 +120,21 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
           itemType: "text",
           path: "groupId",
           label: "קבוצה:",
+        },
+        {
+          itemGroup: "input",
+          itemType: "select",
+          label: "אומנה:",
+          itemProps: {
+            options: [
+              {
+                value: "",
+                label: "בחר אומנה",
+              },
+              ...assignedFamilyOptions,
+            ],
+          },
+          path: "assignedFamily",
         },
         {
           itemGroup: "input",
