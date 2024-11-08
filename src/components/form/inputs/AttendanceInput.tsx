@@ -1,6 +1,6 @@
 import { DogBasic } from "../../../types/dogTypes";
 import { Label } from "../../commonParts/Labels";
-import { Gap, Row } from "../../commonParts/Layouts";
+import { Row } from "../../commonParts/Layouts";
 import { IInput } from "../InputInjector";
 import { Checkbox } from "../styledInputs";
 

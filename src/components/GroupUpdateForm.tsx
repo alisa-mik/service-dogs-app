@@ -8,6 +8,27 @@ import {
   selectSelectedGroupDogs,
 } from "../store/trainingGroupsSlice.ts";
 
+const validate = (values: { [key: string]: any }) => {
+  const errors: { [key: string]: string } = {};
+
+  if (!values.date) {
+    errors.date = "תאריך הוא שדה חובה";
+  }
+
+  if (!values.content?.trim()) {
+    errors.content = "תוכן הוא שדה חובה";
+  }
+
+  if (
+    values.type === "meeting" &&
+    (!values.attendance || values.attendance.length === 0)
+  ) {
+    errors.attendance = "נוכחות היא שדה חובה בפגישות";
+  }
+
+  return errors;
+};
+
 const GroupUpdateForm = ({
   onClose,
   data,
@@ -19,7 +40,7 @@ const GroupUpdateForm = ({
 
   const selectedGroupDogs = useSelector(selectSelectedGroupDogs);
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
       ...values,
       updateId: values.updateId ? values.updateId : uuidv4(),
@@ -80,6 +101,7 @@ const GroupUpdateForm = ({
 
   return (
     <Form
+      validate={validate}
       formType="steps"
       config={modifiedConfig}
       data={data}
