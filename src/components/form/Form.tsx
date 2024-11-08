@@ -19,7 +19,7 @@ const ButtonSingleContainer = styled.div`
 
 export type configType = {
   itemGroup: "section" | "input";
-  itemType: InputType | string; // secionType
+  itemType: "common" | "done" | "condition" | InputType;
   label?: string;
   itemProps?: { [key: string]: any };
   items?: configType[];
@@ -38,9 +38,7 @@ const Form = ({ data, config, onSubmit, formType, validate }: Iform) => {
   const [currentStep, setCurrentStep] = useState(0);
   const lastStepIndex = config.length - 1;
 
-  const formik: FormikProps<{ [key: string]: any }> = useFormik<{
-    [key: string]: any;
-  }>({
+  const formik: FormikProps<{ [key: string]: any }> = useFormik({
     initialValues: data,
     validate: validate,
     onSubmit: onSubmit,
@@ -56,9 +54,15 @@ const Form = ({ data, config, onSubmit, formType, validate }: Iform) => {
       );
     }
 
+    const currentSectionType =
+      config[currentStep].itemType === "common" ||
+      config[currentStep].itemType === "done"
+        ? config[currentStep].itemType
+        : "common";
+
     return (
       <SectionInjector
-        sectionType={config[currentStep].itemType}
+        sectionType={currentSectionType}
         config={config[currentStep].items as configType[]}
         formik={formik}
         itemProps={config[currentStep].itemProps}
