@@ -43,7 +43,7 @@ const AttendanceTable: React.FC = () => {
         field: "date",
         headerName: "תאריך פגישה",
         width: 150,
-        valueGetter: (value, row) => formatDateFromSeconds(row.date),
+        valueGetter: (_, row) => formatDateFromSeconds(row.date),
       },
     ];
 

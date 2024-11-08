@@ -6,7 +6,6 @@ import {
   CategoriesContainer,
   CategoryTag,
   Content,
-  // ToggleIndicator,
   DogInfo,
   MainContent,
 } from "./UpdateCardStyles";
@@ -19,8 +18,7 @@ import {
   DEFAULT_CATEGORY_COLOR,
 } from "../config/colors";
 import DateText from "./commonParts/DateText";
-import { Gap, Row } from "./commonParts/Layouts";
-import HoveredButtons from "./commonParts/HoveredBox";
+import { Gap } from "./commonParts/Layouts";
 import { useAnimate } from "framer-motion";
 interface UpdateCardProps {
   update: Update;

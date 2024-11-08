@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect } from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
@@ -7,31 +6,8 @@ import { CircularProgress } from "@mui/material";
 import { AppDispatch, RootState } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDogs } from "../store/dogsSlice";
-import { TOASTED_PINE_NUT } from "../config/colors";
 import { Table } from "./table/Table";
 import { Center } from "./commonParts/Layouts";
-import { Button } from "./commonParts/Buttons";
-import CustomDialog from "./CustomDialog";
-import DogForm from "./DogForm/DogForm";
-
-const Container = styled.div`
-  padding: 10px;
-  height: 100%;
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const SearchInput = styled.input`
-  padding: 10px;
-  width: 30%;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
-`;
 
 export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   const dispatch = useDispatch<AppDispatch>();
@@ -95,7 +71,7 @@ export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
         field: "birthDate",
         headerName: "תאריך לידה",
         flex: 0.8,
-        valueGetter: (value, row) =>
+        valueGetter: (_, row) =>
           `${row.birthDate ? formatDateFromSeconds(row.birthDate) : "-"}`,
       },
       {
@@ -103,7 +79,7 @@ export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
         field: "age",
         headerName: "גיל",
         flex: 0.5,
-        valueGetter: (value, row) =>
+        valueGetter: (_, row) =>
           `${row.birthDate ? getAgeFromSeconds(row.birthDate) : "-"}`,
       },
       {
@@ -137,6 +113,7 @@ export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
     return (
       <Table
         columns={columns}
+        hideFooter={false}
         rows={filteredDogs}
         onRowClick={({ id }) => {
           handleSelectDog(id as string);

@@ -40,20 +40,20 @@ export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
         field: "phoneNumber",
         headerName: "טלפון",
         flex: 0.3,
-        valueGetter: (value, row) => `${row.contactInfo.phoneNumber}`,
+        valueGetter: (_, row) => `${row.contactInfo.phoneNumber}`,
       },
       {
         ...commonProps,
         field: "city",
         headerName: "עיר",
-        valueGetter: (value, row) => `${row.contactInfo.city}`,
+        valueGetter: (_, row) => `${row.contactInfo.city}`,
       },
       {
         ...commonProps,
         field: "email",
         flex: 0.4,
         headerName: "מייל",
-        valueGetter: (value, row) => `${row.contactInfo.email}`,
+        valueGetter: (_, row) => `${row.contactInfo.email}`,
       },
 
       //   {
@@ -73,6 +73,7 @@ export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
       <Table
         columns={columns}
         rows={filteredFamilies}
+        hideFooter={false}
         onRowClick={({ id }) => {
           handleSelectFamily(id as string);
         }}

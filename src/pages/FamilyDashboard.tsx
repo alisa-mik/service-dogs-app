@@ -1,12 +1,10 @@
 import styled from "styled-components";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 
 import { useEffect } from "react";
-import { CircularProgress } from "@mui/material";
-import { Center } from "../components/commonParts/Layouts";
 import FamiliesList from "../widgets/FamiliesList";
 import FamilyDetails from "../widgets/FamilyDetails";
 import FamilyDogsList from "../widgets/FamilyDogsList";

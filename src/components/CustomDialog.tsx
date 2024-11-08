@@ -1,52 +1,35 @@
-import {
-	Dialog,
-	DialogContent,
-	DialogActions,
-	ModalProps,
-} from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import { useEffect, useState } from "react";
 
 interface CustomDialogProps {
-	open: boolean;
-	children: React.ReactNode;
-	onClose: () => void;
-	title?: string;
+  open: boolean;
+  children: React.ReactNode;
+  onClose: () => void;
+  title?: string;
 }
 
 export default function CustomDialog({
-	open,
-	onClose,
-	children,
+  open,
+  onClose,
+  children,
 }: CustomDialogProps) {
-	const [dialogOpen, setDialogOpen] = useState(open);
+  const [dialogOpen, setDialogOpen] = useState(open);
 
-	useEffect(() => {
-		setDialogOpen(open);
-	}, [open]);
+  useEffect(() => {
+    setDialogOpen(open);
+  }, [open]);
 
-	const handleOnClose = (
-		e: React.ChangeEvent<HTMLInputElement>,
-		reason: "escapeKeyDown" | "backdropClick"
-	) => {
-		if (reason === "escapeKeyDown") {
-			setDialogOpen(false);
-			onClose();
-		}
-	};
+  const handleOnClose = (reason: "escapeKeyDown" | "backdropClick") => {
+    if (reason === "escapeKeyDown") {
+      setDialogOpen(false);
+      onClose();
+    }
+  };
 
-	return (
-		<Dialog
-			open={dialogOpen}
-			maxWidth="sm"
-			fullWidth
-			onClose={handleOnClose}
-		>
-			<DialogContent>{children}</DialogContent>
-			<DialogActions>
-				{/* <Button onClick={handleClose} color="secondary">
-					סגירה
-				</Button> */}
-			</DialogActions>
-		</Dialog>
-	);
+  return (
+    <Dialog open={dialogOpen} maxWidth="sm" fullWidth onClose={handleOnClose}>
+      <DialogContent>{children}</DialogContent>
+      {/* <DialogActions></DialogActions> */}
+    </Dialog>
+  );
 }

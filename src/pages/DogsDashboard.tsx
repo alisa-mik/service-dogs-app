@@ -1,8 +1,7 @@
-import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import DogsActions from "../widgets/DogsActions";
-import DogsStats from "../widgets/DogsStats";
+// import DogsActions from "../widgets/DogsActions";
+// import DogsStats from "../widgets/DogsStats";
 import { useEffect } from "react";
 import { fetchAllUpdates } from "../store/updatesSlice";
 import { useDispatch } from "react-redux";
@@ -12,14 +11,14 @@ import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
 import { fetchFamilies } from "../store/familiesSlice";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  background-image: url("/placeholder.jpg");
-  background-size: 200px 200px;
-  background-repeat: repeat;
-`;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 16px;
+//   background-image: url("/placeholder.jpg");
+//   background-size: 200px 200px;
+//   background-repeat: repeat;
+// `;
 
 export default function DogDashboard() {
   const dispatch = useDispatch<AppDispatch>();
@@ -32,7 +31,7 @@ export default function DogDashboard() {
 
   const widgets: WidgetConfig[] = [
     {
-      layout: { w: 5.5, h: 100, x: 5.5, y: 0, i: "a" },
+      layout: { w: 6.5, h: 100, x: 5.5, y: 0, i: "a" },
       widget: {
         props: {
           showExpnded: true,

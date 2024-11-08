@@ -8,10 +8,28 @@ import { refetchFamilies } from "../store/familiesSlice.ts";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
 
+const validate = (values: { [key: string]: any }) => {
+  const errors: { [key: string]: string } = {};
+
+  if (!values.familyName?.trim()) {
+    errors.familyName = "שם משפחה הוא שדה חובה";
+  }
+
+  if (!values.contactName?.trim()) {
+    errors.contactName = "שם איש קשר הוא שדה חובה";
+  }
+
+  if (!values["contactInfo.phoneNumber"]?.trim()) {
+    errors["contactInfo.phoneNumber"] = "מספר טלפון הוא שדה חובה";
+  }
+
+  return errors;
+};
+
 const FamilyForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
       ...values,
       familyId: values.familyId ? values.familyId : uuidv4(),
@@ -85,7 +103,13 @@ const FamilyForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   ];
 
   return (
-    <Form formType="single" config={config} data={data} onSubmit={onSubmit} />
+    <Form
+      validate={validate}
+      formType="single"
+      config={config}
+      data={data}
+      onSubmit={onSubmit}
+    />
   );
 };
 

@@ -7,14 +7,16 @@ import { fetchAllUpdates } from "../store/updatesSlice";
 import Form, { configType } from "./form/Form";
 import { selectSelectedDogId } from "../store/dogsSlice";
 
-const validate = (values: { content: string; date: string }) => {
-  const errors: { content?: string; date?: string } = {};
+const validate = (values: { [key: string]: any }) => {
+  const errors: { [key: string]: string } = {};
 
-  if (!values.content.trim()) {
+  const typedValues = values as { content: string; date: string };
+
+  if (!typedValues.content.trim()) {
     errors.content = "שדה התוכן הוא שדה חובה";
   }
 
-  if (!values.date) {
+  if (!typedValues.date) {
     errors.date = "יש לבחור תאריך";
   }
 
@@ -32,7 +34,12 @@ const AddUpdateForm = ({
   const dispatch = useDispatch<AppDispatch>();
   console.log({ data });
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: { [key: string]: any }) => {
+    if (!dogId) {
+      console.error("Dog ID is null. Cannot submit the update.");
+      return; // Prevent submission if dogId is null
+    }
+
     try {
       const updateId = uuidv4();
 

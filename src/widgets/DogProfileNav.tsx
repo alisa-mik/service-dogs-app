@@ -7,37 +7,37 @@ import { refetchDogs } from "../store/dogsSlice";
 import { Button } from "../components/commonParts/Buttons";
 
 const StyledNav = styled.div`
-	position: relative;
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 `;
 
 export default function DogProfileNav() {
-	const navigate = useNavigate();
-	const dispatch = useDispatch<AppDispatch>();
-	const dog = useSelector((state: RootState) => state.dogProfile.dog);
-	if (!dog) {
-		return <div>No dog profile available.</div>;
-	}
-	const { dogId } = dog;
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+  const dog = useSelector((state: RootState) => state.dogProfile.profile);
+  if (!dog) {
+    return <div>No dog profile available.</div>;
+  }
+  const { dogId } = dog;
 
-	const handleDelete = () => {
-		deleteDog(dogId);
-		dispatch(refetchDogs());
-		navigate("/app/dogs");
-	};
+  const handleDelete = () => {
+    deleteDog(dogId);
+    dispatch(refetchDogs());
+    navigate("/app/dogs");
+  };
 
-	return (
-		<div style={{ position: "relative", height: "100%", width: "100%" }}>
-			<StyledNav>
-				<Button>פרופיל</Button>
-				<Button>גלרייה</Button>
-				<Button>תיק רפואי</Button>
-				<Button>מסמכים</Button>
-				<Button>עדכוני משפחה</Button>
-				<Button onClick={handleDelete}>מחק כלב</Button>
-			</StyledNav>
-		</div>
-	);
+  return (
+    <div style={{ position: "relative", height: "100%", width: "100%" }}>
+      <StyledNav>
+        <Button>פרופיל</Button>
+        <Button>גלרייה</Button>
+        <Button>תיק רפואי</Button>
+        <Button>מסמכים</Button>
+        <Button>עדכוני משפחה</Button>
+        <Button onClick={handleDelete}>מחק כלב</Button>
+      </StyledNav>
+    </div>
+  );
 }

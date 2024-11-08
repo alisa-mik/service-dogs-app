@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Dog } from "../types/dogTypes";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";

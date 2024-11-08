@@ -22,7 +22,8 @@ export type InputType =
   | "date"
   | "checkbox"
   | "textarea"
-  | "category";
+  | "category"
+  | "attendance";
 
 export interface IInput {
   path: string;
@@ -31,8 +32,8 @@ export interface IInput {
 
 interface IInputInjector {
   path: string;
-  label: string | undefined;
-  config: configType[];
+  label?: string;
+  config?: configType[]; // Optional now
   formik: FormikProps<{ [key: string]: any }>;
   inputType: InputType;
   itemProp: { [key: string]: any };
@@ -57,10 +58,22 @@ const InputInjector: React.FC<IInputInjector> = ({
 
   const Component = inputsMap[inputType];
 
+  // Check if the Component exists before using it
+  if (!Component) {
+    throw new Error(`Input type "${inputType}" is not supported.`);
+  }
+
   return (
     <FormItem>
       {label && <Label>{label}</Label>}
-      <Component path={path} formik={formik} {...itemProp} />
+      <Component
+        options={[]}
+        dogs={[]}
+        label={""}
+        path={path}
+        formik={formik}
+        {...itemProp}
+      />
       {formik.touched[path] && formik.errors[path] && (
         <ErrorText>{formik.errors[path] as string}</ErrorText>
       )}

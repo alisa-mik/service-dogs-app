@@ -4,13 +4,13 @@ import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store"; // Import RootState type
 
 interface DogProfileState {
-    dog: Dog | null;
+    profile: Dog | null;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
 }
 
 const initialState: DogProfileState = {
-    dog: null,
+    profile: null,
     status: "idle",
     error: null,
 };
@@ -20,8 +20,8 @@ export const fetchDogById = createAsyncThunk(
     async (dogId: string, { getState }) => {
         const { dogProfile } = getState() as RootState;
 
-        if (dogProfile.dog && dogProfile.dog.dogId === dogId) {
-            return dogProfile.dog;
+        if (dogProfile.profile && dogProfile.profile.dogId === dogId) {
+            return dogProfile.profile;
         }
 
         // If not, fetch it from the API
@@ -50,19 +50,20 @@ const dogProfileSlice = createSlice({
             })
             .addCase(fetchDogById.fulfilled, (state, action) => {
                 state.status = "succeeded";
-                state.dog = action.payload;
+                state.profile = action.payload; // Updated to use 'profile'
             })
             .addCase(fetchDogById.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message ?? null;
             })
             .addCase(refetchDogById.fulfilled, (state, action) => {
-                state.dog = action.payload;
+                state.profile = action.payload; // Updated to use 'profile'
             });
     },
 });
 
-export const selectDogProfile = (state: RootState) => state.dogProfile.dog ?? {};
+// Selectors
+export const selectDogProfile = (state: RootState): Dog | null => state.dogProfile.profile; // Return the 'profile' field
 export const selectDogStatus = (state: RootState) => state.dogProfile.status;
 export const selectDogError = (state: RootState) => state.dogProfile.error;
 

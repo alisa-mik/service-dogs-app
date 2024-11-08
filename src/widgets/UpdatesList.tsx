@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { fetchAllUpdates, selectAllUpdates } from "../store/updatesSlice";
+import { selectAllUpdates } from "../store/updatesSlice";
 import UpdateCard from "../components/UpdateCard";
 import {
   Center,
@@ -10,10 +10,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { categoriesTranslation } from "../config/categories";
 import { Update } from "../types/dogTypes";
-import {
-  fetchUpdatesByDogId,
-  selectUpdatesByDogId,
-} from "../store/updatesByDogIdSlice";
+import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import CategoryFilter from "../components/UpdateCategoriesFilter";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { Button } from "../components/commonParts/Buttons";

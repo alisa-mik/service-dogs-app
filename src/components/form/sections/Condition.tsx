@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SectionInjector, { ISection } from "../SectionInjector";
-import InputInjector from "../InputInjector";
+import InputInjector, { InputType } from "../InputInjector";
 
 type Con = {
   path: string;
@@ -23,33 +23,50 @@ const Condition: React.FC<IConditions> = ({ config, formik, conditions }) => {
 
   const renderSectionsAndInputs = () => {
     return config.map((item) => {
-      if (item.itemGroup === "section")
-        return (
-          <SectionInjector
-            sectionType={item.itemType}
-            config={item.items}
-            formik={formik}
-          />
-        );
+      if (item.itemGroup === "section" && item.items) {
+        if (["done", "common"].includes(item.itemType)) {
+          return (
+            <SectionInjector
+              sectionType={item.itemType as "done" | "common"}
+              config={item.items}
+              formik={formik}
+            />
+          );
+        }
+      }
 
-      const { itemType = "text", path, label, itemProps = {} } = item;
+      const { itemType = "text", path, label, itemProps = {}, items } = item; // Extract items for config
 
-      if (item.itemGroup === "input")
-        return (
-          <InputInjector
-            inputType={itemType}
-            path={path}
-            label={label}
-            formik={formik}
-            itemProp={itemProps}
-          />
-        );
+      if (path && item.itemGroup === "input") {
+        if (
+          [
+            "text",
+            "select",
+            "date",
+            "checkbox",
+            "textarea",
+            "category",
+            "attendance",
+          ].includes(itemType)
+        ) {
+          return (
+            <InputInjector
+              inputType={itemType as InputType}
+              path={path}
+              label={label || ""}
+              config={items} // Pass config if needed
+              formik={formik}
+              itemProp={itemProps}
+            />
+          );
+        }
+      }
 
       return "error";
     });
   };
 
-  if (!renderSection) return undefined;
+  if (!renderSection) return null;
 
   return <>{renderSectionsAndInputs()}</>;
 };

@@ -1,14 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { DogBasic } from "../types/dogTypes";
-import { formatDateFromSeconds } from "../utils/converts";
 
 const Card = styled.div`
   padding: 10px;
   display: flex;
   flex-direction: column;
   text-align: right;
-  /* width: 250px; */
   overflow: auto;
   direction: rtl;
   border: 1px solid #cccccc;
@@ -54,33 +52,19 @@ export const DogCard = ({ dog }: DogCardProps) => {
   console.log({ dog });
 
   const navigate = useNavigate();
-  const {
-    dogId,
-    dogName,
-    gender,
-    assignedFamily,
-    breed,
-    birthDate,
-    dogStatus,
-  } = dog;
+  const { dogId, dogName, gender, assignedFamily, breed, dogStatus } = dog;
 
   return (
     <Card onClick={() => navigate(`/app/dogs/${dogId}`)}>
       <LabelValue label="שם הכלב:" value={dogName} />
-      {/* <LabelValue label="פעיל:" value={active ? "כן" : "לא"} /> */}
       <LabelValue label="גזע:" value={breed} />
       <LabelValue label="מין:" value={gender} />
-      {/* <LabelValue
-        label="תאריך לידה:"
-        value={formatDateFromSeconds(birthDate)}
-      /> */}
+
       <LabelValue label="סטטוס:" value={dogStatus} />
       <LabelValue
         label="משפחה:"
         value={assignedFamily ? assignedFamily : "-"}
       />
-      {/* <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} /> */}
-      {/* <LabelValue label="שם האב:" value={dadDog.dogName} /> */}
     </Card>
   );
 };

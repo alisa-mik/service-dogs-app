@@ -7,10 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
 import { useEffect, useMemo } from "react";
 import DogDetails from "../widgets/DogDetails";
-import DogUpdates from "../widgets/DogUpdates";
 import DogFamily from "../widgets/DogFamily";
 import DogSummary from "../widgets/DogSummary";
-import DogProfileNav from "../widgets/DogProfileNav";
 import {
   fetchDogById,
   selectDogError,

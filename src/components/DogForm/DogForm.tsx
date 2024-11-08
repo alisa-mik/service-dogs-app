@@ -4,15 +4,23 @@ import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
 import { apiClient } from "../../config/apiConfig.ts";
 import Form, { configType } from "../form/Form.tsx";
-import { Dog } from "../../types/dogTypes.ts";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
+
+const validate = (values: { [key: string]: any }) => {
+  const errors: { [key: string]: string } = {};
+
+  if (!values.dogName?.trim()) {
+    errors.dogName = "שם הכלב הוא שדה חובה";
+  }
+  return errors;
+};
 
 const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
   const families = useSelector(selectFamiliesArray);
 
-  const onSubmit = async (values) => {
+  const onSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
       ...values,
       dogId: values.dogId ? values.dogId : uuidv4(),
@@ -218,7 +226,13 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   ];
 
   return (
-    <Form formType="steps" config={config} data={data} onSubmit={onSubmit} />
+    <Form
+      validate={validate}
+      formType="steps"
+      config={config}
+      data={data}
+      onSubmit={onSubmit}
+    />
   );
 };
 

@@ -5,6 +5,8 @@ import { WidgetTitle } from "../components/commonParts/Labels";
 import { selectFamilyById } from "../store/familiesSlice";
 import { LabelValue } from "../components/commonParts/LabelValue";
 import styled from "styled-components";
+import { Dog } from "../types/dogTypes";
+import { RootState } from "../store";
 
 const Section = styled.section`
   flex: 1;
@@ -14,7 +16,7 @@ const Section = styled.section`
 `;
 
 export default function DogFamily() {
-  const dog = useSelector(selectDogProfile);
+  const dog = useSelector<RootState, Dog | null>(selectDogProfile);
   if (!dog) {
     return <div>No dog profile available.</div>;
   }
