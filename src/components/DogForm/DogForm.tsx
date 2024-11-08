@@ -7,7 +7,7 @@ import Form, { configType } from "../form/Form.tsx";
 import { Dog } from "../../types/dogTypes.ts";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
 
-const DogForm = ({ onClose, data }: { onClose: () => void; data: Dog }) => {
+const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values) => {

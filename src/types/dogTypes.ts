@@ -29,9 +29,7 @@ export interface Dog {
     gender: string | null;
     breed: string | null;
     color: string;
-    // momDog: ParentDog;
     momDog: string;
-    // dadDog: ParentDog;
     dadDog: string;
     active: boolean;
     dogStatus: string;
@@ -41,9 +39,8 @@ export interface Dog {
     dropDate: string,
     dropReason: string,
     chipNumber: string,
-    updates: Update[];
-    summary: string;
-    medicalInfo: string
+    summary?: string;
+    medicalInfo?: string
 }
 
 export interface DogBasic  {

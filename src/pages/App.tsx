@@ -59,10 +59,10 @@ const tabs = {
     label: "כלבים",
     navigateTo: "dogs",
   },
-  updates: {
-    label: "עידכונים",
-    navigateTo: "updates",
-  },
+  // updates: {
+  //   label: "עידכונים",
+  //   navigateTo: "updates",
+  // },
   families: {
     label: "משפחות",
     navigateTo: "families",

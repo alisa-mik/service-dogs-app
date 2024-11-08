@@ -15,6 +15,7 @@ export const CardContainer = styled.div<{ selected?: boolean }>`
     cursor: pointer;
     transition: box-shadow 0.3s ease;
     display: flex;
+    gap: 10px;
     position: relative;
     opacity: 0;
     background: ${({ selected }) => selected ? BEAMING_SUN : WHITE};

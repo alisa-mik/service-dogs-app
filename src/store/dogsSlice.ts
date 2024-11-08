@@ -1,16 +1,19 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction, createSelector } from "@reduxjs/toolkit";
 import { Dog } from "../types/dogTypes";
 import { apiClient, apiConfig } from "../config/apiConfig";
+import { RootState } from "../store";
 
 // Initial state for the dogs slice
 interface DogsState {
     dogs: Dog[];
+    selectedDogId: string | null;
     status: "idle" | "loading" | "succeeded" | "failed";
     error: string | null;
 }
 
 const initialState: DogsState = {
     dogs: [],
+    selectedDogId: null,
     status: "idle",
     error: null,
 };
@@ -24,7 +27,6 @@ const modifiedDogs = (data: Dog[]) => {
 export const fetchDogs = createAsyncThunk("dogs/fetchDogs", async () => {
     const response = await apiClient.get(apiConfig.dogs);
 
-
     return modifiedDogs(response.data);
 });
 
@@ -36,7 +38,11 @@ export const refetchDogs = createAsyncThunk("dogs/refetchDogs", async () => {
 const dogsSlice = createSlice({
     name: "dogs",
     initialState,
-    reducers: {},
+    reducers: {
+        setSelectedDogId(state, action: PayloadAction<string | null>) {
+            state.selectedDogId = action.payload;
+        },
+    },
     extraReducers: (builder) => {
         builder
             .addCase(fetchDogs.pending, (state) => {
@@ -55,5 +61,19 @@ const dogsSlice = createSlice({
             });
     },
 });
+
+export const { setSelectedDogId } = dogsSlice.actions;
+
+// Selector to get the selectedDogId
+export const selectSelectedDogId = (state: RootState) => state.dogs.selectedDogId;
+
+// Selector to get all dogs
+export const selectAllDogs = (state: RootState) => state.dogs.dogs;
+
+// Selector to get the status
+export const selectDogsStatus = (state: RootState) => state.dogs.status;
+
+// Selector to get the error
+export const selectDogsError = (state: RootState) => state.dogs.error;
 
 export default dogsSlice.reducer;

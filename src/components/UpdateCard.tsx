@@ -91,11 +91,19 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
       );
     return (
       <DogInfo>
-        <img
+        {/* <img
           style={{ height: "60px", borderRadius: "16px" }}
           src={dogDetails.image}
-        />
-        <span>{dogDetails.dogName}</span>
+        /> */}
+        <span
+          style={{
+            padding: "15px",
+            backgroundColor: "#efefef",
+            borderRadius: "8px",
+          }}
+        >
+          {dogDetails.dogName}
+        </span>
       </DogInfo>
     );
   };

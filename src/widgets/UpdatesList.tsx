@@ -1,8 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { fetchAllUpdates, selectAllUpdates } from "../store/updatesSlice";
 import UpdateCard from "../components/UpdateCard";
-import { Center, WidgetBody } from "../components/commonParts/Layouts";
+import {
+  Center,
+  WidgetBody,
+  WidgetHeader,
+} from "../components/commonParts/Layouts";
 import { useEffect, useMemo, useState } from "react";
 import { categoriesTranslation } from "../config/categories";
 import { Update } from "../types/dogTypes";
@@ -11,7 +15,11 @@ import {
   selectUpdatesByDogId,
 } from "../store/updatesByDogIdSlice";
 import CategoryFilter from "../components/UpdateCategoriesFilter";
-import { AppDispatch } from "../store";
+import { WidgetTitle } from "../components/commonParts/Labels";
+import { Button } from "../components/commonParts/Buttons";
+import CustomDialog from "../components/CustomDialog";
+import AddUpdateForm from "../components/AddUpdateForm";
+import { selectSelectedDogId } from "../store/dogsSlice";
 
 const UpdatesContainer = styled.div`
   flex: 1;
@@ -24,13 +32,15 @@ const UpdatesContainer = styled.div`
   overflow: auto;
 `;
 
-interface UpdatesListProps {
-  dogId?: string;
-}
+export const UpdatesList = () => {
+  const dogId = useSelector(selectSelectedDogId);
 
-export const UpdatesList = ({ dogId }: UpdatesListProps) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [displayUpdates, setDisplayUpdates] = useState<Update[]>([]);
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
 
   const updates =
     useSelector(dogId ? selectUpdatesByDogId : selectAllUpdates) || [];
@@ -64,14 +74,32 @@ export const UpdatesList = ({ dogId }: UpdatesListProps) => {
     ));
   };
 
+  const data = {
+    content: "",
+    categories: [],
+    date: Math.floor(new Date().getTime() / 1000),
+  };
+
   return (
-    <WidgetBody>
-      <CategoryFilter
-        categories={categories}
-        selectedCategories={selectedCategories}
-        onChange={setSelectedCategories}
-      />
-      <UpdatesContainer>{renderUpdates()}</UpdatesContainer>
-    </WidgetBody>
+    <>
+      <WidgetHeader>
+        <WidgetTitle>
+          <div>עדכונים</div>
+          <div>{`(${updates.length || 0})`}</div>
+        </WidgetTitle>
+        {dogId && <Button onClick={() => setOpen(true)}>הוסף עדכון</Button>}
+        <CustomDialog onClose={handleClose} open={open} title="הוספת כלב חדש">
+          <AddUpdateForm onClose={handleClose} data={data} />
+        </CustomDialog>
+      </WidgetHeader>
+      <WidgetBody>
+        <CategoryFilter
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onChange={setSelectedCategories}
+        />
+        <UpdatesContainer>{renderUpdates()}</UpdatesContainer>
+      </WidgetBody>
+    </>
   );
 };

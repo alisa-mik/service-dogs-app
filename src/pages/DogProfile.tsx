@@ -11,9 +11,16 @@ import DogUpdates from "../widgets/DogUpdates";
 import DogFamily from "../widgets/DogFamily";
 import DogSummary from "../widgets/DogSummary";
 import DogProfileNav from "../widgets/DogProfileNav";
-import { fetchDogById } from "../store/dogProfileSlice";
+import {
+  fetchDogById,
+  selectDogError,
+  selectDogProfile,
+  selectDogStatus,
+} from "../store/dogProfileSlice";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { Center } from "../components/commonParts/Layouts";
+import { UpdatesList } from "../widgets/UpdatesList";
+import { setSelectedDogId } from "../store/dogsSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -29,11 +36,10 @@ export default function DogProfile() {
   const { dogId } = useParams<{ dogId: string }>();
   const dispatch = useDispatch<AppDispatch>();
 
-  const {
-    dog,
-    status: dogStatus,
-    error: dogError,
-  } = useSelector((state: RootState) => state.dogProfile);
+  const selectedDogProfile = useSelector(selectDogProfile);
+  const selectedDogStatus = useSelector(selectDogStatus);
+  const selectedDogError = useSelector(selectDogError);
+
   const { status: updatesStatus, error: updatesError } = useSelector(
     (state: RootState) => state.updatesByDogId
   );
@@ -42,31 +48,32 @@ export default function DogProfile() {
     if (dogId) {
       dispatch(fetchDogById(dogId));
       dispatch(fetchUpdatesByDogId(dogId));
+      dispatch(setSelectedDogId(dogId));
     }
   }, [dispatch, dogId]);
 
   const widgets: WidgetConfig[] = useMemo(
     () => [
       {
-        layout: { w: 7, h: 60, x: 2, y: 37, i: "a" },
+        layout: { w: 6, h: 100, x: 3, y: 0, i: "a" },
         widget: {
           props: {
             padding: "0px",
           },
           display: true,
-          type: DogUpdates,
+          type: UpdatesList,
         },
       },
+      // {
+      //   layout: { w: 2, h: 100, x: 0, y: 0, i: "b" },
+      //   widget: {
+      //     props: {},
+      //     display: true,
+      //     type: DogProfileNav,
+      //   },
+      // },
       {
-        layout: { w: 2, h: 100, x: 0, y: 0, i: "b" },
-        widget: {
-          props: {},
-          display: true,
-          type: DogProfileNav,
-        },
-      },
-      {
-        layout: { w: 5, h: 40, x: 7, y: 0, i: "c" },
+        layout: { w: 3, h: 40, x: 9, y: 0, i: "c" },
         widget: {
           props: {},
           display: true,
@@ -74,7 +81,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 40, x: 2, y: 0, i: "d" },
+        layout: { w: 3, h: 70, x: 0, y: 30, i: "d" },
         widget: {
           props: {},
           display: true,
@@ -82,7 +89,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 2, h: 40, x: 5, y: 0, i: "e" },
+        layout: { w: 3, h: 30, x: 0, y: 0, i: "e" },
         widget: {
           props: {},
           display: true,
@@ -90,7 +97,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 60, x: 9, y: 37, i: "f" },
+        layout: { w: 3, h: 60, x: 9, y: 50, i: "f" },
         widget: {
           props: {},
           display: true,
@@ -101,7 +108,7 @@ export default function DogProfile() {
     []
   );
 
-  if (dogStatus === "loading") {
+  if (selectedDogStatus === "loading") {
     return (
       <Center>
         <CircularProgress />
@@ -109,17 +116,15 @@ export default function DogProfile() {
     );
   }
 
-  // Handle error state for dog and updates
-  if (dogStatus === "failed") {
-    return <div>Error: {dogError}</div>;
+  if (selectedDogStatus === "failed") {
+    return <div>Error: {selectedDogError}</div>;
   }
 
   if (updatesStatus === "failed") {
     return <div>Error: {updatesError}</div>;
   }
 
-  // Ensure that the dog data exists before rendering
-  if (!dog) {
+  if (!selectedDogProfile) {
     return <div>No dog data available.</div>;
   }
 

@@ -1,16 +1,20 @@
 import { useSelector } from "react-redux";
-import { RootState } from "../store";
+import { selectDogProfile } from "../store/dogProfileSlice";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import { WidgetTitle } from "../components/commonParts/Labels";
 
 export default function DogFamily() {
-	const dog = useSelector((state: RootState) => state.dogProfile.dog);
-	if (!dog) {
-		return <div>No dog profile available.</div>;
-	}
-	const { assignedFamilyId } = dog;
-	return (
-		<div>
-			<div>המשפחה שלי</div>
-			<div>{assignedFamilyId}</div>
-		</div>
-	);
+  const dog = useSelector(selectDogProfile);
+  if (!dog) {
+    return <div>No dog profile available.</div>;
+  }
+  const { assignedFamilyId } = dog;
+  return (
+    <>
+      <WidgetHeader>
+        <WidgetTitle>המשפחה שלי</WidgetTitle>
+      </WidgetHeader>
+      <WidgetBody></WidgetBody>
+    </>
+  );
 }

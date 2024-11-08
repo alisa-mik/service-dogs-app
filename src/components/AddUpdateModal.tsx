@@ -3,13 +3,12 @@ import { Modal, Box } from "@mui/material";
 import AddUpdateForm from "./AddUpdateForm"; // The form component you'll create below
 
 interface AddUpdateModalProps {
-  dogId: string;
+  dogId?: string | undefined;
   open: boolean;
   handleClose: () => void;
 }
 
 const AddUpdateModal: React.FC<AddUpdateModalProps> = ({
-  dogId,
   open,
   handleClose,
 }) => {
@@ -26,7 +25,7 @@ const AddUpdateModal: React.FC<AddUpdateModalProps> = ({
           p: 4,
         }}
       >
-        <AddUpdateForm dogId={dogId} handleClose={handleClose} />
+        <AddUpdateForm handleClose={handleClose} />
       </Box>
     </Modal>
   );

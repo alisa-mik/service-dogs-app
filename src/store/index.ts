@@ -6,11 +6,13 @@ import dogProfileReducer from './dogProfileSlice';
 import updatesByDogIdReducer from './updatesByDogIdSlice';
 import updatesReducer from './updatesSlice';
 import trainingGroupsReducer from './trainingGroupsSlice';
+import familiesReducer from './familiesSlice';
 
 const store = configureStore({
     reducer: {
         user: userReducer,
         dogs: dogsReducer,
+        families: familiesReducer,
         updates: updatesReducer,
         trainingGroups: trainingGroupsReducer,
         errors: errorsReducer,

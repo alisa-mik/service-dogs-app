@@ -10,6 +10,8 @@ import { Center } from "../components/commonParts/Layouts";
 import FamiliesList from "../widgets/FamiliesList";
 import FamilyDetails from "../widgets/FamilyDetails";
 import FamilyDogsList from "../widgets/FamilyDogsList";
+import { fetchFamilies } from "../store/familiesSlice";
+import FamilySummary from "../widgets/FamilySummary";
 
 const Container = styled.div`
   width: 100%;
@@ -22,12 +24,11 @@ const Container = styled.div`
 
 export default function FamiliesDashboard() {
   const dispatch = useDispatch<AppDispatch>();
-  //   const groupsStatus = useSelector(selectGroupsStatus);
   //   const groupsError = useSelector(selectGroupsError);
 
-  //   useEffect(() => {
-  //     dispatch(fetchGroups());
-  //   }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchFamilies());
+  }, [dispatch]);
 
   //   if (groupsStatus === "loading") {
   //     return (
@@ -43,23 +44,16 @@ export default function FamiliesDashboard() {
 
   const widgets: WidgetConfig[] = [
     {
-      layout: { w: 7, h: 30, x: 5, y: 0, i: "a" },
+      layout: { w: 1, h: 100, x: 4, y: 0, i: "a" },
       widget: {
         props: {},
         display: true,
         type: Container,
       },
     },
+
     {
-      layout: { w: 1, h: 50, x: 4, y: 0, i: "b" },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
-      },
-    },
-    {
-      layout: { w: 7, h: 70, x: 5, y: 30, i: "c" },
+      layout: { w: 7, h: 100, x: 5, y: 0, i: "c" },
       widget: {
         props: { showExpnded: true },
         display: true,
@@ -67,7 +61,7 @@ export default function FamiliesDashboard() {
       },
     },
     {
-      layout: { w: 5, h: 50, x: 0, y: 0, i: "k" },
+      layout: { w: 4, h: 30, x: 0, y: 0, i: "k" },
       widget: {
         props: {},
         display: true,
@@ -75,11 +69,19 @@ export default function FamiliesDashboard() {
       },
     },
     {
-      layout: { w: 4, h: 50, x: 0, y: 50, i: "e" },
+      layout: { w: 4, h: 30, x: 0, y: 30, i: "e" },
       widget: {
         props: {},
         display: true,
         type: FamilyDogsList,
+      },
+    },
+    {
+      layout: { w: 4, h: 40, x: 0, y: 60, i: "b" },
+      widget: {
+        props: {},
+        display: true,
+        type: FamilySummary,
       },
     },
   ];

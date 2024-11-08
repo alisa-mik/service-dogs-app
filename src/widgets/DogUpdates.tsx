@@ -4,14 +4,12 @@ import AddUpdateModal from "../components/AddUpdateModal";
 import { Button } from "../components/commonParts/Buttons";
 import { WidgetTitle } from "../components/commonParts/Labels";
 
-import { selectDogId } from "../store/dogProfileSlice";
-import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { UpdatesList } from "./UpdatesList";
 import { WidgetHeader } from "../components/commonParts/Layouts";
+import { selectSelectedDogId } from "../store/dogsSlice";
 
 export default function DogUpdates() {
-  // const updates = useSelector(selectUpdatesByDogId);
-  const dogId = useSelector(selectDogId);
+  const dogId = useSelector(selectSelectedDogId);
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);

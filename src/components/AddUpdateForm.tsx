@@ -1,11 +1,11 @@
-import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import { apiClient, apiConfig } from "../config/apiConfig";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
 import Form, { configType } from "./form/Form";
+import { selectSelectedDogId } from "../store/dogsSlice";
 
 const validate = (values: { content: string; date: string }) => {
   const errors: { content?: string; date?: string } = {};
@@ -21,22 +21,16 @@ const validate = (values: { content: string; date: string }) => {
   return errors;
 };
 
-interface AddUpdateFormProps {
-  dogId: string;
-  handleClose: () => void;
-}
-
-const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
-  dogId,
-  handleClose,
+const AddUpdateForm = ({
+  onClose,
+  data,
+}: {
+  onClose: () => void;
+  data: any;
 }) => {
+  const dogId = useSelector(selectSelectedDogId);
   const dispatch = useDispatch<AppDispatch>();
-
-  const initialValues = {
-    content: "",
-    categories: [],
-    date: Math.floor(new Date().getTime() / 1000),
-  };
+  console.log({ data });
 
   const onSubmit = async (values) => {
     try {
@@ -50,7 +44,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
         date: values.date,
       });
 
-      handleClose();
+      onClose();
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(fetchAllUpdates({}));
     } catch (error) {
@@ -91,7 +85,7 @@ const AddUpdateForm: React.FC<AddUpdateFormProps> = ({
     <Form
       formType="single"
       config={config}
-      data={initialValues}
+      data={data}
       validate={validate}
       onSubmit={onSubmit}
     />
