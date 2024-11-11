@@ -26,26 +26,6 @@ const Container = styled.div`
 `;
 
 export default function TrainingGroupsDashboard() {
-  const dispatch = useDispatch<AppDispatch>();
-  const groupsStatus = useSelector(selectGroupsStatus);
-  const groupsError = useSelector(selectGroupsError);
-
-  useEffect(() => {
-    dispatch(fetchGroups());
-  }, [dispatch]);
-
-  if (groupsStatus === "loading") {
-    return (
-      <Center>
-        <CircularProgress />
-      </Center>
-    );
-  }
-
-  if (groupsStatus === "failed") {
-    return <div>Error: {groupsError}</div>;
-  }
-
   const widgets: WidgetConfig[] = [
     {
       layout: { w: 9.5, h: 40, x: 2.5, y: 60, i: "a" },
@@ -89,10 +69,5 @@ export default function TrainingGroupsDashboard() {
     },
   ];
 
-  return (
-    <WidgetManager
-      onLayoutChange={console.log}
-      config={{ spacing: "10px", widgets }}
-    />
-  );
+  return <WidgetManager config={{ spacing: "10px", widgets }} />;
 }

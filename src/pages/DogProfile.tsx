@@ -19,7 +19,6 @@ import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { Center } from "../components/commonParts/Layouts";
 import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
-import { fetchFamilies } from "../store/familiesSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -48,7 +47,6 @@ export default function DogProfile() {
       dispatch(fetchDogById(dogId));
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(setSelectedDogId(dogId));
-      dispatch(fetchFamilies());
     }
   }, [dispatch, dogId]);
 

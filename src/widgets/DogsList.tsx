@@ -19,15 +19,17 @@ const SearchInput = styled.input`
   background-color: white;
   direction: rtl;
   border: solid 1px ${TOASTED_PINE_NUT};
+  pointer-events: all;
 `;
 
 const RowCenter = styled.div`
   position: absolute;
-  left: 50px;
+  left: 0;
   right: 0;
   justify-content: center;
   gap: 10px;
   display: flex;
+  pointer-events: none;
 `;
 
 export default function DogsList() {

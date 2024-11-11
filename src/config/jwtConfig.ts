@@ -1,6 +1,12 @@
+
+
+const HOST_NAME = window.location.origin;
+console.log({HOST_NAME});
+
+
 export const jwtConfig = {
     client_id: "5o5mor0u37aqmanfu3ahl0i3hl",
-    redirect_uri: "https://d26bknf7mfwqpe.cloudfront.net/login",
+    redirect_uri: `${HOST_NAME}/login`,
     response_type: "code",
     grant_type: "authorization_code",
     scope: "email openid",

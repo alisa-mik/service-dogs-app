@@ -4,6 +4,12 @@ import styled from "styled-components";
 import { TOP_BAR_HIGHT } from "../config/constants";
 import { BEIGE_LIGHT, BROWN_DARK, YELLOW } from "../config/colors";
 import { isEmpty } from "lodash";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { fetchAllUpdates } from "../store/updatesSlice";
+import { fetchDogs, setSelectedDogId } from "../store/dogsSlice";
+import { fetchFamilies } from "../store/familiesSlice";
+import { fetchGroups } from "../store/trainingGroupsSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -90,6 +96,15 @@ export default function App() {
   const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = useState("");
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(fetchDogs());
+    dispatch(fetchGroups());
+    dispatch(fetchAllUpdates({}));
+    dispatch(fetchFamilies());
+  }, [dispatch]);
 
   useEffect(() => {
     const tabByLocation = location.pathname.split("/")[2];

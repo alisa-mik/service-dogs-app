@@ -1,37 +1,17 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { GridColDef } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
-import { CircularProgress } from "@mui/material";
-import { AppDispatch, RootState } from "../store";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchDogs } from "../store/dogsSlice";
+import { RootState } from "../store";
+import { useSelector } from "react-redux";
 import { Table } from "./table/Table";
 import { Center } from "./commonParts/Layouts";
 
 export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const {
-    dogs,
-    status: dogStatus,
-    error: dogError,
-  } = useSelector((state: RootState) => state.dogs);
+  const { dogs } = useSelector((state: RootState) => state.dogs);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (dogStatus === "idle") {
-      dispatch(fetchDogs());
-    }
-  }, [dogStatus, dispatch]);
-
-  if (dogStatus === "loading") {
-    return <CircularProgress />;
-  }
-
-  if (dogStatus === "failed") {
-    return <div color="error">Error: {dogError}</div>;
-  }
   const filteredDogs = dogs.filter((dog) =>
     dog.dogName.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -123,23 +103,4 @@ export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   };
 
   return <> {renderTable()}</>;
-  // <Container>
-  {
-    /* <SearchInput
-        style={{
-          direction: "rtl",
-          border: `solid 1px ${TOASTED_PINE_NUT}`,
-        }}
-        type="text"
-        placeholder="חיפוש לפי שם הכלב"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-      <Button onClick={() => setOpen(true)}>הוספת כלב</Button>
-      <CustomDialog onClose={handleClose} open={open} title="הוספת כלב חדש">
-        <DogForm onClose={handleClose} data={data} />
-      </CustomDialog> */
-  }
-
-  // </Container>
 };
