@@ -1,26 +1,12 @@
 import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import styled from "styled-components";
-import { TOASTED_PINE_NUT } from "../config/colors";
-import CustomDialog from "../components/CustomDialog";
-import { Button } from "../components/commonParts/Buttons";
 import DogForm from "../components/DogForm/DogForm";
 import { DogsTable } from "../components/DogsTable";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
-
-const SearchInput = styled.input`
-  padding: 10px;
-  width: 30%;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
-  direction: rtl;
-  border: solid 1px ${TOASTED_PINE_NUT};
-  pointer-events: all;
-`;
+import { SearchInput } from "../components/form/styledInputs";
 
 const RowCenter = styled.div`
   position: absolute;
@@ -34,13 +20,7 @@ const RowCenter = styled.div`
 
 export default function DogsList() {
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
-
   const { dogs } = useSelector((state: RootState) => state.dogs);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const data = {
     dogId: null,
@@ -76,10 +56,7 @@ export default function DogsList() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={() => setOpen(true)}>הוסף כלב</Button>
-          <CustomDialog onClose={handleClose} open={open} title="הוספת משפחה">
-            <DogForm onClose={handleClose} data={data} />
-          </CustomDialog>
+          <DogForm data={data} />
         </RowCenter>
       </WidgetHeader>
 

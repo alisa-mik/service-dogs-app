@@ -19,7 +19,10 @@ export default function CustomDialog({
     setDialogOpen(open);
   }, [open]);
 
-  const handleOnClose = (reason: "escapeKeyDown" | "backdropClick") => {
+  const handleOnClose = (
+    _event: any,
+    reason: "escapeKeyDown" | "backdropClick"
+  ) => {
     if (reason === "escapeKeyDown") {
       setDialogOpen(false);
       onClose();

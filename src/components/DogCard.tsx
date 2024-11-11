@@ -49,8 +49,6 @@ interface DogCardProps {
 }
 
 export const DogCard = ({ dog }: DogCardProps) => {
-  console.log({ dog });
-
   const navigate = useNavigate();
   const { dogId, dogName, gender, assignedFamily, breed, dogStatus } = dog;
 

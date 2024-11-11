@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FormikProps, useFormik } from "formik";
 import { Button } from "../commonParts/Buttons.tsx";
 import { FormContainer } from "../DogForm/FormStyles.ts";
-import SectionInjector from "./SectionInjector.tsx";
+import SectionInjector, { Section } from "./SectionInjector.tsx";
 import styled from "styled-components";
 import { noop } from "lodash";
 import { InputType } from "./InputInjector.tsx";
@@ -19,7 +19,7 @@ const ButtonSingleContainer = styled.div`
 
 export type configType = {
   itemGroup: "section" | "input";
-  itemType: "common" | "done" | "condition" | InputType;
+  itemType: Section | InputType;
   label?: string;
   itemProps?: { [key: string]: any };
   items?: configType[];
@@ -30,7 +30,7 @@ interface Iform {
   formType: "steps" | "single";
   data: { [key: string]: any };
   config: configType[];
-  validate: (values: { [key: string]: any }) => { [key: string]: any };
+  validate?: (values: { [key: string]: any }) => { [key: string]: any };
   onSubmit: (values: { [key: string]: any }) => void;
 }
 

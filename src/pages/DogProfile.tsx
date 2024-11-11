@@ -126,10 +126,5 @@ export default function DogProfile() {
     return <div>No dog data available.</div>;
   }
 
-  return (
-    <WidgetManager
-      onLayoutChange={console.log}
-      config={{ spacing: "10px", widgets }}
-    />
-  );
+  return <WidgetManager config={{ spacing: "10px", widgets }} />;
 }

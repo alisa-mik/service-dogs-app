@@ -1,24 +1,10 @@
 import { useState } from "react";
-import { Button } from "../components/commonParts/Buttons";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
-import CustomDialog from "../components/CustomDialog";
 import FamilyForm from "../components/FamilyForm";
 import { FamiliesTable } from "../components/FamiliesTable";
 import styled from "styled-components";
-import { TOASTED_PINE_NUT } from "../config/colors";
-
-const SearchInput = styled.input`
-  padding: 10px;
-  width: 30%;
-  font-size: 14px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
-  direction: rtl;
-  border: solid 1px ${TOASTED_PINE_NUT};
-  pointer-events: all;
-`;
+import { SearchInput } from "../components/form/styledInputs";
 
 const RowCenter = styled.div`
   position: absolute;
@@ -31,12 +17,7 @@ const RowCenter = styled.div`
 `;
 
 export default function FamiliesList() {
-  const [open, setOpen] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const data = {
     familyName: "",
@@ -59,10 +40,7 @@ export default function FamiliesList() {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <Button onClick={() => setOpen(true)}>הוסף משפחה</Button>
-          <CustomDialog onClose={handleClose} open={open} title="הוספת משפחה">
-            <FamilyForm onClose={handleClose} data={data} />
-          </CustomDialog>
+          <FamilyForm data={data} />
         </RowCenter>
       </WidgetHeader>
 

@@ -32,7 +32,6 @@ const AddUpdateForm = ({
 }) => {
   const dogId = useSelector(selectSelectedDogId);
   const dispatch = useDispatch<AppDispatch>();
-  console.log({ data });
 
   const onSubmit = async (values: { [key: string]: any }) => {
     if (!dogId) {

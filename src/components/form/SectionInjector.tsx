@@ -9,10 +9,12 @@ export interface ISection {
   formik: FormikProps<{ [key: string]: any }>;
 }
 
+export type Section = "done" | "common" | "condition";
+
 interface ISectionInjector {
   config: configType[];
   formik: FormikProps<{ [key: string]: any }>;
-  sectionType: "done" | "common";
+  sectionType: Section;
   itemProps?: { [key: string]: any };
 }
 
@@ -28,7 +30,7 @@ const SectionInjector: React.FC<ISectionInjector> = ({
     condition: Condition,
   };
 
-  const Component = sectionsMap[sectionType];
+  const Component = sectionsMap[sectionType] as any;
 
   return <Component config={config} formik={formik} {...itemProps} />;
 };

@@ -46,12 +46,12 @@ export const CategoryTag = styled.span<CategoryTagProps>`
     font-size: 12px;
 `;
 
-export const Content = styled.div<{ expanded: boolean }>`
+export const Content = styled.div<{ $expanded: boolean }>`
     font-size: 16px;
     color: ${BROWN_DARK};
     overflow: hidden;
-    height:  ${({ expanded }) => (expanded ? 'fit-content' : "29px")};
-    max-height: ${({ expanded }) => (expanded ? "500px" : "4.5em")}; 
+    height:  ${({ $expanded }) => ($expanded ? 'fit-content' : "29px")};
+    max-height: ${({ $expanded }) => ($expanded ? "500px" : "4.5em")}; 
     transition: all 2s ease;
 `;
 

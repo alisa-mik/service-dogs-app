@@ -6,10 +6,6 @@ import { WidgetTitle } from "../components/commonParts/Labels";
 import { selectDogProfile } from "../store/dogProfileSlice";
 import { isEmpty } from "lodash";
 import { Dog } from "../types/dogTypes";
-
-import EditIcon from "@mui/icons-material/Edit";
-import { BROWN_DARK } from "../config/colors";
-import CustomDialog from "../components/CustomDialog";
 import DogForm from "../components/DogForm/DogForm";
 import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 
@@ -92,13 +88,7 @@ const DogDetails: React.FC = () => {
     <>
       <WidgetHeader>
         <WidgetTitle>פרטים כלליים</WidgetTitle>
-        <EditIcon
-          style={{ color: BROWN_DARK, cursor: "pointer" }}
-          onClick={() => setOpen(true)}
-        />
-        <CustomDialog onClose={handleClose} open={open} title="הוספת כלב חדש">
-          <DogForm onClose={handleClose} data={dog} />
-        </CustomDialog>
+        <DogForm icon={"edit"} data={dog} />
       </WidgetHeader>
 
       <Body>

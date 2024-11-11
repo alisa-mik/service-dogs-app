@@ -27,7 +27,7 @@ export const Table: React.FC<Itable> = ({
   onRowClick = noop,
   hideFooter = false,
 }) => {
-  const paginationModel = { page: 0, pageSize: hideFooter ? 100 : 15 };
+  const paginationModel = { page: 0, pageSize: hideFooter ? 100 : 12 };
 
   const CustomPagination = () => {
     const apiRef = useGridApiContext();

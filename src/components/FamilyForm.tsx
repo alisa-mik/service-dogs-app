@@ -1,12 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-// import { useDispatch, useSelector } from "react-redux";
-// import { AppDispatch } from "../store/index.ts";
-import Form, { configType } from "./form/Form.tsx";
-import {} from "../store/trainingGroupsSlice.ts";
+import { configType } from "./form/Form.tsx";
 import { apiClient, apiConfig } from "../config/apiConfig.ts";
 import { refetchFamilies } from "../store/familiesSlice.ts";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
+import FormButtonDialog from "./form/FormButtonDialog.tsx";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -19,17 +17,17 @@ const validate = (values: { [key: string]: any }) => {
     errors.contactName = "שם איש קשר הוא שדה חובה";
   }
 
-  if (!values["contactInfo.phoneNumber"]?.trim()) {
-    errors["contactInfo.phoneNumber"] = "מספר טלפון הוא שדה חובה";
-  }
+  // if (!values["contactInfo.phoneNumber"]?.trim()) {
+  //   errors["contactInfo.phoneNumber"] = "מספר טלפון הוא שדה חובה";
+  // }
 
   return errors;
 };
 
-const FamilyForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
+const FamilyForm = ({ data }: { data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (values: { [key: string]: any }) => {
+  const handleSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
       ...values,
       familyId: values.familyId ? values.familyId : uuidv4(),
@@ -37,10 +35,7 @@ const FamilyForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
 
     const response = await apiClient.post(apiConfig.addFamily, formattedValues);
     alert("משפחה נוספה בהצלחה!");
-    onClose();
-    {
-      // values.familyId && dispatch(refetchDogById(values.dogId));
-    }
+
     dispatch(refetchFamilies());
     return response.data;
   };
@@ -103,12 +98,13 @@ const FamilyForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   ];
 
   return (
-    <Form
-      validate={validate}
-      formType="single"
-      config={config}
+    <FormButtonDialog
       data={data}
-      onSubmit={onSubmit}
+      buttonText="הוסף משפחה"
+      formConfig={config}
+      formType="single"
+      onSubmit={handleSubmit}
+      validate={validate}
     />
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import { selectSelectedGroup } from "../store/trainingGroupsSlice";
 import {
@@ -7,15 +7,10 @@ import {
   WidgetHeader,
 } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
-import { Button } from "../components/commonParts/Buttons";
-import CustomDialog from "../components/CustomDialog";
 import GroupUpdateForm from "../components/GroupUpdateForm";
 import UpdateCard from "../components/UpdateCard";
 
 export const GroupUpdates: React.FC = () => {
-  const [openMeeting, setOpenMeetingForm] = useState<boolean>(false);
-  const [openUpdate, setOpenUpdateForm] = useState<boolean>(false);
-
   const selectedGroup = useSelector(selectSelectedGroup);
 
   if (!selectedGroup) {
@@ -29,11 +24,6 @@ export const GroupUpdates: React.FC = () => {
     .sort((a, b) => b.date - a.date)
     .reverse();
 
-  const handleClose = () => {
-    setOpenMeetingForm(false);
-    setOpenUpdateForm(false);
-  };
-
   const data = {
     date: "",
     content: "",
@@ -45,22 +35,8 @@ export const GroupUpdates: React.FC = () => {
     <>
       <WidgetHeader>
         <WidgetTitle>עדכונים ומפגשים</WidgetTitle>
-        <Button onClick={() => setOpenMeetingForm(true)}>
-          הוסף סיכום מפגש
-        </Button>
-        <Button onClick={() => setOpenUpdateForm(true)}>הוסף עדכון</Button>
-        <CustomDialog onClose={handleClose} open={openMeeting}>
-          <GroupUpdateForm
-            onClose={handleClose}
-            data={{ ...data, type: "meeting" }}
-          />
-        </CustomDialog>
-        <CustomDialog onClose={handleClose} open={openUpdate}>
-          <GroupUpdateForm
-            onClose={handleClose}
-            data={{ ...data, type: "update" }}
-          />
-        </CustomDialog>
+        <GroupUpdateForm data={{ ...data, type: "meeting" }} />
+        <GroupUpdateForm data={{ ...data, type: "update" }} />
       </WidgetHeader>
 
       <WidgetBody>

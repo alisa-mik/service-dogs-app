@@ -19,8 +19,6 @@ export default ({ date, size = "12px" }: IdateText) => {
   dayjs.extend(localizedFormat);
   dayjs.locale("he");
 
-  console.log(formatDateFromSeconds(date));
-
   const formattedDate = dayjs.unix(date).format("D [ב]MMMM YYYY");
 
   return <DateText size={size}>{formattedDate}</DateText>;

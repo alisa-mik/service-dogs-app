@@ -44,8 +44,6 @@ const Root = () => {
   }, [userGroup]);
 
   useEffect(() => {
-    console.log({ hasToken });
-
     if (!isNull(hasToken)) {
       if (!hasToken) return navigate("/login");
       if (userGroup === "Admin") {

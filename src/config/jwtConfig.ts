@@ -1,7 +1,6 @@
 
 
 const HOST_NAME = window.location.origin;
-console.log({HOST_NAME});
 
 
 export const jwtConfig = {

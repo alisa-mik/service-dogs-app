@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SectionInjector, { ISection } from "../SectionInjector";
+import SectionInjector, { ISection, Section } from "../SectionInjector";
 import InputInjector, { InputType } from "../InputInjector";
 
 type Con = {
@@ -22,47 +22,32 @@ const Condition: React.FC<IConditions> = ({ config, formik, conditions }) => {
   }, [formik.values]);
 
   const renderSectionsAndInputs = () => {
-    return config.map((item) => {
+    return config.map((item, key) => {
       if (item.itemGroup === "section" && item.items) {
-        if (["done", "common"].includes(item.itemType)) {
-          return (
-            <SectionInjector
-              sectionType={item.itemType as "done" | "common"}
-              config={item.items}
-              formik={formik}
-            />
-          );
-        }
+        return (
+          <SectionInjector
+            key={key}
+            sectionType={item.itemType as Section}
+            config={item.items}
+            formik={formik}
+          />
+        );
       }
 
-      const { itemType = "text", path, label, itemProps = {}, items } = item; // Extract items for config
+      const { itemType = "text", path, label, itemProps = {} } = item;
 
-      if (path && item.itemGroup === "input") {
-        if (
-          [
-            "text",
-            "select",
-            "date",
-            "checkbox",
-            "textarea",
-            "category",
-            "attendance",
-          ].includes(itemType)
-        ) {
-          return (
-            <InputInjector
-              inputType={itemType as InputType}
-              path={path}
-              label={label || ""}
-              config={items} // Pass config if needed
-              formik={formik}
-              itemProp={itemProps}
-            />
-          );
-        }
+      if (item.itemGroup === "input") {
+        return (
+          <InputInjector
+            key={key}
+            inputType={itemType as InputType}
+            path={path || ""}
+            label={label || ""}
+            formik={formik}
+            itemProp={itemProps}
+          />
+        );
       }
-
-      return "error";
     });
   };
 

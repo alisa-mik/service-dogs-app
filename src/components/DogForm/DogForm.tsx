@@ -3,9 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
 import { apiClient } from "../../config/apiConfig.ts";
-import Form, { configType } from "../form/Form.tsx";
+import { configType } from "../form/Form.tsx";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
+import FormButtonDialog from "../form/FormButtonDialog.tsx";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -16,7 +17,7 @@ const validate = (values: { [key: string]: any }) => {
   return errors;
 };
 
-const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
+const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
   const dispatch = useDispatch<AppDispatch>();
   const families = useSelector(selectFamiliesArray);
 
@@ -27,7 +28,7 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
     };
 
     const response = await apiClient.post("add-dog", formattedValues);
-    onClose();
+
     {
       values.dogId && dispatch(refetchDogById(values.dogId));
     }
@@ -226,12 +227,14 @@ const DogForm = ({ onClose, data }: { onClose: () => void; data: any }) => {
   ];
 
   return (
-    <Form
-      validate={validate}
-      formType="steps"
-      config={config}
+    <FormButtonDialog
       data={data}
+      buttonText="הוסף כלב"
+      formConfig={config}
+      formType="steps"
       onSubmit={onSubmit}
+      validate={validate}
+      icon={icon}
     />
   );
 };

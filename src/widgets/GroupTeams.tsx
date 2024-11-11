@@ -30,7 +30,7 @@ export const GroupTeams: React.FC = () => {
       <WidgetBody>
         <Column>
           {dogs.map((dog: any) => (
-            <DogCard dog={dog} />
+            <DogCard key={dog.dogId} dog={dog} />
           ))}
         </Column>
       </WidgetBody>

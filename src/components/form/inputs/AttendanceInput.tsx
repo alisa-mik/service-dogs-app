@@ -35,7 +35,7 @@ export const AttendanceInput: React.FC<IAttendance> = ({
     <Row>
       {modifiedDogs.map((dog) => {
         return (
-          <div>
+          <div key={dog.dogId}>
             <Checkbox
               type="checkbox"
               name={dog.dogId}

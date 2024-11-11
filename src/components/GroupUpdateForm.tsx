@@ -2,11 +2,12 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
 import { apiClient, apiConfig } from "../config/apiConfig.ts";
-import Form, { configType } from "./form/Form.tsx";
+import { configType } from "./form/Form.tsx";
 import {
   refetchGroups,
   selectSelectedGroupDogs,
 } from "../store/trainingGroupsSlice.ts";
+import FormButtonDialog from "./form/FormButtonDialog.tsx";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -29,13 +30,7 @@ const validate = (values: { [key: string]: any }) => {
   return errors;
 };
 
-const GroupUpdateForm = ({
-  onClose,
-  data,
-}: {
-  onClose: () => void;
-  data: any;
-}) => {
+const GroupUpdateForm = ({ data }: { data: any }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedGroupDogs = useSelector(selectSelectedGroupDogs);
@@ -50,7 +45,7 @@ const GroupUpdateForm = ({
       formattedValues
     );
     // alert("עדכון קבוצתי נוסף בהצלחה!");
-    onClose();
+
     // {
     //   values.dogId && dispatch(refetchDogById(values.dogId));
     // }
@@ -98,14 +93,17 @@ const GroupUpdateForm = ({
 
   const modifiedConfig =
     data.type === "meeting" ? [attendanceSection, ...config] : config;
+  const formType = data.type === "meeting" ? "steps" : "single";
+  const buttonText = data.type === "meeting" ? "הוסף סיכום מפגש" : "הוסף עדכון";
 
   return (
-    <Form
-      validate={validate}
-      formType="steps"
-      config={modifiedConfig}
+    <FormButtonDialog
       data={data}
+      buttonText={buttonText}
+      formConfig={modifiedConfig}
+      formType={formType}
       onSubmit={onSubmit}
+      validate={validate}
     />
   );
 };

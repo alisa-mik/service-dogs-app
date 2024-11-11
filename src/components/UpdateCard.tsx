@@ -30,8 +30,6 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
   const [scope, animate] = useAnimate();
   const [hover, setHover] = useState(false);
 
-  console.log({ update });
-
   const modifiedUpdate = update.attendance
     ? { ...update, categories: ["groupTraining"] }
     : update;
@@ -122,7 +120,7 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
             {hover && renderButtons()}
           </div>
         </HeaderRow>
-        <Content expanded={expanded}>{update.content}</Content>
+        <Content $expanded={expanded}>{update.content}</Content>
       </MainContent>
     </CardContainer>
   );

@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
-import { BROWN_DARK, WHITE, YELLOW } from "../../config/colors";
+import {
+  BROWN_DARK,
+  TOASTED_PINE_NUT,
+  WHITE,
+  YELLOW,
+} from "../../config/colors";
 
 const common = css`
   width: 100%;
@@ -46,4 +51,16 @@ export const Select = styled.select`
 export const DateInput = styled.input`
   ${common}
   width: 160px;
+`;
+
+export const SearchInput = styled.input`
+  padding: 10px;
+  width: 30%;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  direction: rtl;
+  border: solid 1px ${TOASTED_PINE_NUT};
+  pointer-events: all;
 `;

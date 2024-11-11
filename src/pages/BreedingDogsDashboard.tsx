@@ -28,10 +28,5 @@ export default function BreedingDogsDashboard() {
     },
   ];
 
-  return (
-    <WidgetManager
-      onLayoutChange={console.log}
-      config={{ spacing: "20px", widgets }}
-    />
-  );
+  return <WidgetManager config={{ spacing: "20px", widgets }} />;
 }
