@@ -5,16 +5,6 @@ import { GroupTeams } from "../widgets/GroupTeams";
 import { GroupAttendance } from "../widgets/GroupAttendance";
 import GroupsList from "../widgets/GroupsWidget";
 import GroupUpdates from "../widgets/GroupUpdates";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "../store";
-import {
-  fetchGroups,
-  selectGroupsError,
-  selectGroupsStatus,
-} from "../store/trainingGroupsSlice";
-import { useEffect } from "react";
-import { CircularProgress } from "@mui/material";
-import { Center } from "../components/commonParts/Layouts";
 
 const Container = styled.div`
   width: 100%;

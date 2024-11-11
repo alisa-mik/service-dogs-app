@@ -7,7 +7,7 @@ import { isEmpty } from "lodash";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchAllUpdates } from "../store/updatesSlice";
-import { fetchDogs, setSelectedDogId } from "../store/dogsSlice";
+import { fetchDogs } from "../store/dogsSlice";
 import { fetchFamilies } from "../store/familiesSlice";
 import { fetchGroups } from "../store/trainingGroupsSlice";
 

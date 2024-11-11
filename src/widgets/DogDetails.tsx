@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
@@ -57,12 +57,6 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 );
 
 const DogDetails: React.FC = () => {
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const dog = useSelector(selectDogProfile);
 
   if (isEmpty(dog)) {
