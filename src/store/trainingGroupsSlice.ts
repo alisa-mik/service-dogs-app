@@ -3,6 +3,7 @@
 import { createAsyncThunk, createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
+import { reverse } from "lodash";
 
 export interface Dog {
   dogId: string;
@@ -82,9 +83,9 @@ const trainingGroupsSlice = createSlice({
       })
       .addCase(fetchGroups.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.groupIds = action.payload.groupIds;
+        state.groupIds = reverse(action.payload.groupIds);
         state.groups = action.payload.groups;
-        state.selectedGroupId = action.payload.groupIds.at(-1)
+        state.selectedGroupId = action.payload.groupIds.at(0)
         state.error = null;
       })
       .addCase(fetchGroups.rejected, (state, action) => {
