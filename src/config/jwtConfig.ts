@@ -1,6 +1,8 @@
 
 
 const HOST_NAME = window.location.origin;
+console.log({HOST_NAME});
+
 
 
 export const jwtConfig = {
@@ -13,3 +15,5 @@ export const jwtConfig = {
     login_url: "https://service-dogs-app.auth.eu-west-1.amazoncognito.com/login",
     user_pool_id: "eu-west-1_VO7l8G34F"
 };
+
+console.log(jwtConfig.redirect_uri);
