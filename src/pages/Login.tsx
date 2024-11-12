@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <Box>
-      <MainTiTle> ניהול כלבי שירות באומנה</MainTiTle>
+      <MainTiTle> כלבי שירות באומנה</MainTiTle>
       <StyledButton variant="contained" onClick={handleSignIn}>
         כניסה
       </StyledButton>
