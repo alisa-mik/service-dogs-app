@@ -1,9 +1,6 @@
 
 
 const HOST_NAME = window.location.origin;
-console.log({HOST_NAME});
-
-
 
 export const jwtConfig = {
     client_id: "5o5mor0u37aqmanfu3ahl0i3hl",
@@ -16,4 +13,3 @@ export const jwtConfig = {
     user_pool_id: "eu-west-1_VO7l8G34F"
 };
 
-console.log(jwtConfig.redirect_uri);

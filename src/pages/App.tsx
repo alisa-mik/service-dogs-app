@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TOP_BAR_HIGHT } from "../config/constants";
 import { BEIGE_LIGHT, BROWN_DARK, YELLOW } from "../config/colors";
-import { isEmpty } from "lodash";
+import { isEmpty, uniqueId } from "lodash";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchAllUpdates } from "../store/updatesSlice";
@@ -134,7 +134,10 @@ export default function App() {
     <Container>
       <TopBar>
         {renderItems()}
-        <img style={{ height: "40px" }} src="/dog-waving.png" />
+        <img
+          style={{ height: "40px" }}
+          src={`/dog-waving.png?v=${uniqueId()}`}
+        />
       </TopBar>
       <Body>
         <Outlet />

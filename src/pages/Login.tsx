@@ -40,7 +40,6 @@ const Login = () => {
     }
   }, [dispatch, authCode]);
 
-  console.log(window.location.origin);
   const handleSignIn = () => {
     const loginUrl = createUrl(jwtConfig.login_url, {
       client_id: jwtConfig.client_id,
