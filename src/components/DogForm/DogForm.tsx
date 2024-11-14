@@ -7,6 +7,7 @@ import { configType } from "../form/Form.tsx";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
 import FormButtonDialog from "../form/FormButtonDialog.tsx";
+import { enqueueSnackbar } from "notistack";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -28,8 +29,12 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
     };
 
     const response = await apiClient.post("add-dog", formattedValues);
+    enqueueSnackbar(`כלב ${values.dogName} נוסף בהצלחה`, {
+      variant: "success",
+    });
 
     {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       values.dogId && dispatch(refetchDogById(values.dogId));
     }
     dispatch(refetchDogs());
