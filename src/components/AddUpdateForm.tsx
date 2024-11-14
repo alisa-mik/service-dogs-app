@@ -32,7 +32,7 @@ const AddUpdateForm = ({
 }: {
   icon?: string;
   data: any;
-  onOpen: () => void;
+  onOpen?: () => void;
 }) => {
   const dogId = useSelector(selectSelectedDogId);
   const dispatch = useDispatch<AppDispatch>();
@@ -44,7 +44,7 @@ const AddUpdateForm = ({
     }
 
     try {
-      const updateId = uuidv4();
+      const updateId = data.updateId ? data.updateId : uuidv4();
 
       await apiClient.post(apiConfig.addUpdate, {
         updateId: updateId,

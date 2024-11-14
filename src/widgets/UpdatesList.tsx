@@ -77,7 +77,7 @@ export const UpdatesList = () => {
           <div>עדכונים</div>
           <div>{`(${updates.length || 0})`}</div>
         </WidgetTitle>
-        <AddUpdateForm data={data} />
+        {dogId && <AddUpdateForm data={data} />}
       </WidgetHeader>
       <WidgetBody>
         <CategoryFilter
