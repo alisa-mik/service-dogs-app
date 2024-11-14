@@ -3,6 +3,7 @@ import { Button } from "../commonParts/Buttons";
 import Form, { configType } from "../form/Form.tsx";
 import CustomDialog from "../CustomDialog";
 import { Icon } from "@mui/material";
+import { noop } from "lodash";
 
 type FormButtonDialogProps = {
   icon?: undefined | string;
@@ -12,6 +13,7 @@ type FormButtonDialogProps = {
   buttonText: string;
   validate?: (values: { [key: string]: any }) => { [key: string]: string };
   onSubmit: (values: any) => void;
+  onOpen?: () => void;
 };
 
 type Validate = {
@@ -26,10 +28,12 @@ const FormButtonDialog: React.FC<FormButtonDialogProps> = ({
   buttonText,
   formConfig,
   formType = "single",
+  onOpen = noop,
 }) => {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => {
+    onOpen();
     setOpen(true);
   };
 
@@ -45,7 +49,11 @@ const FormButtonDialog: React.FC<FormButtonDialogProps> = ({
   const renderButton = () => {
     if (icon) {
       return (
-        <Icon sx={{ cursor: "pointer" }} onClick={handleOpen}>
+        <Icon
+          sx={{ cursor: "pointer" }}
+          baseClassName="material-icons-two-tone"
+          onClick={handleOpen}
+        >
           {icon}
         </Icon>
       );

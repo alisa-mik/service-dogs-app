@@ -1,4 +1,3 @@
-// src/components/UpdateCard.tsx
 import React, { useEffect, useState } from "react";
 import {
   CardContainer,
@@ -11,15 +10,12 @@ import {
 } from "./UpdateCardStyles";
 import { Update } from "../types/dogTypes";
 import { categoriesTranslation } from "../config/categories";
-import EditIcon from "@mui/icons-material/Edit";
-import {
-  BROWN_DARK,
-  CATEGORY_COLORS,
-  DEFAULT_CATEGORY_COLOR,
-} from "../config/colors";
+import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
+import { CATEGORY_COLORS, DEFAULT_CATEGORY_COLOR } from "../config/colors";
 import DateText from "./commonParts/DateText";
 import { Gap } from "./commonParts/Layouts";
 import { useAnimate } from "framer-motion";
+import AddUpdateForm from "./AddUpdateForm";
 interface UpdateCardProps {
   update: Update;
   index: number;
@@ -45,6 +41,10 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
     setExpanded(!expanded);
   };
 
+  const handleOpen = () => {
+    setHover(false);
+  };
+
   const renderCategories = () => {
     return (
       <Gap>
@@ -65,14 +65,15 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
   };
 
   const renderButtons = () => {
-    const handleClick = (e: React.MouseEvent) => {
+    const handleDeleteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
     };
 
     return (
-      // <HoveredButtons>
-      <EditIcon onClick={handleClick} style={{ color: BROWN_DARK }} />
-      // </HoveredButtons>
+      <div style={{ display: hover ? "contents" : "none" }}>
+        <DeleteTwoToneIcon onClick={handleDeleteClick} />
+        <AddUpdateForm icon={"edit"} data={update} onOpen={handleOpen} />
+      </div>
     );
   };
 
@@ -87,10 +88,6 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
       );
     return (
       <DogInfo>
-        {/* <img
-          style={{ height: "60px", borderRadius: "16px" }}
-          src={dogDetails.image}
-        /> */}
         <span
           style={{
             padding: "15px",
@@ -117,7 +114,7 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
           <DateText date={update.date} />
           <div style={{ display: "flex", gap: "10px" }}>
             {renderCategories()}
-            {hover && renderButtons()}
+            {renderButtons()}
           </div>
         </HeaderRow>
         <Content $expanded={expanded}>{update.content}</Content>

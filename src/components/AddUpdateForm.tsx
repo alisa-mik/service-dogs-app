@@ -4,9 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
-import Form, { configType } from "./form/Form";
+import { configType } from "./form/Form";
 import { selectSelectedDogId } from "../store/dogsSlice";
 import { enqueueSnackbar } from "notistack";
+import FormButtonDialog from "./form/FormButtonDialog";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -25,11 +26,13 @@ const validate = (values: { [key: string]: any }) => {
 };
 
 const AddUpdateForm = ({
-  onClose,
   data,
+  icon,
+  onOpen,
 }: {
-  onClose: () => void;
+  icon?: string;
   data: any;
+  onOpen: () => void;
 }) => {
   const dogId = useSelector(selectSelectedDogId);
   const dispatch = useDispatch<AppDispatch>();
@@ -52,7 +55,6 @@ const AddUpdateForm = ({
       });
 
       enqueueSnackbar("עדכון נוסף בהצלחה", { variant: "success" });
-      onClose();
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(fetchAllUpdates({}));
     } catch (error) {
@@ -90,12 +92,15 @@ const AddUpdateForm = ({
   ];
 
   return (
-    <Form
-      formType="single"
-      config={config}
+    <FormButtonDialog
       data={data}
-      validate={validate}
+      buttonText="הוסף עדכון"
+      formConfig={config}
+      formType="single"
       onSubmit={onSubmit}
+      validate={validate}
+      icon={icon}
+      onOpen={onOpen}
     />
   );
 };

@@ -13,14 +13,11 @@ import { Update } from "../types/dogTypes";
 import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import CategoryFilter from "../components/UpdateCategoriesFilter";
 import { WidgetTitle } from "../components/commonParts/Labels";
-import { Button } from "../components/commonParts/Buttons";
-import CustomDialog from "../components/CustomDialog";
 import AddUpdateForm from "../components/AddUpdateForm";
 import { selectSelectedDogId } from "../store/dogsSlice";
 
 const UpdatesContainer = styled.div`
   flex: 1;
-  padding: 0 10px 10px 10px;
   display: flex;
   flex-direction: column;
   text-align: right;
@@ -34,10 +31,6 @@ export const UpdatesList = () => {
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [displayUpdates, setDisplayUpdates] = useState<Update[]>([]);
-
-  const [open, setOpen] = useState(false);
-
-  const handleClose = () => setOpen(false);
 
   const updates =
     useSelector(dogId ? selectUpdatesByDogId : selectAllUpdates) || [];
@@ -84,10 +77,7 @@ export const UpdatesList = () => {
           <div>עדכונים</div>
           <div>{`(${updates.length || 0})`}</div>
         </WidgetTitle>
-        {dogId && <Button onClick={() => setOpen(true)}>הוסף עדכון</Button>}
-        <CustomDialog onClose={handleClose} open={open} title="הוספת כלב חדש">
-          <AddUpdateForm onClose={handleClose} data={data} />
-        </CustomDialog>
+        <AddUpdateForm data={data} />
       </WidgetHeader>
       <WidgetBody>
         <CategoryFilter

@@ -28,6 +28,10 @@ const TextArea: React.FC<IInput> = ({ path, formik }) => {
     } else {
       alert("Speech recognition is not supported in this browser.");
     }
+
+    return () => {
+      handleStopListening();
+    };
   }, []);
 
   useEffect(() => {
