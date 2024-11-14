@@ -6,6 +6,7 @@ import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
 import Form, { configType } from "./form/Form";
 import { selectSelectedDogId } from "../store/dogsSlice";
+import { enqueueSnackbar } from "notistack";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -50,6 +51,7 @@ const AddUpdateForm = ({
         date: values.date,
       });
 
+      enqueueSnackbar("עדכון נוסף בהצלחה", { variant: "success" });
       onClose();
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(fetchAllUpdates({}));

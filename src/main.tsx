@@ -3,6 +3,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
+import { SnackbarProvider } from "notistack";
 
 // import ErrorPage from "./pages/ErrorPage";
 import FamilyDashboard from "./pages/FamilyDashboard";
@@ -99,6 +100,11 @@ errorsIgnore();
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
+      <SnackbarProvider
+        anchorOrigin={{ horizontal: "left", vertical: "top" }}
+        autoHideDuration={5000}
+        preventDuplicate={true}
+      />
       <RouterProvider router={router} />
     </ThemeProvider>
   </Provider>
