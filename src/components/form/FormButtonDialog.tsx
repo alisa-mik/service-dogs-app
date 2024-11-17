@@ -50,6 +50,7 @@ const FormButtonDialog: React.FC<FormButtonDialogProps> = ({
     if (icon) {
       return (
         <Icon
+          fontSize="small"
           sx={{ cursor: "pointer" }}
           baseClassName="material-icons-two-tone"
           onClick={handleOpen}

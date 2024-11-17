@@ -70,8 +70,8 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
     };
 
     return (
-      <div style={{ display: hover ? "contents" : "none" }}>
-        <DeleteTwoToneIcon onClick={handleDeleteClick} />
+      <div style={{ display: hover ? "flex" : "none", gap: "2px" }}>
+        <DeleteTwoToneIcon fontSize="small" onClick={handleDeleteClick} />
         <AddUpdateForm icon={"edit"} data={update} onOpen={handleOpen} />
       </div>
     );
