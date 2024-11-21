@@ -16,12 +16,18 @@ import DateText from "./commonParts/DateText";
 import { Gap } from "./commonParts/Layouts";
 import { useAnimate } from "framer-motion";
 import AddUpdateForm from "./AddUpdateForm";
+import GroupUpdateForm from "./GroupUpdateForm";
 interface UpdateCardProps {
   update: Update;
+  type?: "dog" | "group";
   index: number;
 }
 
-const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
+const UpdateCard: React.FC<UpdateCardProps> = ({
+  update,
+  type = "dog",
+  index,
+}) => {
   const [expanded, setExpanded] = useState(false);
   const [scope, animate] = useAnimate();
   const [hover, setHover] = useState(false);
@@ -69,10 +75,12 @@ const UpdateCard: React.FC<UpdateCardProps> = ({ update, index }) => {
       e.stopPropagation();
     };
 
+    const EditForm = type === "dog" ? AddUpdateForm : GroupUpdateForm;
+
     return (
       <div style={{ display: hover ? "flex" : "none", gap: "2px" }}>
         <DeleteTwoToneIcon fontSize="small" onClick={handleDeleteClick} />
-        <AddUpdateForm icon={"edit"} data={update} onOpen={handleOpen} />
+        <EditForm icon={"edit"} data={update} onOpen={handleOpen} />
       </div>
     );
   };

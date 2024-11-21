@@ -19,10 +19,7 @@ export const GroupUpdates: React.FC = () => {
 
   const { updates } = selectedGroup;
 
-  const sortedUpdates = (updates || [])
-    .slice()
-    .sort((a, b) => b.date - a.date)
-    .reverse();
+  const sortedUpdates = (updates || []).slice().sort((a, b) => b.date - a.date);
 
   const data = {
     date: "",
@@ -45,7 +42,12 @@ export const GroupUpdates: React.FC = () => {
         )}
         <Column>
           {sortedUpdates.map((update, index) => (
-            <UpdateCard key={update.updateId} update={update} index={index} />
+            <UpdateCard
+              key={update.updateId}
+              type="group"
+              update={update}
+              index={index}
+            />
           ))}
         </Column>
       </WidgetBody>

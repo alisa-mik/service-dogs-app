@@ -30,7 +30,15 @@ const validate = (values: { [key: string]: any }) => {
   return errors;
 };
 
-const GroupUpdateForm = ({ data }: { data: any }) => {
+const GroupUpdateForm = ({
+  data,
+  icon,
+  onOpen,
+}: {
+  data: any;
+  icon?: string;
+  onOpen?: () => void;
+}) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const selectedGroupDogs = useSelector(selectSelectedGroupDogs);
@@ -99,11 +107,13 @@ const GroupUpdateForm = ({ data }: { data: any }) => {
   return (
     <FormButtonDialog
       data={data}
+      icon={icon}
       buttonText={buttonText}
       formConfig={modifiedConfig}
       formType={formType}
       onSubmit={onSubmit}
       validate={validate}
+      onOpen={onOpen}
     />
   );
 };
