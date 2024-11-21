@@ -1,6 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectSelectedGroup } from "../store/trainingGroupsSlice";
+import {
+  selectSelectedGroup,
+  selectSelectedGroupDogs,
+} from "../store/trainingGroupsSlice";
 import {
   Column,
   WidgetBody,
@@ -10,15 +13,9 @@ import { WidgetTitle } from "../components/commonParts/Labels";
 import { DogCard } from "../components/DogCard";
 
 export const GroupTeams: React.FC = () => {
-  const selectedGroup = useSelector(selectSelectedGroup);
+  const selectedGroupDogs = useSelector(selectSelectedGroupDogs);
 
-  if (!selectedGroup) {
-    return <div>בחר קבוצה</div>;
-  }
-
-  const { dogs } = selectedGroup;
-
-  if (!dogs || dogs.length === 0) {
+  if (!selectedGroupDogs || selectedGroupDogs.length === 0) {
     return <div>אין כלבים בקבוצה זו</div>;
   }
 
@@ -29,7 +26,7 @@ export const GroupTeams: React.FC = () => {
       </WidgetHeader>
       <WidgetBody>
         <Column>
-          {dogs.map((dog: any) => (
+          {selectedGroupDogs.map((dog: any) => (
             <DogCard key={dog.dogId} dog={dog} />
           ))}
         </Column>

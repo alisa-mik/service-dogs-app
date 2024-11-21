@@ -1,4 +1,5 @@
 import { FormikProps } from "formik";
+import { Family } from "../store/familiesSlice";
 
 export interface Author {
     userId: string;
@@ -22,16 +23,6 @@ export interface DogDetailsForUpdate {
     dogName: string;
     image: string;
 }
-export interface Dog extends DogBasic {
-    color: string;
-    momDog: string;
-    dadDog: string;
-    image: string;
-    dropDate: string,
-    dropReason: string,
-    chipNumber: string,
-    summary?: string;
-}
 
 export interface DogBasic  {
     dogId: string;
@@ -44,7 +35,20 @@ export interface DogBasic  {
     active: boolean;
     groupId: string;
   };
-  
+
+export interface DogWithFamily extends DogBasic {
+    family: Family;
+}
+export interface Dog extends DogBasic {
+    color: string;
+    momDog: string;
+    dadDog: string;
+    image: string;
+    dropDate: string,
+    dropReason: string,
+    chipNumber: string,
+    summary?: string;
+}
 
 export interface AddDogFormValues {
     dogName: string;

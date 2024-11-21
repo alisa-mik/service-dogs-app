@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { DogBasic } from "../types/dogTypes";
+import { DogWithFamily } from "../types/dogTypes";
 
 const Card = styled.div`
   padding: 10px;
@@ -46,22 +46,19 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 );
 
 interface DogCardProps {
-  dog: DogBasic;
+  dog: DogWithFamily;
   showFamily?: boolean;
 }
 
 export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
   const navigate = useNavigate();
 
-  const { dogId, dogName, gender, assignedFamily, breed, dogStatus } = dog;
+  const { dogId, dogName, gender, family, breed, dogStatus } = dog;
   const renderFamily = () => {
     if (!showFamily) return undefined;
 
     return (
-      <LabelValue
-        label="משפחה:"
-        value={assignedFamily ? assignedFamily : "-"}
-      />
+      <LabelValue label="משפחה:" value={family ? family.familyName : "-"} />
     );
   };
 

@@ -4,6 +4,7 @@ import { createAsyncThunk, createSlice, createSelector, PayloadAction } from "@r
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
 import { reverse } from "lodash";
+import { selectFamilies } from "./familiesSlice";
 
 export interface Dog {
   dogId: string;
@@ -160,10 +161,22 @@ export const selectSelectedGroupUpdates = createSelector(
   (selectedGroup) => (selectedGroup ? selectedGroup.updates : [])
 );
 
-// Selector to get the dogs of the selected group
 export const selectSelectedGroupDogs = createSelector(
-  [ selectSelectedGroup ],
-  (selectedGroup) => (selectedGroup ? selectedGroup.dogs : [])
+  [selectSelectedGroup, selectFamilies],
+  (selectedGroup, families) => {
+    if (!selectedGroup || !selectedGroup.dogs) {
+      return [];
+    }
+
+    // Map the dogs in the selected group with their family details
+    return selectedGroup.dogs.map((dog) => {
+      const familyDetails = families[dog.assignedFamily] || null;
+      return {
+        ...dog,
+        family: familyDetails, // Attach the full family details
+      };
+    });
+  }
 );
 
 
