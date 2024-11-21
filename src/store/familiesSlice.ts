@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
+import { selectAllDogs } from "./dogsSlice";
 
 export interface Family {
   familyId: string;
@@ -97,9 +98,25 @@ export const selectFamiliesArray = (state: RootState) =>  Object.values(state.fa
 
 export const selectSelectedFamilyId = (state: RootState) => state.families.selectedFamilyId;
 
-export const selectSelectedFamily = createSelector(
+export const selectSelectedFamilyBasic = createSelector(
   [selectFamilies, selectSelectedFamilyId],
   (families, selectedFamilyId) => (selectedFamilyId ? families[selectedFamilyId] : null)
+);
+
+export const selectSelectedFamily = createSelector(
+  [selectSelectedFamilyBasic, (state: RootState) => state.families.selectedFamilyId, selectAllDogs],
+  (family, selectedFamilyId, allDogs) => {
+    if (!selectedFamilyId) {
+      return null;
+    }
+
+    const assignedDogs = allDogs.filter((dog) => dog.assignedFamily === selectedFamilyId);
+
+    return {
+      ...family,
+      assignedDogs,
+    };
+  }
 );
 
 export const selectFamiliesStatus = (state: RootState) => state.families.status;

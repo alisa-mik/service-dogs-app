@@ -5,6 +5,7 @@ import { DogBasic } from "../types/dogTypes";
 const Card = styled.div`
   padding: 10px;
   display: flex;
+  flex: 0.5;
   flex-direction: column;
   text-align: right;
   overflow: auto;
@@ -46,11 +47,23 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 
 interface DogCardProps {
   dog: DogBasic;
+  showFamily?: boolean;
 }
 
-export const DogCard = ({ dog }: DogCardProps) => {
+export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
   const navigate = useNavigate();
+
   const { dogId, dogName, gender, assignedFamily, breed, dogStatus } = dog;
+  const renderFamily = () => {
+    if (!showFamily) return undefined;
+
+    return (
+      <LabelValue
+        label="משפחה:"
+        value={assignedFamily ? assignedFamily : "-"}
+      />
+    );
+  };
 
   return (
     <Card onClick={() => navigate(`/app/dogs/${dogId}`)}>
@@ -59,10 +72,7 @@ export const DogCard = ({ dog }: DogCardProps) => {
       <LabelValue label="מין:" value={gender} />
 
       <LabelValue label="סטטוס:" value={dogStatus} />
-      <LabelValue
-        label="משפחה:"
-        value={assignedFamily ? assignedFamily : "-"}
-      />
+      {renderFamily()}
     </Card>
   );
 };

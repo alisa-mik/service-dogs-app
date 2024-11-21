@@ -22,20 +22,11 @@ export interface DogDetailsForUpdate {
     dogName: string;
     image: string;
 }
-export interface Dog {
-    dogId: string;
-    dogName: string;
-    birthDate: number;
-    gender: string | null;
-    breed: string | null;
+export interface Dog extends DogBasic {
     color: string;
     momDog: string;
     dadDog: string;
-    active: boolean;
-    dogStatus: string;
     image: string;
-    assignedFamily: string | null;
-    groupId: string | null;
     dropDate: string,
     dropReason: string,
     chipNumber: string,
