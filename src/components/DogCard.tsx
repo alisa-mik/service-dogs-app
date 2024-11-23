@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { DogWithFamily } from "../types/dogTypes";
+import { DogBasic, DogWithFamily } from "../types/dogTypes";
 
 const Card = styled.div`
   padding: 10px;
@@ -46,7 +46,7 @@ const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
 );
 
 interface DogCardProps {
-  dog: DogWithFamily;
+  dog: DogWithFamily | DogBasic;
   showFamily?: boolean;
 }
 

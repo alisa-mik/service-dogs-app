@@ -5,6 +5,7 @@ import { refetchDogById } from "../store/dogProfileSlice";
 import styled from "styled-components";
 import FormButtonDialog from "./form/FormButtonDialog";
 import { configType } from "./form/Form";
+import { refetchFamilies } from "../store/familiesSlice";
 
 export const FormTitle = styled.h2`
   margin: 0;
@@ -12,15 +13,18 @@ export const FormTitle = styled.h2`
   color: #333;
 `;
 
-export default function EditSummaryForm({ data }: { data: any }) {
+export default function EditFamilyGeneralInfo({ data }: { data: any }) {
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values: { [key: string]: any }) => {
-    const response = await apiClient.put(`${apiConfig.editDog}/${data.dogId}`, {
-      summary: values.summary,
-    });
+    const response = await apiClient.put(
+      `${apiConfig.editFamily}/${data.familyId}`,
+      {
+        generalInfo: values.generalInfo,
+      }
+    );
 
-    dispatch(refetchDogById(data.dogId));
+    await dispatch(refetchFamilies());
     return response.data;
   };
 
@@ -28,15 +32,15 @@ export default function EditSummaryForm({ data }: { data: any }) {
     {
       itemGroup: "input",
       itemType: "textarea",
-      path: "summary",
-      label: "התרשמות:",
+      path: "generalInfo",
+      label: "מידע נוסף:",
     },
   ];
 
   return (
     <FormButtonDialog
       data={data}
-      buttonText={"ערוך התרשמות"}
+      buttonText={"ערוך מידע נוסף"}
       formConfig={formConfig}
       onSubmit={onSubmit}
     />

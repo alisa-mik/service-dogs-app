@@ -3,7 +3,7 @@ import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import FamiliesList from "../widgets/FamiliesList";
 import FamilyDetails from "../widgets/FamilyDetails";
 import FamilyDogsList from "../widgets/FamilyDogsList";
-import FamilySummary from "../widgets/FamilySummary";
+import FamilyGenarlInfo from "../widgets/FamilyGenarlInfo";
 
 // const Container = styled.div`
 //   width: 100%;
@@ -45,7 +45,7 @@ export default function FamiliesDashboard() {
       widget: {
         props: {},
         display: true,
-        type: FamilySummary,
+        type: FamilyGenarlInfo,
       },
     },
   ];

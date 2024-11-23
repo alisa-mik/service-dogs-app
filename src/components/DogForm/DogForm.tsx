@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from "uuid";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../store/index.ts";
 import { refetchDogs } from "../../store/dogsSlice.ts";
-import { apiClient } from "../../config/apiConfig.ts";
+import { apiClient, apiConfig } from "../../config/apiConfig.ts";
 import { configType } from "../form/Form.tsx";
 import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
@@ -28,7 +28,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
       dogId: values.dogId ? values.dogId : uuidv4(),
     };
 
-    const response = await apiClient.post("add-dog", formattedValues);
+    const response = await apiClient.post(apiConfig.addDog, formattedValues);
     enqueueSnackbar(`כלב ${values.dogName} נוסף בהצלחה`, {
       variant: "success",
     });
