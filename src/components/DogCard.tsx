@@ -53,13 +53,21 @@ interface DogCardProps {
 export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
   const navigate = useNavigate();
 
-  const { dogId, dogName, gender, family, breed, dogStatus } = dog;
+  const { dogId, dogName, gender, breed, dogStatus } = dog;
+
   const renderFamily = () => {
     if (!showFamily) return undefined;
 
-    return (
-      <LabelValue label="משפחה:" value={family ? family.familyName : "-"} />
-    );
+    if ("family" in dog) {
+      return (
+        <LabelValue
+          label="משפחה:"
+          value={dog.family ? dog.family.familyName : "-"}
+        />
+      );
+    }
+
+    return undefined;
   };
 
   return (
@@ -67,7 +75,6 @@ export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
       <LabelValue label="שם הכלב:" value={dogName} />
       <LabelValue label="גזע:" value={breed} />
       <LabelValue label="מין:" value={gender} />
-
       <LabelValue label="סטטוס:" value={dogStatus} />
       {renderFamily()}
     </Card>
