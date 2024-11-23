@@ -29,7 +29,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
     };
 
     const response = await apiClient.post(apiConfig.addDog, formattedValues);
-    enqueueSnackbar(`כלב ${values.dogName} נוסף בהצלחה`, {
+    enqueueSnackbar(`כלב ${values.dogName} נוסף/עודכן בהצלחה`, {
       variant: "success",
     });
 

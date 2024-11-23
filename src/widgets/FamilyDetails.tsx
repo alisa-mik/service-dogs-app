@@ -13,13 +13,30 @@ const Section = styled.section`
 `;
 
 export default function FamilyDetails() {
+  const selectedFamily = useSelector(selectSelectedFamily);
+
+  const { familyName, contactName, contactInfo } = selectedFamily || {};
+
+  const renderFamilyDetails = () => {
+    return (
+      <Section>
+        <LabelValue label="שם משפחה:" value={familyName} />
+        <LabelValue label="שם איש קשר:" value={contactName} />
+        <LabelValue label="מספר טלפון:" value={contactInfo?.phoneNumber} />
+        <LabelValue label="מייל:" value={contactInfo?.email} />
+        <LabelValue label="עיר מגורים:" value={contactInfo?.city} />
+        <LabelValue label="כתובת:" value={contactInfo?.address} />
+      </Section>
+    );
+  };
+
   return (
     <>
       <WidgetHeader>
         <WidgetTitle>פרטי משפחה</WidgetTitle>
       </WidgetHeader>
 
-      <WidgetBody></WidgetBody>
+      <WidgetBody>{renderFamilyDetails()}</WidgetBody>
     </>
   );
 }

@@ -10,8 +10,6 @@ export default function FamilyGenarlInfo() {
 
   const { familyId, generalInfo } = selectedFamily || {};
 
-  console.log("Selected family data:", selectedFamily);
-
   return (
     <>
       <WidgetHeader>
