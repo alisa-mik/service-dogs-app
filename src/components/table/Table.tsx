@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -6,6 +6,7 @@ import {
   gridPageCountSelector,
   gridPageSelector,
   useGridApiContext,
+  useGridApiRef,
   useGridSelector,
 } from "@mui/x-data-grid";
 import { Pagination } from "@mui/material";
@@ -19,6 +20,7 @@ interface Itable {
   rows: any[];
   onRowClick?: GridEventListener<"rowClick">;
   hideFooter: boolean;
+  selected?: string | null;
 }
 
 export const Table: React.FC<Itable> = ({
@@ -26,8 +28,15 @@ export const Table: React.FC<Itable> = ({
   rows,
   onRowClick = noop,
   hideFooter = false,
+  selected
 }) => {
+  const gridRef = useGridApiRef();
   const paginationModel = { page: 0, pageSize: hideFooter ? 100 : 12 };
+
+  useEffect(() => {
+    selected && gridRef.current?.selectRow(selected, true);
+  }, [ selected ])
+
 
   const CustomPagination = () => {
     const apiRef = useGridApiContext();
@@ -59,6 +68,7 @@ export const Table: React.FC<Itable> = ({
 
   return (
     <DataGrid
+      apiRef={gridRef}
       rows={rows}
       onRowClick={onRowClick}
       columns={modifeidColumns}

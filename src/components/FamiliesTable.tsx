@@ -4,12 +4,13 @@ import { AppDispatch } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "./table/Table";
 import { Center } from "./commonParts/Layouts";
-import { selectFamiliesArray, setSelectedFamily } from "../store/familiesSlice";
+import { selectFamiliesArray, selectSelectedFamilyId, setSelectedFamily } from "../store/familiesSlice";
 
 export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
   searchTerm,
 }) => {
   const dispatch = useDispatch<AppDispatch>();
+  const selectedFamilyId = useSelector(selectSelectedFamilyId);
   const families = useSelector(selectFamiliesArray);
 
   const filteredFamilies = families.filter((f) =>
@@ -72,8 +73,9 @@ export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
     return (
       <Table
         columns={columns}
-        rows={filteredFamilies}
+        rows={filteredFamilies.reverse()}
         hideFooter={false}
+        selected={selectedFamilyId}
         onRowClick={({ id }) => {
           handleSelectFamily(id as string);
         }}
