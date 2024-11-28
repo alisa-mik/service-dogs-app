@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   CardContainer,
   HeaderRow,
   CategoriesContainer,
   CategoryTag,
-  Content,
   DogInfo,
   MainContent,
 } from "./UpdateCardStyles";
 import { Update } from "../types/dogTypes";
 import { categoriesTranslation } from "../config/categories";
 import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
-import { CATEGORY_COLORS, DEFAULT_CATEGORY_COLOR } from "../config/colors";
+import {
+  BROWN_DARK,
+  CATEGORY_COLORS,
+  DEFAULT_CATEGORY_COLOR,
+} from "../config/colors";
 import DateText from "./commonParts/DateText";
 import { Gap } from "./commonParts/Layouts";
 import { useAnimate } from "framer-motion";
@@ -24,6 +27,17 @@ import { AppDispatch } from "../store";
 import { refetchGroups } from "../store/trainingGroupsSlice";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
+import styled from "styled-components";
+
+const Content = styled.div<{ $expanded: boolean; height: number }>`
+  font-size: 16px;
+  color: ${BROWN_DARK};
+  overflow: hidden;
+  height: ${({ $expanded, height }) => ($expanded ? `${height}px` : "29px")};
+  transition: height 250ms ease;
+  min-height: 29px;
+`;
+
 interface UpdateCardProps {
   update: Update;
   type?: "dog" | "group";
@@ -40,6 +54,15 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [scope, animate] = useAnimate();
   const [hover, setHover] = useState(false);
+
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [contentHeight, setContentHeight] = useState(0);
+
+  useEffect(() => {
+    if (contentRef.current) {
+      setContentHeight(contentRef.current.scrollHeight);
+    }
+  }, [expanded]);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -162,7 +185,9 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
             {renderButtons()}
           </div>
         </HeaderRow>
-        <Content $expanded={expanded}>{update.content}</Content>
+        <Content ref={contentRef} $expanded={expanded} height={contentHeight}>
+          {update.content}
+        </Content>
       </MainContent>
     </CardContainer>
   );
