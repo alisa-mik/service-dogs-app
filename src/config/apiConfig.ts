@@ -20,6 +20,7 @@ export const apiConfig = {
     trainingGroups: "training-groups",
     addTrainingGroup: "add-training-group",
     addGroupTrainingUpdate: "add-group-training-update",
+    deleteUpdate: "delete-update",
     families: "families",
     addFamily: "add-family",
     editFamily: "edit-family",
