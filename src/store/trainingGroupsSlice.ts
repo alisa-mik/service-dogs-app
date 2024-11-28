@@ -22,7 +22,7 @@ export interface Update {
   date: number;
   content: string;
   attendance?: string[];
-
+  groupId?: string;
 }
 
 

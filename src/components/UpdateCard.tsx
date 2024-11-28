@@ -17,6 +17,13 @@ import { Gap } from "./commonParts/Layouts";
 import { useAnimate } from "framer-motion";
 import AddUpdateForm from "./AddUpdateForm";
 import GroupUpdateForm from "./GroupUpdateForm";
+import { apiClient, apiConfig } from "../config/apiConfig";
+import { enqueueSnackbar } from "notistack";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { refetchGroups } from "../store/trainingGroupsSlice";
+import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
+import { fetchAllUpdates } from "../store/updatesSlice";
 interface UpdateCardProps {
   update: Update;
   type?: "dog" | "group";
@@ -33,6 +40,8 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
   const [expanded, setExpanded] = useState(false);
   const [scope, animate] = useAnimate();
   const [hover, setHover] = useState(false);
+
+  const dispatch = useDispatch<AppDispatch>();
 
   const modifiedUpdate = update.attendance
     ? { ...update, categories: ["groupTraining"] }
@@ -74,8 +83,33 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
 
   const renderButtons = () => {
     if (!editable) return null;
-    const handleDeleteClick = (e: React.MouseEvent) => {
-      e.stopPropagation();
+    const handleDeleteClick = async (e: React.MouseEvent) => {
+      if (!update.updateId) {
+        console.error("Update ID is null");
+        return;
+      }
+
+      try {
+        console.log({ update });
+
+        const response = await apiClient.delete(
+          `${apiConfig.deleteUpdate}/${update.updateId}`,
+          {
+            data: groupId ? { groupId } : {},
+          }
+        );
+        console.log("Delete successful:", response.data);
+        enqueueSnackbar("עדכון נמחק בהצלחה", { variant: "success" });
+        if (update.dogId) {
+          dispatch(fetchUpdatesByDogId(update.dogId));
+          dispatch(fetchAllUpdates({}));
+        }
+        if (update.groupId) {
+          dispatch(refetchGroups());
+        }
+      } catch (error) {
+        console.error("Error deleting update:", error);
+      }
     };
 
     const EditForm = type === "dog" ? AddUpdateForm : GroupUpdateForm;
