@@ -63,6 +63,7 @@ export const Table: React.FC<Itable> = ({
       onRowClick={onRowClick}
       columns={modifeidColumns}
       disableColumnResize
+      hideFooterSelectedRowCount
       disableColumnMenu
       hideFooter={hideFooter}
       initialState={{ pagination: { paginationModel } }}

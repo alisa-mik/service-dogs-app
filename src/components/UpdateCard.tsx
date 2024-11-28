@@ -21,12 +21,14 @@ interface UpdateCardProps {
   update: Update;
   type?: "dog" | "group";
   index: number;
+  editable?: boolean;
 }
 
 const UpdateCard: React.FC<UpdateCardProps> = ({
   update,
   type = "dog",
   index,
+  editable = true,
 }) => {
   const [expanded, setExpanded] = useState(false);
   const [scope, animate] = useAnimate();
@@ -71,6 +73,7 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
   };
 
   const renderButtons = () => {
+    if (!editable) return null;
     const handleDeleteClick = (e: React.MouseEvent) => {
       e.stopPropagation();
     };

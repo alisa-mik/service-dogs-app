@@ -60,7 +60,12 @@ export const UpdatesList = () => {
     if (filteredUpdates?.length === 0)
       return <Center>לא נמצאו עידכונים</Center>;
     return filteredUpdates.map((update, index) => (
-      <UpdateCard key={update.updateId} index={index} update={update} />
+      <UpdateCard
+        key={update.updateId}
+        index={index}
+        update={update}
+        editable={!!dogId}
+      />
     ));
   };
 
