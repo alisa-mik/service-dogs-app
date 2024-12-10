@@ -17,6 +17,7 @@ export const Button = styled.button<ButtonType>`
   cursor: pointer;
   transition: border-color 0.25s;
   font-family: "Rubik";
+  display: flex;
   justify-content: center;
   align-items: center;
   pointer-events: all;
