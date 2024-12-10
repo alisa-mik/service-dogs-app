@@ -5,6 +5,7 @@ import { refetchFamilies } from "../store/familiesSlice.ts";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
 import FormButtonDialog from "./form/FormButtonDialog.tsx";
+import { enqueueSnackbar } from "notistack";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -34,8 +35,7 @@ const FamilyForm = ({ data }: { data: any }) => {
     };
 
     const response = await apiClient.post(apiConfig.addFamily, formattedValues);
-    alert("משפחה נוספה בהצלחה!");
-
+    enqueueSnackbar("משפחה נוספה/ עודכנה בהצלחה", { variant: "success" });
     dispatch(refetchFamilies());
     return response.data;
   };

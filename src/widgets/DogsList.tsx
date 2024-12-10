@@ -31,7 +31,7 @@ export default function DogsList() {
     color: "",
     momDog: "",
     dadDog: "",
-    groupId: null,
+    groupId: "",
     assignedFamily: null,
     active: true,
     image: "",

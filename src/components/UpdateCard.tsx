@@ -113,15 +113,12 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
       }
 
       try {
-        console.log({ update });
-
         const response = await apiClient.delete(
           `${apiConfig.deleteUpdate}/${update.updateId}`,
           {
             data: groupId ? { groupId } : {},
           }
         );
-        console.log("Delete successful:", response.data);
         enqueueSnackbar("עדכון נמחק בהצלחה", { variant: "success" });
         if (update.dogId) {
           dispatch(fetchUpdatesByDogId(update.dogId));

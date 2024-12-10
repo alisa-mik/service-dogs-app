@@ -25,6 +25,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
   const onSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
       ...values,
+      groupId: values.groupId !== "" ? values.groupId : null,
       dogId: values.dogId ? values.dogId : uuidv4(),
     };
 

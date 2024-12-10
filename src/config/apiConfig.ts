@@ -2,10 +2,11 @@ import axios from "axios";
 
 export const apiClient =
     axios.create({
-        baseURL: "https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/dev",
+        baseURL: `https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/${import.meta.env.MODE}`,
         timeout: 5000, // Request timeout
         headers: {
             'Content-Type': 'application/json',
+            'Env': import.meta.env.MODE
         },
     });
 

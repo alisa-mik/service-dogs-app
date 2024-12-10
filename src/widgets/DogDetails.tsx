@@ -67,6 +67,7 @@ const DogDetails: React.FC = () => {
     dogName,
     color,
     breed,
+    gender,
     dogStatus,
     momDog,
     dadDog,
@@ -90,6 +91,7 @@ const DogDetails: React.FC = () => {
           <LabelValue label="שם הכלב:" value={dogName} />
           <LabelValue label="צבע:" value={color} />
           <LabelValue label="גזע:" value={breed} />
+          <LabelValue label="מין:" value={gender} />
           <LabelValue
             label="תאריך לידה:"
             value={formatDateFromSeconds(birthDate)}
