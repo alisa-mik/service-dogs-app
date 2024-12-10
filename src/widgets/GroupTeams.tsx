@@ -1,9 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-  selectSelectedGroup,
-  selectSelectedGroupDogs,
-} from "../store/trainingGroupsSlice";
+import { selectSelectedGroupDogs } from "../store/trainingGroupsSlice";
 import {
   Column,
   WidgetBody,

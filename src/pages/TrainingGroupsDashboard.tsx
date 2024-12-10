@@ -5,6 +5,7 @@ import { GroupTeams } from "../widgets/GroupTeams";
 import { GroupAttendance } from "../widgets/GroupAttendance";
 import GroupsList from "../widgets/GroupsWidget";
 import GroupUpdates from "../widgets/GroupUpdates";
+import DogsImage from "../widgets/DogsImage";
 
 const Container = styled.div`
   width: 100%;
@@ -20,7 +21,7 @@ export default function TrainingGroupsDashboard() {
     {
       layout: { w: 9.5, h: 40, x: 2.5, y: 60, i: "a" },
       widget: {
-        props: { showExpnded: true },
+        props: { showExpanded: true },
         display: true,
         type: GroupAttendance,
       },
@@ -36,7 +37,9 @@ export default function TrainingGroupsDashboard() {
     {
       layout: { w: 6, h: 60, x: 4, y: 0, i: "c" },
       widget: {
-        props: {},
+        props: {
+          showExpanded: true,
+        },
         display: true,
         type: GroupUpdates,
       },
@@ -46,7 +49,7 @@ export default function TrainingGroupsDashboard() {
       widget: {
         props: {},
         display: true,
-        type: Container,
+        type: DogsImage,
       },
     },
     {

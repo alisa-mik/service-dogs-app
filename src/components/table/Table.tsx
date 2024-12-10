@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   DataGrid,
   GridColDef,
@@ -28,15 +28,14 @@ export const Table: React.FC<Itable> = ({
   rows,
   onRowClick = noop,
   hideFooter = false,
-  selected
+  selected,
 }) => {
   const gridRef = useGridApiRef();
   const paginationModel = { page: 0, pageSize: hideFooter ? 100 : 12 };
 
   useEffect(() => {
     selected && gridRef.current?.selectRow(selected, true);
-  }, [ selected ])
-
+  }, [selected]);
 
   const CustomPagination = () => {
     const apiRef = useGridApiContext();

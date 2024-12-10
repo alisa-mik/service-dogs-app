@@ -19,7 +19,7 @@ export default function DogDashboard() {
       layout: { w: 6.5, h: 100, x: 5.5, y: 0, i: "a" },
       widget: {
         props: {
-          showExpnded: true,
+          showExpanded: true,
         },
         display: true,
         type: DogsList,
@@ -28,7 +28,9 @@ export default function DogDashboard() {
     {
       layout: { w: 5.5, h: 100, x: 0, y: 0, i: "b" },
       widget: {
-        props: {},
+        props: {
+          showExpanded: true,
+        },
         display: true,
         type: UpdatesList,
       },

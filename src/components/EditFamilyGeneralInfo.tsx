@@ -1,7 +1,6 @@
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
-import { refetchDogById } from "../store/dogProfileSlice";
 import styled from "styled-components";
 import FormButtonDialog from "./form/FormButtonDialog";
 import { configType } from "./form/Form";

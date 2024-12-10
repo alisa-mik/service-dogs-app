@@ -5,8 +5,8 @@ import { DogBasic, DogWithFamily } from "../types/dogTypes";
 const Card = styled.div`
   padding: 10px;
   display: flex;
-  flex: 0.5;
   flex-direction: column;
+  min-width: 200px;
   text-align: right;
   overflow: auto;
   direction: rtl;

@@ -8,7 +8,7 @@ interface WidgetContainerI {
   widgetType: FC;
   padding: string;
   widgetId: string;
-  showExpnded?: boolean;
+  showExpanded?: boolean;
 }
 
 export const Absolute = styled.div`
@@ -44,7 +44,7 @@ export default function WidgetContainer({
   widgetType,
   padding,
   widgetId,
-  showExpnded = false,
+  showExpanded = false,
 }: WidgetContainerI) {
   const parentRef = useRef<any>();
   const transformRef = useRef<any>();
@@ -86,7 +86,7 @@ export default function WidgetContainer({
   };
 
   const renderExpandedController = () => {
-    if (!showExpnded) return undefined;
+    if (!showExpanded) return undefined;
 
     return (
       <Absolute>

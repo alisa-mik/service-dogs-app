@@ -9,6 +9,7 @@ import {
 import { WidgetTitle } from "../components/commonParts/Labels";
 import GroupUpdateForm from "../components/GroupUpdateForm";
 import UpdateCard from "../components/UpdateCard";
+import MarginContainer from "../components/commonParts/MarginContainer";
 
 export const GroupUpdates: React.FC = () => {
   const selectedGroup = useSelector(selectSelectedGroup);
@@ -32,8 +33,10 @@ export const GroupUpdates: React.FC = () => {
     <>
       <WidgetHeader>
         <WidgetTitle>עדכונים ומפגשים</WidgetTitle>
-        <GroupUpdateForm data={{ ...data, type: "meeting" }} />
-        <GroupUpdateForm data={{ ...data, type: "update" }} />
+        <MarginContainer marginLeft="30px">
+          <GroupUpdateForm data={{ ...data, type: "meeting" }} />
+          <GroupUpdateForm data={{ ...data, type: "update" }} />
+        </MarginContainer>
       </WidgetHeader>
 
       <WidgetBody>

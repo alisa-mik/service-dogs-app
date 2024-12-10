@@ -9,7 +9,6 @@ import {
 } from "./UpdateCardStyles";
 import { Update } from "../types/dogTypes";
 import { categoriesTranslation } from "../config/categories";
-import DeleteTwoToneIcon from "@mui/icons-material/DeleteTwoTone";
 import {
   BROWN_DARK,
   CATEGORY_COLORS,
@@ -28,6 +27,7 @@ import { refetchGroups } from "../store/trainingGroupsSlice";
 import { fetchUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { fetchAllUpdates } from "../store/updatesSlice";
 import styled from "styled-components";
+import DeleteButton from "./commonParts/DeleteButton";
 
 const Content = styled.div<{ $expanded: boolean; height: number }>`
   font-size: 16px;
@@ -106,19 +106,16 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
 
   const renderButtons = () => {
     if (!editable) return null;
-    const handleDeleteClick = async (e: React.MouseEvent) => {
+    const handleDeleteClick = async () => {
       if (!update.updateId) {
         console.error("Update ID is null");
         return;
       }
 
       try {
-        const response = await apiClient.delete(
-          `${apiConfig.deleteUpdate}/${update.updateId}`,
-          {
-            data: groupId ? { groupId } : {},
-          }
-        );
+        await apiClient.delete(`${apiConfig.deleteUpdate}/${update.updateId}`, {
+          data: groupId ? { groupId } : {},
+        });
         enqueueSnackbar("עדכון נמחק בהצלחה", { variant: "success" });
         if (update.dogId) {
           dispatch(fetchUpdatesByDogId(update.dogId));
@@ -136,7 +133,7 @@ const UpdateCard: React.FC<UpdateCardProps> = ({
 
     return (
       <div style={{ display: hover ? "flex" : "none", gap: "2px" }}>
-        <DeleteTwoToneIcon fontSize="small" onClick={handleDeleteClick} />
+        <DeleteButton onDelete={handleDeleteClick} />
         <EditForm icon={"edit"} data={update} onOpen={handleOpen} />
       </div>
     );

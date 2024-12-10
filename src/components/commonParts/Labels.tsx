@@ -6,6 +6,11 @@ export const Label = styled.label`
   color: ${BROWN_DARK};
 `;
 
+export const Title = styled(Label)`
+  font-size: 18px;
+  font-weight: 500;
+`;
+
 export const CardTitle = styled(Label)`
   font-weight: 500;
 `;

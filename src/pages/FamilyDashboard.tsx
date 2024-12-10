@@ -19,7 +19,7 @@ export default function FamiliesDashboard() {
     {
       layout: { w: 7, h: 100, x: 5, y: 0, i: "c" },
       widget: {
-        props: { showExpnded: true },
+        props: { showExpanded: true },
         display: true,
         type: FamiliesList,
       },

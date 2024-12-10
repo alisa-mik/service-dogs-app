@@ -15,6 +15,7 @@ import CategoryFilter from "../components/UpdateCategoriesFilter";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import AddUpdateForm from "../components/AddUpdateForm";
 import { selectSelectedDogId } from "../store/dogsSlice";
+import MarginContainer from "../components/commonParts/MarginContainer";
 
 const UpdatesContainer = styled.div`
   flex: 1;
@@ -82,7 +83,11 @@ export const UpdatesList = () => {
           <div>עדכונים</div>
           <div>{`(${updates.length || 0})`}</div>
         </WidgetTitle>
-        {dogId && <AddUpdateForm data={data} />}
+        {dogId && (
+          <MarginContainer marginLeft="30px">
+            <AddUpdateForm data={data} />
+          </MarginContainer>
+        )}
       </WidgetHeader>
       <WidgetBody>
         <CategoryFilter
