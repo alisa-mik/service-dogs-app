@@ -1,4 +1,4 @@
-import styled from "styled-components";
+// import styled from "styled-components";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { GroupTeams } from "../widgets/GroupTeams";
@@ -7,14 +7,14 @@ import GroupsList from "../widgets/GroupsWidget";
 import GroupUpdates from "../widgets/GroupUpdates";
 import DogsImage from "../widgets/DogsImage";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  background-image: url("/placeholder.jpg");
-  background-size: 200px 200px;
-  background-repeat: repeat;
-`;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 16px;
+//   background-image: url("/placeholder.jpg");
+//   background-size: 200px 200px;
+//   background-repeat: repeat;
+// `;
 
 export default function TrainingGroupsDashboard() {
   const widgets: WidgetConfig[] = [

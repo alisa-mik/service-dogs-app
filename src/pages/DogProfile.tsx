@@ -21,15 +21,15 @@ import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
 import DogsImage from "../widgets/DogsImage";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  /* background-color: ${"white"}; */
-  background-image: url("/placeholder.jpg");
-  background-size: 200px 200px;
-  background-repeat: repeat;
-`;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 16px;
+//   /* background-color: ${"white"}; */
+//   background-image: url("/placeholder.jpg");
+//   background-size: 200px 200px;
+//   background-repeat: repeat;
+// `;
 
 export default function DogProfile() {
   const { dogId } = useParams<{ dogId: string }>();
