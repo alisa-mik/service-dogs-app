@@ -77,6 +77,7 @@ const DogDetails: React.FC = () => {
     groupId,
     // assignedFamily,
     birthDate,
+    dogId,
   } = dog as Dog;
 
   return (

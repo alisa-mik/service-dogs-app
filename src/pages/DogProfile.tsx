@@ -20,6 +20,7 @@ import { Center } from "../components/commonParts/Layouts";
 import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
 import DogsImage from "../widgets/DogsImage";
+import DogProfilePDF from "../components/DogProfilePDF";
 
 // const Container = styled.div`
 //   width: 100%;
@@ -85,7 +86,7 @@ export default function DogProfile() {
         widget: {
           props: {},
           display: true,
-          type: DogsImage,
+          type: DogProfilePDF,
         },
       },
       {
