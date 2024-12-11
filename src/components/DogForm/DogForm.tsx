@@ -8,6 +8,7 @@ import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
 import FormButtonDialog from "../form/FormButtonDialog.tsx";
 import { enqueueSnackbar } from "notistack";
+import { selectGroupIds } from "../../store/trainingGroupsSlice.ts";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -21,6 +22,7 @@ const validate = (values: { [key: string]: any }) => {
 const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
   const dispatch = useDispatch<AppDispatch>();
   const families = useSelector(selectFamiliesArray);
+  const GroupIds = useSelector(selectGroupIds);
 
   const onSubmit = async (values: { [key: string]: any }) => {
     const formattedValues = {
@@ -46,6 +48,13 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
     return {
       label: `${fam.familyName} ${fam.contactName}`,
       value: fam.familyId,
+    };
+  });
+
+  const assignedGroupOptions = GroupIds.map((groupId) => {
+    return {
+      label: groupId,
+      value: groupId,
     };
   });
 
@@ -132,7 +141,16 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
         },
         {
           itemGroup: "input",
-          itemType: "text",
+          itemType: "select",
+          itemProps: {
+            options: [
+              {
+                value: "",
+                label: "בחר קבוצה",
+              },
+              ...assignedGroupOptions,
+            ],
+          },
           path: "groupId",
           label: "קבוצה:",
         },
