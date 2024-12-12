@@ -51,7 +51,8 @@ const AttendanceTable: React.FC = () => {
       columns.push({
         field: dog.dogName,
         headerName: dog.dogName,
-        width: 120,
+        minWidth: 80,
+        maxWidth: 120,
         renderCell: VCell,
         sortable: false,
       });

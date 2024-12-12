@@ -7,7 +7,6 @@ import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { isEmpty } from "lodash";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
 import DogsImage from "../widgets/DogsImage";
-import { SquareButton } from "./commonParts/Buttons";
 import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
 import { WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";
@@ -27,21 +26,24 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
     momDog,
     dadDog,
     chipNumber,
-    dropDate,
-    dropReason,
+    summary,
+    // dropDate,
+    // dropReason,
     groupId,
     birthDate,
-    dogId,
+    // dogId,
   } = dog as Dog;
+
+  const noSpacing = "margin: 0; padding: 0";
 
   return `
     <html>
       <body style="font-family: Arial, sans-serif; direction: rtl; margin: 0; padding: 30px;">
         <div style="padding: 30px; text-align: right; direction: rtl">
-          <h2>פרופיל כלב</h2>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; direction: rtl">
+          <h2 style=${noSpacing}>פרופיל כלב</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; direction: rtl; margin: 0; padding: 0;">
             <!-- Left column -->
-            <div>
+            <div style="margin: 0; padding: 0;">
               <p><strong>שם הכלב:</strong> ${dogName || "לא זמין"}</p>
               <p><strong>גזע:</strong> ${breed || "לא זמין"}</p>
               <p><strong>צבע:</strong> ${color || "לא זמין"}</p>
@@ -50,7 +52,7 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
               <p><strong>שם האב:</strong> ${dadDog || "לא זמין"}</p>
               </div>
               <!-- Right column -->
-              <div>
+              <div style="margin: 0; padding: 0;">
               <p><strong>גיל:</strong> ${
                 getAgeFromSeconds(birthDate) || "לא זמין"
               }</p>
@@ -59,13 +61,16 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
               <p><strong>סטטוס:</strong> ${dogStatus || "לא זמין"}</p>
             </div>
           </div>
-
-          <h3 style="direction: rtl;">עדכונים:</h3>
-          <div style="direction: rtl;">
+          <div style="margin-bottom: 20px;">
+          <h3 style="direction: rtl; margin: 0; padding: 0;">התרשמות כללית:</h3>
+<div style="direction: rtl; margin: 0; padding: 0;">${summary}</div>
+</div>
+          <h3 style="direction: rtl; margin: 0; padding: 0;">עדכונים:</h3>
+          <div style="direction: rtl; margin: 0; padding: 0;">
             ${
               updates
                 ? updates
-                    .map((update: any, index: number) => {
+                    .map((update: any) => {
                       return `
                         <div style="margin-bottom: 10px;">
                           <p style="margin: 0; padding: 0;">${
@@ -98,6 +103,19 @@ const DogProfilePDF = () => {
   const handleGeneratePDF = () => {
     const content = generatePDFContent({ dog, updates });
 
+    const options = {
+      margin: 10, // Margin in mm
+      filename: `${dog.dogName}.pdf`,
+      html2canvas: {
+        scale: 3, // Increase scale for better resolution (default is 1)
+      },
+      jsPDF: {
+        unit: "mm", // Use mm for measurements
+        format: "a4", // Set to A4 size
+        orientation: "portrait", // Portrait or landscape
+      },
+    };
+
     // Create a temporary div to hold the content and use html2pdf on it
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = content;
@@ -105,11 +123,12 @@ const DogProfilePDF = () => {
 
     // Generate the PDF from the content and trigger the download
     html2pdf()
-      .from(tempDiv) // Only use the element in .from()
-      .save("dog_profile.pdf"); // Save the PDF with the provided name
-
-    // Optional: Remove the temporary div after generating the PDF
-    document.body.removeChild(tempDiv);
+      .set(options)
+      .from(tempDiv)
+      .save()
+      .then(() => {
+        document.body.removeChild(tempDiv); // Remove the temporary div
+      });
   };
 
   return (

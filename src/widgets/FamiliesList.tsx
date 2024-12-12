@@ -36,7 +36,7 @@ export default function FamiliesList() {
         <RowCenter>
           <SearchInput
             type="text"
-            placeholder="חיפוש לפי שם משפחה"
+            placeholder="חיפוש לפי שם"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
