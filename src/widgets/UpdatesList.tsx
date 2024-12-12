@@ -41,16 +41,16 @@ export const UpdatesList = () => {
   }, [updates]);
 
   const filteredUpdates = useMemo(() => {
-    if (selectedCategories.length === 0) {
-      return [...updates].reverse();
-    }
-    return [...displayUpdates]
-      .filter(
-        (update) =>
-          Array.isArray(update.categories) &&
-          update.categories.some((cat) => selectedCategories.includes(cat))
-      )
-      .reverse();
+    const updatesToFilter =
+      selectedCategories.length === 0
+        ? updates
+        : displayUpdates.filter(
+            (update) =>
+              Array.isArray(update.categories) &&
+              update.categories.some((cat) => selectedCategories.includes(cat))
+          );
+
+    return [...updatesToFilter].sort((a, b) => b.date - a.date); // Sort by date in descending order
   }, [updates, selectedCategories]);
 
   const categories = useMemo(() => {

@@ -1,6 +1,6 @@
 import { DogBasic } from "../../../types/dogTypes";
 import { Label } from "../../commonParts/Labels";
-import { Row } from "../../commonParts/Layouts";
+import { RowWrap } from "../../commonParts/Layouts";
 import { IInput } from "../InputInjector";
 import { Checkbox } from "../styledInputs";
 
@@ -32,7 +32,7 @@ export const AttendanceInput: React.FC<IAttendance> = ({
   };
 
   return (
-    <Row>
+    <RowWrap>
       {modifiedDogs.map((dog) => {
         return (
           <div key={dog.dogId}>
@@ -46,6 +46,6 @@ export const AttendanceInput: React.FC<IAttendance> = ({
           </div>
         );
       })}
-    </Row>
+    </RowWrap>
   );
 };

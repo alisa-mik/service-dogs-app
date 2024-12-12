@@ -4,7 +4,11 @@ import { AppDispatch } from "../store";
 import { useDispatch, useSelector } from "react-redux";
 import { Table } from "./table/Table";
 import { Center } from "./commonParts/Layouts";
-import { selectFamiliesArray, selectSelectedFamilyId, setSelectedFamily } from "../store/familiesSlice";
+import {
+  selectFamiliesArray,
+  selectSelectedFamilyId,
+  setSelectedFamily,
+} from "../store/familiesSlice";
 
 export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
   searchTerm,
@@ -13,8 +17,10 @@ export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
   const selectedFamilyId = useSelector(selectSelectedFamilyId);
   const families = useSelector(selectFamiliesArray);
 
-  const filteredFamilies = families.filter((f) =>
-    f.familyName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredFamilies = families.filter(
+    (f) =>
+      f.familyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      f.contactName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleSelectFamily = (id: string) => {

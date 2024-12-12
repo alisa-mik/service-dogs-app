@@ -28,6 +28,10 @@ export const Row = styled.div<{ gap?: string }>`
   width: 100%;
 `;
 
+export const RowWrap = styled(Row)`
+  flex-wrap: wrap;
+`;
+
 export const WidgetHeader = styled(Row)`
   height: 50px;
   justify-content: space-between;

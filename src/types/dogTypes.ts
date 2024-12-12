@@ -44,7 +44,7 @@ export interface Dog extends DogBasic {
     momDog: string;
     dadDog: string;
     image: string;
-    dropDate: string,
+    dropDate: number,
     dropReason: string,
     chipNumber: string,
     summary?: string;
@@ -52,7 +52,7 @@ export interface Dog extends DogBasic {
 
 export interface AddDogFormValues {
     dogName: string;
-    birthDate: string;
+    birthDate: number;
     gender: string | null;
     breed: string | null;
     color: string;
@@ -62,7 +62,7 @@ export interface AddDogFormValues {
     assignedFamily: AssignedFamily | null;
     active: boolean;
     dogStatus: string;
-    dropDate: string;
+    dropDate: number;
     dropReason: string;
     chipNumber: string | null;
     summary: string | null;

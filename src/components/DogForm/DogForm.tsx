@@ -8,7 +8,10 @@ import { refetchDogById } from "../../store/dogProfileSlice.ts";
 import { selectFamiliesArray } from "../../store/familiesSlice.ts";
 import FormButtonDialog from "../form/FormButtonDialog.tsx";
 import { enqueueSnackbar } from "notistack";
-import { selectGroupIds } from "../../store/trainingGroupsSlice.ts";
+import {
+  refetchGroups,
+  selectGroupIds,
+} from "../../store/trainingGroupsSlice.ts";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -41,6 +44,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
       values.dogId && dispatch(refetchDogById(values.dogId));
     }
     dispatch(refetchDogs());
+    dispatch(refetchGroups());
     return response.data;
   };
 
@@ -198,7 +202,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
                 value: "בפנסיה",
               },
               {
-                value: "נשר",
+                value: "נפסל",
               },
               {
                 value: "עבר להרבעה",
@@ -217,7 +221,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
             conditions: [
               {
                 path: "dogStatus",
-                values: ["נשר"],
+                values: ["נפסל"],
               },
             ],
           },
@@ -225,14 +229,14 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
             {
               itemGroup: "input",
               itemType: "text",
-              path: "dogName",
-              label: "סיבת נשירה:",
+              path: "dropReason",
+              label: "סיבת פסילה:",
             },
             {
               itemGroup: "input",
               itemType: "date",
-              path: "birthDate",
-              label: "תאריך נשירה:",
+              path: "dropDate",
+              label: "תאריך פסילה:",
             },
           ],
         },

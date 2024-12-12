@@ -6,6 +6,7 @@ import { RootState } from "../store";
 import { useSelector } from "react-redux";
 import { Table } from "./table/Table";
 import { Center } from "./commonParts/Layouts";
+import BasicCell from "./table/BasicCell";
 
 export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   const { dogs } = useSelector((state: RootState) => state.dogs);
@@ -21,8 +22,8 @@ export const DogsTable: React.FC<{ searchTerm: string }> = ({ searchTerm }) => {
   };
 
   const renderTable = () => {
-    // const commonProps = { renderCell: BasicCell, flex: 0.7 };
-    const commonProps = { flex: 0.7 };
+    const commonProps = { renderCell: BasicCell, flex: 0.7 };
+    // const commonProps = { flex: 0.7 };
 
     const columns: GridColDef[] = [
       {

@@ -18,7 +18,7 @@ const Section = styled.section`
 
 const Row = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 5px;
   font-size: 16px;
 `;
 
@@ -40,8 +40,7 @@ const NoProfile = styled.div`
 
 const Body = styled(WidgetBody)`
   display: flex;
-  flex-direction: row;
-  gap: 5px;
+  flex-direction: column;
 `;
 
 interface LabelValueProps {
@@ -86,32 +85,37 @@ const DogDetails: React.FC = () => {
         <DogForm icon={"edit"} data={dog} />
       </WidgetHeader>
 
-      <Body>
-        <Section>
-          <LabelValue label="שם הכלב:" value={dogName} />
-          <LabelValue label="צבע:" value={color} />
-          <LabelValue label="גזע:" value={breed} />
-          <LabelValue label="מין:" value={gender} />
-          <LabelValue
-            label="תאריך לידה:"
-            value={formatDateFromSeconds(birthDate)}
-          />
-          <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} />
-          <LabelValue label="שם האם:" value={momDog} />
-          <LabelValue label="שם האב:" value={dadDog} />
-        </Section>
-        <Section>
-          <LabelValue label="קבוצה:" value={groupId} />
-          {/* <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} /> */}
-          <LabelValue label="סטטוס:" value={dogStatus} />
-          <LabelValue label="מספר שבב:" value={chipNumber} />
-          {dogStatus === "נשר" && (
-            <>
-              <LabelValue label="תאריך נשירה:" value={dropDate} />
-              <LabelValue label="סיבת נשירה:" value={dropReason} />
-            </>
-          )}
-        </Section>
+      <Body style={{ gap: "5px", justifyContent: "flex-start" }}>
+        <Row>
+          <Section>
+            <LabelValue label="שם הכלב:" value={dogName} />
+            <LabelValue label="צבע:" value={color} />
+            <LabelValue label="גזע:" value={breed} />
+            <LabelValue label="מין:" value={gender} />
+            <LabelValue label="גיל:" value={getAgeFromSeconds(birthDate)} />
+          </Section>
+          <Section>
+            <LabelValue
+              label="תאריך לידה:"
+              value={formatDateFromSeconds(birthDate)}
+            />
+            <LabelValue label="שם האם:" value={momDog} />
+            <LabelValue label="שם האב:" value={dadDog} />
+            <LabelValue label="קבוצה:" value={groupId} />
+            {/* <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} /> */}
+            <LabelValue label="סטטוס:" value={dogStatus} />
+          </Section>
+        </Row>
+        {dogStatus === "נפסל" && (
+          <>
+            <LabelValue
+              label="תאריך פסילה:"
+              value={formatDateFromSeconds(dropDate)}
+            />
+            <LabelValue label="סיבת פסילה:" value={dropReason} />
+          </>
+        )}
+        <LabelValue label="מספר שבב:" value={chipNumber} />
       </Body>
     </>
   );
