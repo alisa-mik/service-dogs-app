@@ -1,4 +1,5 @@
 export function getAgeFromSeconds(seconds: number) {
+    if (!seconds) return '-'
     const birthDate = new Date(seconds * 1000); // Convert seconds to milliseconds and create a Date object
     const currentDate = new Date(); // Get the current date
 
@@ -30,6 +31,7 @@ export const calculateAge = (birthDateString: string): string => {
 };
 
 export function formatDateFromSeconds(seconds: number) {
+    if (!seconds) return '-';
     const date = new Date(seconds * 1000); // Convert seconds to milliseconds
     const day = String(date.getDate()).padStart(2, '0'); // Get day and pad with leading zero if needed
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Get month (0-indexed, so +1) and pad with leading zero
