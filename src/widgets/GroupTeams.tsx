@@ -19,7 +19,10 @@ export const GroupTeams: React.FC = () => {
   return (
     <>
       <WidgetHeader>
-        <WidgetTitle>כלבים בקבוצה</WidgetTitle>
+        <WidgetTitle>
+          <div> כלבים בקבוצה</div>
+          <div>{`(${selectedGroupDogs.length || 0})`}</div>
+        </WidgetTitle>
       </WidgetHeader>
       <WidgetBody>
         <Column>
