@@ -50,7 +50,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
 
   const assignedFamilyOptions = families.map((fam) => {
     return {
-      label: `${fam.familyName} ${fam.contactName}`,
+      label: `${fam.contactName} ${fam.familyName}`,
       value: fam.familyId,
     };
   });
@@ -160,13 +160,13 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
         },
         {
           itemGroup: "input",
-          itemType: "select",
+          itemType: "autoComplete",
           label: "אומנה:",
           itemProps: {
             options: [
               {
                 value: "",
-                label: "בחר אומנה",
+                label: "לא משוייך למשפחה",
               },
               ...assignedFamilyOptions,
             ],

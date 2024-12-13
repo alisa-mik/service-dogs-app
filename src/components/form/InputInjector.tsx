@@ -9,6 +9,7 @@ import TextArea from "./inputs/TextArea";
 import CategoryInput from "./inputs/CategoryInput";
 import styled from "styled-components";
 import { AttendanceInput } from "./inputs/AttendanceInput";
+import AutoComplete from "./inputs/AutoComplete";
 
 const ErrorText = styled.div`
   color: red;
@@ -18,6 +19,7 @@ const ErrorText = styled.div`
 
 export type InputType =
   | "select"
+  | "autoComplete"
   | "text"
   | "date"
   | "checkbox"
@@ -50,6 +52,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     text: Text,
     date: DatePicker,
     select: Select,
+    autoComplete: AutoComplete,
     checkbox: Checkbox,
     textarea: TextArea,
     category: CategoryInput,
