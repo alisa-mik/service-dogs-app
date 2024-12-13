@@ -17,8 +17,6 @@ const isValue = (value: any) => {
 };
 
 const BasicCell = ({ value }: GridCellParams): React.ReactElement => {
-  console.log(value);
-
   const displayValue = isValue(value) ? String(value) : "-";
 
   return <Cell>{displayValue}</Cell>;

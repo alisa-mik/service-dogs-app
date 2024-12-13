@@ -10,6 +10,8 @@ import { fetchAllUpdates } from "../store/updatesSlice";
 import { fetchDogs } from "../store/dogsSlice";
 import { fetchFamilies } from "../store/familiesSlice";
 import { fetchGroups } from "../store/trainingGroupsSlice";
+import { version } from "../package.alias.json";
+import { motion, useAnimation } from "framer-motion";
 
 const Container = styled.div`
   width: 100%;
@@ -65,10 +67,6 @@ const tabs = {
     label: "כלבים",
     navigateTo: "dogs",
   },
-  // updates: {
-  //   label: "עידכונים",
-  //   navigateTo: "updates",
-  // },
   families: {
     label: "משפחות",
     navigateTo: "families",
@@ -92,10 +90,12 @@ const tabs = {
 };
 
 export default function App() {
+  const controls = useAnimation();
   const location = useLocation();
   const navigate = useNavigate();
 
   const [selectedTab, setSelectedTab] = useState("");
+  const [showVersion, setShowVersion] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -116,6 +116,25 @@ export default function App() {
     setSelectedTab(tabByLocation);
   }, [location]);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (showVersion) {
+        controls.start({
+          x: 0,
+          transition: { duration: 1, ease: [0.25, 3.5, 0.5, 1] },
+        });
+      }
+      if (!showVersion) {
+        controls.start({
+          x: "100%",
+          transition: { duration: 1, ease: "easeOut" },
+        });
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [controls, showVersion]);
+
   const renderItems = (): ReactElement[] => {
     return Object.entries(tabs).map(([navigateTo, tab]) => {
       return (
@@ -135,9 +154,14 @@ export default function App() {
       <TopBar>
         {renderItems()}
         <img
-          style={{ height: "40px" }}
+          style={{ height: "40px", zIndex: 1 }}
           src={`/dog-waving.png?v=${uniqueId()}`}
+          onMouseEnter={() => setShowVersion(true)}
+          onMouseLeave={() => setShowVersion(false)}
         />
+        <motion.div initial={{ x: "100%" }} animate={controls}>
+          {version}
+        </motion.div>
       </TopBar>
       <Body>
         <Outlet />
