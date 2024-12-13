@@ -17,11 +17,14 @@ export const FamiliesTable: React.FC<{ searchTerm: string }> = ({
   const selectedFamilyId = useSelector(selectSelectedFamilyId);
   const families = useSelector(selectFamiliesArray);
 
-  const filteredFamilies = families.filter(
-    (f) =>
-      f.familyName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      f.contactName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredFamilies = families.filter((family) => {
+    const searchTerms = searchTerm.toLowerCase().trim().split(/\s+/);
+
+    const combinedString =
+      `${family.contactName} ${family.familyName}`.toLowerCase();
+
+    return searchTerms.every((term) => combinedString.includes(term));
+  });
 
   const handleSelectFamily = (id: string) => {
     dispatch(setSelectedFamily(id));
