@@ -5,6 +5,8 @@ import FamilyForm from "../components/FamilyForm";
 import { FamiliesTable } from "../components/FamiliesTable";
 import styled from "styled-components";
 import { SearchInput } from "../components/form/styledInputs";
+import { useSelector } from "react-redux";
+import { selectFamiliesArray } from "../store/familiesSlice";
 
 const RowCenter = styled.div`
   position: absolute;
@@ -18,6 +20,7 @@ const RowCenter = styled.div`
 
 export default function FamiliesList() {
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const families = useSelector(selectFamiliesArray);
 
   const data = {
     familyName: "",
@@ -32,7 +35,10 @@ export default function FamiliesList() {
   return (
     <>
       <WidgetHeader>
-        <WidgetTitle>משפחות</WidgetTitle>
+        <WidgetTitle>
+          <div>משפחות</div>
+          <div>{`(${families.length || 0})`}</div>
+        </WidgetTitle>
         <RowCenter>
           <SearchInput
             type="text"

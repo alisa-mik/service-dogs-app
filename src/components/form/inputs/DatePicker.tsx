@@ -1,30 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import { DateInput } from "../styledInputs";
 import { IInput } from "../InputInjector";
 import { isNumber } from "lodash";
 
-const DatePicker: React.FC<IInput> = ({ path, formik }) => {
+const getDatePickerFormat = (initialDate: string | number) => {
   const formatSecondsForDatePicker = (seconds: number): string => {
     return dayjs.unix(seconds).format("YYYY-MM-DD");
   };
 
-  const val = formik.values[path];
-  const datePickerFormat = isNumber(val)
-    ? formatSecondsForDatePicker(val)
-    : val;
+  const datePickerFormat = isNumber(initialDate)
+    ? formatSecondsForDatePicker(initialDate)
+    : initialDate;
+
+  return datePickerFormat;
+};
+
+const DatePicker: React.FC<IInput> = ({ path, formik }) => {
+  const [date, setDate] = useState(getDatePickerFormat(formik.values[path]));
+
+  useEffect(() => {
+    const datePickerFormat = getDatePickerFormat(date);
+
+    if (
+      dayjs(datePickerFormat).isAfter("2020", "year") &&
+      dayjs(datePickerFormat).isBefore("2090", "year")
+    ) {
+      formik.setFieldValue(path, dayjs(date).unix());
+    }
+  }, [date]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    formik.setFieldValue(path, dayjs(event.target.value).unix());
+    setDate(event.target.value);
   };
 
   return (
-    <DateInput
-      type="date"
-      name={path}
-      value={datePickerFormat}
-      onChange={handleChange}
-    />
+    <DateInput type="date" name={path} value={date} onChange={handleChange} />
   );
 };
 
