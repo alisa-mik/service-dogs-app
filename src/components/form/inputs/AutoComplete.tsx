@@ -46,7 +46,12 @@ const NoOptionsItem = styled.li`
   color: gray;
 `;
 
-const AutoComplete: React.FC<IAutoComplete> = ({ path, formik, options }) => {
+const AutoComplete: React.FC<IAutoComplete> = ({
+  path,
+  formik,
+  value,
+  options,
+}) => {
   const getValueLabel = (val: string) => {
     const option = options.find((option) => option.value === val);
     return option ? option.label : "";
@@ -62,9 +67,7 @@ const AutoComplete: React.FC<IAutoComplete> = ({ path, formik, options }) => {
   );
 
   const [showDropdown, setShowDropdown] = useState(false);
-  const [inputValue, setInputValue] = useState(
-    getValueLabel(formik.values[path])
-  );
+  const [inputValue, setInputValue] = useState(getValueLabel(value));
 
   const filterOptions = (value: string) => {
     const filtered = options.filter((option) =>
@@ -89,7 +92,7 @@ const AutoComplete: React.FC<IAutoComplete> = ({ path, formik, options }) => {
   const handleBlur = () => {
     setTimeout(() => {
       if (!filteredOptions.some((option) => option.label === inputValue)) {
-        setInputValue(getValueLabel(formik.values[path]));
+        setInputValue(getValueLabel(value));
         filterOptions("");
       }
       setShowDropdown(false);

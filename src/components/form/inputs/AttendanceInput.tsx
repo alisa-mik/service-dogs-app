@@ -11,18 +11,19 @@ interface IAttendance extends IInput {
 export const AttendanceInput: React.FC<IAttendance> = ({
   path,
   formik,
+  value,
   dogs,
 }) => {
   const modifiedDogs = dogs.map((dog) => {
     return {
       dogName: dog.dogName,
       dogId: dog.dogId,
-      attendance: formik.values[path].includes(dog.dogId),
+      attendance: value.includes(dog.dogId),
     };
   });
 
   const handleChange = (dogId: string) => {
-    let attendanceArray = [...formik.values[path]];
+    let attendanceArray = [...value];
     if (!attendanceArray.includes(dogId)) {
       attendanceArray.push(dogId);
     } else {

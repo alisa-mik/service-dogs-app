@@ -25,7 +25,7 @@ const validate = (values: { [key: string]: any }) => {
   return errors;
 };
 
-const FamilyForm = ({ data }: { data: any }) => {
+const FamilyForm = ({ data, icon }: { data: any; icon?: string }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: { [key: string]: any }) => {
@@ -35,7 +35,10 @@ const FamilyForm = ({ data }: { data: any }) => {
     };
 
     const response = await apiClient.post(apiConfig.addFamily, formattedValues);
-    enqueueSnackbar("משפחה נוספה/ עודכנה בהצלחה", { variant: "success" });
+
+    enqueueSnackbar(`משפחה ${values.familyId ? "עודכנה" : "נוספה"} בהצלחה`, {
+      variant: "success",
+    });
     dispatch(refetchFamilies());
     return response.data;
   };
@@ -90,8 +93,8 @@ const FamilyForm = ({ data }: { data: any }) => {
         {
           itemGroup: "input",
           itemType: "textarea",
-          path: "content",
-          label: "כללי:",
+          path: "generalInfo",
+          label: "מידע נוסף:",
         },
       ],
     },
@@ -105,6 +108,7 @@ const FamilyForm = ({ data }: { data: any }) => {
       formType="single"
       onSubmit={handleSubmit}
       validate={validate}
+      icon={icon}
     />
   );
 };

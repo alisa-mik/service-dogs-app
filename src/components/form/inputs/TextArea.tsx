@@ -6,9 +6,9 @@ import { TextArea as StyledArea } from "../styledInputs";
 import { IInput } from "../InputInjector";
 import { Icon } from "@mui/material";
 
-const TextArea: React.FC<IInput> = ({ path, formik }) => {
+const TextArea: React.FC<IInput> = ({ path, formik, value = "" }) => {
   const recorderRef = useRef();
-  const initValueRef = useRef(formik.values[path] || "");
+  const initValueRef = useRef(value);
   const [listening, setListening] = useState(false);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const TextArea: React.FC<IInput> = ({ path, formik }) => {
       };
 
       recorderRef.current.onend = () => {
-        initValueRef.current = formik.values[path];
+        initValueRef.current = value;
         setListening(false); // Ensure state updates when recognition stops
       };
 
@@ -80,11 +80,7 @@ const TextArea: React.FC<IInput> = ({ path, formik }) => {
 
   return (
     <div>
-      <StyledArea
-        name={path}
-        value={formik.values[path]}
-        onChange={handleMenualChange}
-      />
+      <StyledArea name={path} value={value} onChange={handleMenualChange} />
 
       <MicIcon
         style={{

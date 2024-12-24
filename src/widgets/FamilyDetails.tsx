@@ -4,6 +4,7 @@ import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { LabelValue } from "../components/commonParts/LabelValue";
 import { useSelector } from "react-redux";
 import { selectSelectedFamily } from "../store/familiesSlice";
+import FamilyForm from "../components/FamilyForm";
 
 const Section = styled.section`
   flex: 1;
@@ -34,6 +35,7 @@ export default function FamilyDetails() {
     <>
       <WidgetHeader>
         <WidgetTitle>פרטי משפחה</WidgetTitle>
+        <FamilyForm icon={"edit"} data={selectedFamily} />
       </WidgetHeader>
 
       <WidgetBody>{renderFamilyDetails()}</WidgetBody>

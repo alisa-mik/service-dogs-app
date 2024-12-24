@@ -2,12 +2,12 @@ import React from "react";
 import { Input } from "../styledInputs";
 import { IInput } from "../InputInjector";
 
-const Text: React.FC<IInput> = ({ path, formik }) => {
+const Text: React.FC<IInput> = ({ path, formik, value }) => {
   return (
     <Input
       type="text"
       name={path}
-      value={formik.values[path]}
+      value={value}
       onChange={formik.handleChange}
     />
   );

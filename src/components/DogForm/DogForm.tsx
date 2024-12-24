@@ -33,7 +33,6 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
       groupId: values.groupId !== "" ? values.groupId : null,
       dogId: values.dogId ? values.dogId : uuidv4(),
     };
-
     const response = await apiClient.post(apiConfig.addDog, formattedValues);
     const action = values.dogId ? "עודכן" : "נוסף";
     enqueueSnackbar(`כלב ${values.dogName} ${action} בהצלחה`, {

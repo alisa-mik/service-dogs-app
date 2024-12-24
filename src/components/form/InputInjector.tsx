@@ -10,6 +10,7 @@ import CategoryInput from "./inputs/CategoryInput";
 import styled from "styled-components";
 import { AttendanceInput } from "./inputs/AttendanceInput";
 import AutoComplete from "./inputs/AutoComplete";
+import { get } from "lodash";
 
 const ErrorText = styled.div`
   color: red;
@@ -30,6 +31,7 @@ export type InputType =
 export interface IInput {
   path: string;
   formik: FormikProps<{ [key: string]: any }>;
+  value: any;
 }
 
 interface IInputInjector {
@@ -75,6 +77,7 @@ const InputInjector: React.FC<IInputInjector> = ({
         label={""}
         path={path}
         formik={formik}
+        value={get(formik.values, path)}
         {...itemProp}
       />
       {formik.touched[path] && formik.errors[path] && (

@@ -16,8 +16,8 @@ const getDatePickerFormat = (initialDate: string | number) => {
   return datePickerFormat;
 };
 
-const DatePicker: React.FC<IInput> = ({ path, formik }) => {
-  const [date, setDate] = useState(getDatePickerFormat(formik.values[path]));
+const DatePicker: React.FC<IInput> = ({ path, formik, value }) => {
+  const [date, setDate] = useState(getDatePickerFormat(value));
 
   useEffect(() => {
     const datePickerFormat = getDatePickerFormat(date);

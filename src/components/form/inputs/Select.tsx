@@ -11,7 +11,7 @@ interface ISelect extends IInput {
   options: option[];
 }
 
-const Select: React.FC<ISelect> = ({ path, formik, options }) => {
+const Select: React.FC<ISelect> = ({ path, formik, value, options }) => {
   const renderOptions = () => {
     return options.map((op) => (
       <option
@@ -22,11 +22,7 @@ const Select: React.FC<ISelect> = ({ path, formik, options }) => {
     ));
   };
   return (
-    <StyledSelect
-      name={path}
-      value={formik.values[path]}
-      onChange={formik.handleChange}
-    >
+    <StyledSelect name={path} value={value} onChange={formik.handleChange}>
       {renderOptions()}
     </StyledSelect>
   );

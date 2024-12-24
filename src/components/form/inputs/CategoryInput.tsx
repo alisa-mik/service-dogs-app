@@ -25,8 +25,8 @@ const CategoryTag = styled.span<{ selected: boolean; color: string }>`
   }
 `;
 
-const CategoryInput: React.FC<IInput> = ({ path, formik }) => {
-  const selectedCategories = [...formik.values[path]];
+const CategoryInput: React.FC<IInput> = ({ path, formik, value }) => {
+  const selectedCategories = [...value];
 
   const toggleCategory = (categoryName: string) => {
     const modified = selectedCategories.includes(categoryName)
