@@ -23,6 +23,8 @@ import TrainingGroupsDashboard from "./pages/TrainingGroupsDashboard";
 // import { TwoOnFourDashboard } from "./pages/TwoOnFourDashboard";
 import { DogsInTrainingDashboard } from "./pages/DogsInTrainingDashboard";
 import { errorsIgnore } from "./utils/errorsIgnore";
+import FamilyUpdatesDashboard from "./pages/FamilyUpdatesDashboard";
+import { FamilyLogin } from "./pages/FamilyLogin";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
             path: "groups",
             Component: TrainingGroupsDashboard,
           },
+          {
+            path: "family-updates",
+            Component: FamilyUpdatesDashboard,
+          },
           // {
           //   path: "2-on-4",
           //   Component: TwoOnFourDashboard,
@@ -81,6 +87,10 @@ const router = createBrowserRouter([
         Component: FamilyDashboard,
       },
     ],
+  },
+  {
+    path: "/family-updates",
+    Component: FamilyLogin,
   },
 ]);
 

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
+import { FamilyUpdates } from "../components/FamilyUpdates";
 
 const Container = styled.div`
   width: 100%;
@@ -18,7 +19,7 @@ export default function MainDashboard() {
       widget: {
         props: {},
         display: true,
-        type: Container,
+        type: FamilyUpdates,
       },
     },
     {

@@ -59,10 +59,10 @@ const Body = styled.div`
 `;
 
 const tabs = {
-  // main: {
-  //   label: "ראשי",
-  //   navigateTo: "main",
-  // },
+  main: {
+    label: "ראשי",
+    navigateTo: "main",
+  },
   dogs: {
     label: "כלבים",
     navigateTo: "dogs",
