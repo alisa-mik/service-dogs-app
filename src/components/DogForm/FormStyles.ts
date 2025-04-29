@@ -20,14 +20,14 @@ export const FormItem = styled.div`
 
 // Form Title
 export const FormTitle = styled.h2`
-margin: 0;
+  margin: 0;
   text-align: center;
   color: #333;
 `;
 
 // Label for form inputs
 export const Label = styled.label`
-  font-weight: 600;
+  font-weight: 500;
   color: #444;
 `;
 

@@ -16,6 +16,7 @@ import {
 import { uniqueId } from "lodash";
 import styled from "styled-components";
 import { BEIGE_LIGHT, BROWN_DARK } from "../config/colors";
+import FamilyUpdateForm from "../components/FamilyUpdateForm";
 
 const FullPageContainer = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ export function FamilyLogin() {
   return (
     <FullPageContainer>
       <img
-        style={{ width: "200px", margin: "20px 0 40px 0" }}
+        style={{ width: "150px", margin: "10px 0 20px 0" }}
         src={`/logo.jpg?v=${uniqueId()}`}
       />
       {!(status === "succeeded" && dogs.length > 0) && (
@@ -78,14 +79,20 @@ export function FamilyLogin() {
       {status === "failed" && <Typography color="error">שגיאה</Typography>}
 
       {status === "succeeded" && dogs.length > 0 && (
-        <Box>
-          <Typography variant="h6" style={{ color: BROWN_DARK }}>
+        <div
+          style={{
+            width: "300px",
+            display: "flex",
+            flexDirection: "column",
+            gap: "15px",
+          }}
+        >
+          <div style={{ color: BROWN_DARK }}>
             שלום למשפחה של{" "}
-            <Box component="span">
-              {dogs.map((dog) => dog.dogName).join(" ו")}
-            </Box>
-          </Typography>
-        </Box>
+            <span>{dogs.map((dog) => dog.dogName).join(" ו")}</span>!
+          </div>
+          <FamilyUpdateForm data={{}} />
+        </div>
       )}
 
       {status === "succeeded" && dogs.length === 0 && (

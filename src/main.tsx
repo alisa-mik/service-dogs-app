@@ -89,7 +89,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/family-updates",
+    path: "/family-login",
     Component: FamilyLogin,
   },
 ]);

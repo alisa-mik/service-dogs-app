@@ -105,6 +105,7 @@ const Form = ({ data, config, onSubmit, formType, validate }: Iform) => {
         style={{
           display: "flex",
           flexDirection: "column",
+          textAlign: "start",
           gap: "10px",
         }}
         onSubmit={formik.handleSubmit}

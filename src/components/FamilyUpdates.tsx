@@ -17,7 +17,6 @@ export const FamilyUpdates = () => {
   const status = useSelector(selectFamilyUpdatesStatus);
   const error = useSelector(selectFamilyUpdatesError);
 
-  // Timestamps instead of ISO strings
   const [startDate, setStartDate] = useState<number>(1740787200000); // Example: May 1, 2025
   const [endDate, setEndDate] = useState<number>(1745548800000); // Example: May 2, 2025
 

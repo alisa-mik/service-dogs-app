@@ -9,9 +9,9 @@ export interface FamilyAwayContent {
   comments?: string;
 }
 
-export interface VaccineUpdateContent {
-  vaccineName: string;
-  vaccineDate: number;
+export interface MedicalUpdateContent {
+  type: string;
+  date: number;
   comments?: string;
 }
 
@@ -28,7 +28,7 @@ export interface FamilyNoticeContent {
 export type UpdateContent =
   | GearRequestContent
   | FamilyAwayContent
-  | VaccineUpdateContent
+  | MedicalUpdateContent
   | FoodRequestContent
   | FamilyNoticeContent;
 
