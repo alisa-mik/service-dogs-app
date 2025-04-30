@@ -22,7 +22,7 @@ export const FamilyUpdates = () => {
 
   const handleFetchUpdates = () => {
     const params = {
-      status: "Resolved",
+      status: "Pending",
       startDate,
       endDate,
     };

@@ -1,9 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 import Form, { configType } from "./form/Form.tsx";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "../store/index.ts";
 import { enqueueSnackbar } from "notistack";
-import { pick, update } from "lodash";
+import { pick } from "lodash";
+import { apiClient, apiConfig } from "../config/apiConfig.ts";
+import { FamilyDogEntry } from "../store/dogsByPhoneNumberSlice.ts";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -46,29 +46,37 @@ const initData = {
   },
 };
 
-const FamilyUpdateForm = () => {
-  const dispatch = useDispatch<AppDispatch>();
+const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
+  const { dogId, groupId, familyId } = dog;
 
   const handleSubmit = async (values: { [key: string]: any }) => {
     const updateType = values.updateType;
     const details = pick(values, [updateType]);
 
     const formattedValues = {
+      updateId: uuidv4(),
       updateType,
       updateContent: details[updateType],
-      familyId: values.familyId ? values.familyId : uuidv4(),
+      familyId,
+      dogId,
+      groupId,
     };
 
     console.log({ formattedValues });
 
-    // const response = await apiClient.post(apiConfig.addFamily, formattedValues);
+    try {
+      const response = await apiClient.post(
+        apiConfig.familyUpdates,
+        formattedValues
+      );
 
-    enqueueSnackbar(`משפחה ${values.familyId ? "עודכנה" : "נוספה"} בהצלחה`, {
-      variant: "success",
-    });
-
-    // dispatch(refetchFamilies());
-    // return response.data;
+      enqueueSnackbar(`הבקשה נשלחה בהצלחה`, {
+        variant: "success",
+      });
+    } catch (error) {
+      console.error("Error adding/updating family:", error);
+      enqueueSnackbar("אירעה שגיאה בעת שליחת הבקשה", { variant: "error" });
+    }
   };
 
   const config: configType[] = [
@@ -363,7 +371,7 @@ const FamilyUpdateForm = () => {
       config={config}
       data={initData}
       onSubmit={handleSubmit}
-      //   {...validateProps}
+      validate={validate}
     />
   );
 };

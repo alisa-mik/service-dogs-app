@@ -7,6 +7,7 @@ export interface FamilyDogEntry {
   dogId: string;
   dogName: string;
   familyId: string;
+  groupId: string;
 }
 
 interface DogsByPhoneState {

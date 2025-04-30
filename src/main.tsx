@@ -112,7 +112,7 @@ root.render(
     <ThemeProvider theme={theme}>
       <SnackbarProvider
         anchorOrigin={{ horizontal: "left", vertical: "top" }}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         preventDuplicate={true}
       />
       <RouterProvider router={router} />

@@ -92,7 +92,7 @@ export function FamilyLogin() {
             שלום למשפחה של{" "}
             <span>{dogs.map((dog) => dog.dogName).join(" ו")}</span>!
           </div>
-          <FamilyUpdateForm />
+          <FamilyUpdateForm dog={dogs[0]} />
         </div>
       )}
 
