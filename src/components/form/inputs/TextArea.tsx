@@ -6,7 +6,12 @@ import { TextArea as StyledArea } from "../styledInputs";
 import { IInput } from "../InputInjector";
 import { Icon } from "@mui/material";
 
-const TextArea: React.FC<IInput> = ({ path, formik, value = "" }) => {
+const TextArea: React.FC<IInput> = ({
+  path,
+  formik,
+  value = "",
+  showMic = true,
+}) => {
   const recorderRef = useRef();
   const initValueRef = useRef(value);
   const [listening, setListening] = useState(false);
@@ -78,18 +83,28 @@ const TextArea: React.FC<IInput> = ({ path, formik, value = "" }) => {
     initValueRef.current = e.target.value;
   };
 
-  return (
-    <div>
-      <StyledArea name={path} value={value} onChange={handleMenualChange} />
+  const renderMicIcon = () => {
+    if (!showMic) return null;
+    if (!("webkitSpeechRecognition" in window)) return null;
 
-      <MicIcon
+    return (
+      <Icon
         style={{
           cursor: "pointer",
           color: listening ? "red" : "#000000",
           fontSize: "25px",
         }}
         onClick={listening ? handleStopListening : handleStartListening}
-      />
+      >
+        {listening ? "mic_off" : "mic"}
+      </Icon>
+    );
+  };
+
+  return (
+    <div>
+      <StyledArea name={path} value={value} onChange={handleMenualChange} />
+      {renderMicIcon()}
     </div>
   );
 };

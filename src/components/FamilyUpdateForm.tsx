@@ -3,6 +3,7 @@ import Form, { configType } from "./form/Form.tsx";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/index.ts";
 import { enqueueSnackbar } from "notistack";
+import { pick, update } from "lodash";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -22,23 +23,58 @@ const validate = (values: { [key: string]: any }) => {
   return errors;
 };
 
-const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
+const initData = {
+  updateType: "",
+  medicalUpdate: {
+    date: "",
+    "vaccine-2": false,
+    "vaccine-3": false,
+    "rabies-1": false,
+    "rabies-2": false,
+    worms: false,
+    chip: false,
+    isOther: false,
+    comments: "",
+  },
+  foodRequest: {
+    foodType: "",
+    comments: "",
+  },
+  gearRequest: {
+    leash: false,
+    collar: false,
+    easywalk: false,
+    bone: false,
+    wastebag: false,
+    other: false,
+    comments: "",
+  },
+  other: {
+    comments: "",
+  },
+};
+
+const FamilyUpdateForm = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: { [key: string]: any }) => {
-    console.log({ values });
+    const updateType = values.updateType;
+    const details = pick(values, [updateType]);
 
     const formattedValues = {
-      ...values,
+      updateType,
+      updateContent: details[updateType],
       familyId: values.familyId ? values.familyId : uuidv4(),
     };
+
+    console.log({ formattedValues });
 
     // const response = await apiClient.post(apiConfig.addFamily, formattedValues);
 
     enqueueSnackbar(`משפחה ${values.familyId ? "עודכנה" : "נוספה"} בהצלחה`, {
       variant: "success",
     });
-    alert("yey");
+
     // dispatch(refetchFamilies());
     // return response.data;
   };
@@ -99,14 +135,23 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
         {
           itemGroup: "input",
           itemType: "date",
-          path: "updateContent.startDate",
+          path: "familyAway.startDate",
           label: "מתאריך:",
         },
         {
           itemGroup: "input",
           itemType: "date",
-          path: "updateContent.endDate",
+          path: "familyAway.endDate",
           label: "עד תאריך:",
+        },
+        {
+          itemGroup: "input",
+          itemType: "textarea",
+          path: "familyAway.comments",
+          label: "הערות:",
+          itemProps: {
+            showMic: false,
+          },
         },
       ],
     },
@@ -125,8 +170,17 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
         {
           itemGroup: "input",
           itemType: "text",
-          path: "updateContent.foodType",
+          path: "foodRequest.foodType",
           label: "סוג האוכל:",
+        },
+        {
+          itemGroup: "input",
+          itemType: "textarea",
+          path: "foodRequest.comments",
+          label: "הערות:",
+          itemProps: {
+            showMic: false,
+          },
         },
       ],
     },
@@ -145,7 +199,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
         {
           itemGroup: "input",
           itemType: "date",
-          path: "updateContent.date",
+          path: "medicalUpdate.date",
           label: "תאריך:",
         },
         {
@@ -154,7 +208,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "חיסון משושה שני",
           },
-          path: "updateContent.vaccine-2",
+          path: "medicalUpdate.vaccine-2",
         },
         {
           itemGroup: "input",
@@ -162,7 +216,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "חיסון משושה שלישי",
           },
-          path: "updateContent.vaccine-3",
+          path: "medicalUpdate.vaccine-3",
         },
         {
           itemGroup: "input",
@@ -170,7 +224,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "כלבת ראשון",
           },
-          path: "updateContent.rabies-1",
+          path: "medicalUpdate.rabies-1",
         },
         {
           itemGroup: "input",
@@ -178,7 +232,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "כלבת שני",
           },
-          path: "updateContent.rabies-2",
+          path: "medicalUpdate.rabies-2",
         },
         {
           itemGroup: "input",
@@ -186,7 +240,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "תילוע",
           },
-          path: "updateContent.worms",
+          path: "medicalUpdate.worms",
         },
         {
           itemGroup: "input",
@@ -194,7 +248,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "שבב",
           },
-          path: "updateContent.chip",
+          path: "medicalUpdate.chip",
         },
         {
           itemGroup: "input",
@@ -202,7 +256,16 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "אחר- פרטו בהערות",
           },
-          path: "updateContent.isOther",
+          path: "medicalUpdate.isOther",
+        },
+        {
+          itemGroup: "input",
+          itemType: "textarea",
+          path: "medicalUpdate.comments",
+          label: "הערות:",
+          itemProps: {
+            showMic: false,
+          },
         },
       ],
     },
@@ -224,7 +287,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "רצועה",
           },
-          path: "leash",
+          path: "gearRequest.leash",
         },
         {
           itemGroup: "input",
@@ -232,7 +295,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "קולר",
           },
-          path: "updateContent.collar",
+          path: "gearRequest.collar",
         },
         {
           itemGroup: "input",
@@ -240,7 +303,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "ריתמה",
           },
-          path: "updateContent.easywalk",
+          path: "gearRequest.easywalk",
         },
         {
           itemGroup: "input",
@@ -248,7 +311,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "עצם לעיסה",
           },
-          path: "updateContent.bone",
+          path: "gearRequest.bone",
         },
         {
           itemGroup: "input",
@@ -256,7 +319,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "שקיות איסוף",
           },
-          path: "updateContent.wastebag",
+          path: "gearRequest.wastebag",
         },
         {
           itemGroup: "input",
@@ -264,15 +327,41 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             label: "אחר- פרטו בהערות",
           },
-          path: "updateContent.other",
+          path: "gearRequest.other",
+        },
+        {
+          itemGroup: "input",
+          itemType: "textarea",
+          path: "gearRequest.comments",
+          label: "הערות:",
+          itemProps: {
+            showMic: false,
+          },
         },
       ],
     },
     {
-      itemGroup: "input",
-      itemType: "textarea",
-      path: "updateContent.comments",
-      label: "הערות:",
+      itemGroup: "section",
+      itemType: "condition",
+      itemProps: {
+        conditions: [
+          {
+            path: "updateType",
+            values: ["other"],
+          },
+        ],
+      },
+      items: [
+        {
+          itemGroup: "input",
+          itemType: "textarea",
+          path: "other.comments",
+          label: "הערות:",
+          itemProps: {
+            showMic: false,
+          },
+        },
+      ],
     },
   ];
 
@@ -280,7 +369,7 @@ const FamilyUpdateForm = ({ data, icon }: { data: any; icon?: string }) => {
     <Form
       formType="single"
       config={config}
-      data={data}
+      data={initData}
       onSubmit={handleSubmit}
       //   {...validateProps}
     />

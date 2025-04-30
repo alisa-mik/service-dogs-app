@@ -30,6 +30,8 @@ const FullPageContainer = styled.div`
   padding: 0;
   margin: 0;
   direction: rtl;
+  overflow: auto;
+  padding-bottom: 20px;
 `;
 
 export function FamilyLogin() {
@@ -81,7 +83,6 @@ export function FamilyLogin() {
       {status === "succeeded" && dogs.length > 0 && (
         <div
           style={{
-            width: "300px",
             display: "flex",
             flexDirection: "column",
             gap: "15px",
@@ -91,7 +92,7 @@ export function FamilyLogin() {
             שלום למשפחה של{" "}
             <span>{dogs.map((dog) => dog.dogName).join(" ו")}</span>!
           </div>
-          <FamilyUpdateForm data={{}} />
+          <FamilyUpdateForm />
         </div>
       )}
 
