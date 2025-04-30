@@ -18,9 +18,9 @@ const validate = (values: { [key: string]: any }) => {
     errors.contactName = "שם איש קשר הוא שדה חובה";
   }
 
-  // if (!values["contactInfo.phoneNumber"]?.trim()) {
-  //   errors["contactInfo.phoneNumber"] = "מספר טלפון הוא שדה חובה";
-  // }
+  if (!values.phoneNumber?.trim()) {
+    errors.phoneNumber = "מספר טלפון הוא שדה חובה";
+  }
 
   return errors;
 };
@@ -32,15 +32,26 @@ const FamilyForm = ({ data, icon }: { data: any; icon?: string }) => {
     const formattedValues = {
       ...values,
       familyId: values.familyId ? values.familyId : uuidv4(),
+      contactInfo: {
+        ...(values.contactInfo || {}),
+        phoneNumber: values.phoneNumber,
+      },
     };
 
-    const response = await apiClient.post(apiConfig.addFamily, formattedValues);
-
-    enqueueSnackbar(`משפחה ${values.familyId ? "עודכנה" : "נוספה"} בהצלחה`, {
-      variant: "success",
-    });
-    dispatch(refetchFamilies());
-    return response.data;
+    try {
+      const response = await apiClient.post(
+        apiConfig.addFamily,
+        formattedValues
+      );
+      enqueueSnackbar(`משפחה ${values.familyId ? "עודכנה" : "נוספה"} בהצלחה`, {
+        variant: "success",
+      });
+      dispatch(refetchFamilies());
+      return response.data;
+    } catch (error) {
+      console.error("Error adding/updating family:", error);
+      enqueueSnackbar("אירעה שגיאה בעת שמירת המשפחה", { variant: "error" });
+    }
   };
 
   const config: configType[] = [
@@ -63,7 +74,7 @@ const FamilyForm = ({ data, icon }: { data: any; icon?: string }) => {
         {
           itemGroup: "input",
           itemType: "text",
-          path: "contactInfo.phoneNumber",
+          path: "phoneNumber",
           label: "מספר טלפון:",
         },
         {

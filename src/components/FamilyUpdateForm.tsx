@@ -8,17 +8,9 @@ import { pick, update } from "lodash";
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
 
-  if (!values.familyName?.trim()) {
-    errors.familyName = "שם משפחה הוא שדה חובה";
+  if (!values.updateType?.trim()) {
+    errors.updateType = "סוג עדכון הוא שדה חובה";
   }
-
-  if (!values.contactName?.trim()) {
-    errors.contactName = "שם איש קשר הוא שדה חובה";
-  }
-
-  // if (!values["contactInfo.phoneNumber"]?.trim()) {
-  //   errors["contactInfo.phoneNumber"] = "מספר טלפון הוא שדה חובה";
-  // }
 
   return errors;
 };

@@ -80,8 +80,8 @@ const InputInjector: React.FC<IInputInjector> = ({
         value={get(formik.values, path)}
         {...itemProp}
       />
-      {formik.touched[path] && formik.errors[path] && (
-        <ErrorText>{formik.errors[path] as string}</ErrorText>
+      {get(formik.touched, path) && get(formik.errors, path) && (
+        <ErrorText>{get(formik.errors, path) as string}</ErrorText>
       )}
     </FormItem>
   );

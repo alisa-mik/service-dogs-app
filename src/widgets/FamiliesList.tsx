@@ -27,7 +27,10 @@ export default function FamiliesList() {
     contactName: "",
     joinedAt: "",
     dogIds: [],
-    contactInfo: {},
+    contactInfo: {
+      phoneNumber: "",
+    },
+    phoneNumber: "",
     active: true,
     generalInfo: "",
   };
