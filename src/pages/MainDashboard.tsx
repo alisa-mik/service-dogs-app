@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
-import { FamilyUpdates } from "../components/FamilyUpdates";
+import { FamilyUpdates } from "../widgets/FamilyUpdates";
+import DogsStats from "../widgets/DogsStats";
 
 const Container = styled.div`
   width: 100%;
@@ -15,27 +16,27 @@ const Container = styled.div`
 export default function MainDashboard() {
   const widgets: WidgetConfig[] = [
     {
-      layout: { i: "a", x: 2, y: 0, w: 10, h: 46 },
+      layout: { i: "a", x: 2, y: 0, w: 10, h: 20 },
+      widget: {
+        props: {},
+        display: true,
+        type: DogsStats,
+      },
+    },
+    {
+      layout: { i: "b", x: 2, y: 46, w: 5, h: 80 },
+      widget: {
+        props: {},
+        display: true,
+        type: Container,
+      },
+    },
+    {
+      layout: { i: "c", x: 7, y: 46, w: 5, h: 80 },
       widget: {
         props: {},
         display: true,
         type: FamilyUpdates,
-      },
-    },
-    {
-      layout: { i: "b", x: 2, y: 46, w: 5, h: 54 },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
-      },
-    },
-    {
-      layout: { i: "c", x: 7, y: 46, w: 5, h: 54 },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
       },
     },
     {

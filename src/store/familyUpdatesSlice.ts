@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from ".";
 import { FamilyUpdate } from "../types/familyUpdateTypes";
@@ -61,5 +65,21 @@ export const selectFamilyUpdatesStatus = (state: RootState) =>
 
 export const selectFamilyUpdatesError = (state: RootState) =>
   state.familyUpdates.error;
+
+export const selectFoodRequestsGroupedByGroupId = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates) => {
+    return updates
+      .filter((update) => update.updateType === "foodRequest")
+      .reduce((grouped: Record<string, FamilyUpdate[]>, update) => {
+        const groupId = update.dogGroupId || "ungrouped";
+        if (!grouped[groupId]) {
+          grouped[groupId] = [];
+        }
+        grouped[groupId].push(update);
+        return grouped;
+      }, {});
+  }
+);
 
 export default familyUpdatesSlice.reducer;

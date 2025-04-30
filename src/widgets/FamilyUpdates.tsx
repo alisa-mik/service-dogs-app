@@ -8,8 +8,11 @@ import {
 } from "../store/familyUpdatesSlice";
 import { AppDispatch } from "../store";
 import { CircularProgress, Box, Typography, Button } from "@mui/material";
-import { BEIGE_LIGHT, BROWN_DARK } from "../config/colors";
-import dayjs from "dayjs";
+import { BROWN_DARK } from "../config/colors";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import { WidgetTitle } from "../components/commonParts/Labels";
+import { FamilyUpdateItem } from "../components/FamilyUpdateItem";
+import { resolveFamilyUpdate } from "../utils/resolveFamilyUpdate";
 
 export const FamilyUpdates = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -29,42 +32,40 @@ export const FamilyUpdates = () => {
     dispatch(fetchFamilyUpdates(params));
   };
 
+  const handleResolve = (id: string) => {
+    resolveFamilyUpdate(id);
+  };
+
   useEffect(() => {
     handleFetchUpdates();
   }, []);
+  console.log(updates);
 
   return (
-    <Box
-      style={{ width: "100%", height: "100%", backgroundColor: BEIGE_LIGHT }}
-    >
-      <Typography variant="h6" style={{ color: BROWN_DARK }}>
-        Family Updates
-      </Typography>
-
-      <Box display="flex" flexDirection="column" gap={2} mb={3}>
+    <>
+      <WidgetHeader>
+        <WidgetTitle>כל הפניות האחרונות</WidgetTitle>
         <Button
           variant="contained"
           onClick={handleFetchUpdates}
           disabled={status === "loading"}
         >
-          Fetch Updates
+          רענן בקשות
         </Button>
-
+      </WidgetHeader>
+      <WidgetBody style={{ gap: "5px", justifyContent: "flex-start" }}>
         {status === "loading" && <CircularProgress />}
         {status === "failed" && <Typography color="error">{error}</Typography>}
 
         {status === "succeeded" && updates.length > 0 && (
           <Box>
-            <Typography variant="body1">Updates found:</Typography>
             <div>
               {updates.map((update) => (
-                <div key={update.updateId}>
-                  <strong>{update.updateType}</strong> — {update.dogId}
-                  <div>
-                    Created:{" "}
-                    {dayjs(update.createdAt).format("YYYY-MM-DD HH:mm")}
-                  </div>
-                </div>
+                <FamilyUpdateItem
+                  key={update.updateId}
+                  update={update}
+                  onResolve={handleResolve}
+                />
               ))}
             </div>
           </Box>
@@ -72,10 +73,10 @@ export const FamilyUpdates = () => {
 
         {status === "succeeded" && updates.length === 0 && (
           <Typography style={{ color: BROWN_DARK }}>
-            No updates found.
+            אין פניות פתוחות
           </Typography>
         )}
-      </Box>
-    </Box>
+      </WidgetBody>
+    </>
   );
 };

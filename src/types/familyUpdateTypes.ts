@@ -33,11 +33,11 @@ export type UpdateContent =
   | FamilyNoticeContent;
 
 export type UpdateType =
-  | "GearRequest"
-  | "FamilyAway"
-  | "VaccineUpdate"
-  | "FoodRequest"
-  | "FamilyNotice";
+  | "gearRequest"
+  | "familyAway"
+  | "medicalUpdate"
+  | "foodRequest"
+  | "familyNotice";
 
 export type StatusType = "Pending" | "Resolved";
 
@@ -45,10 +45,11 @@ export interface FamilyUpdate {
   updateId: string;
   familyId: string;
   dogId: string;
+  dogName: string;
   dogGroupId: string;
   updateType: UpdateType;
   updateContent: UpdateContent;
   resolved: boolean;
   status?: StatusType;
-  createdAt: string;
+  createdAt: number;
 }

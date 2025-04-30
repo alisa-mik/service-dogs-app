@@ -41,13 +41,13 @@ const initData = {
     other: false,
     comments: "",
   },
-  other: {
-    comments: "",
+  notice: {
+    message: "",
   },
 };
 
 const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
-  const { dogId, groupId, familyId } = dog;
+  const { dogId, groupId, familyId, dogName } = dog;
 
   const handleSubmit = async (values: { [key: string]: any }) => {
     const updateType = values.updateType;
@@ -59,10 +59,9 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       updateContent: details[updateType],
       familyId,
       dogId,
+      dogName,
       groupId,
     };
-
-    console.log({ formattedValues });
 
     try {
       const response = await apiClient.post(
@@ -347,7 +346,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
         conditions: [
           {
             path: "updateType",
-            values: ["other"],
+            values: ["notice"],
           },
         ],
       },
@@ -355,8 +354,8 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
         {
           itemGroup: "input",
           itemType: "textarea",
-          path: "other.comments",
-          label: "הערות:",
+          path: "notice.message",
+          label: "הודעה:",
           itemProps: {
             showMic: false,
           },
