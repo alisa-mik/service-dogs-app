@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import Form, { configType } from "./form/Form.tsx";
+import Form, { configType } from "../form/Form.tsx";
 import { enqueueSnackbar } from "notistack";
 import { pick } from "lodash";
-import { apiClient, apiConfig } from "../config/apiConfig.ts";
-import { FamilyDogEntry } from "../store/dogsByPhoneNumberSlice.ts";
+import { apiClient, apiConfig } from "../../config/apiConfig.ts";
+import { FamilyDogEntry } from "../../store/dogsByPhoneNumberSlice.ts";
 import { useState } from "react";
 import { Box, Typography } from "@mui/material";
-import { BROWN_DARK } from "../config/colors.ts";
-import { Button } from "./commonParts/Buttons.tsx";
+import { BROWN_DARK } from "../../config/colors.ts";
+import { Button } from "../commonParts/Buttons.tsx";
 
 const validate = (values: { [key: string]: any }) => {
   const errors: { [key: string]: string } = {};
@@ -45,15 +45,16 @@ const initData = {
     other: false,
     comments: "",
   },
-  other: {
-    comments: "",
+  notice: {
+    message: "",
   },
 };
 
 const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
-  const { dogId, groupId, familyId } = dog;
-  const [finish, setFinish] = useState(true);
+  const [finish, setFinish] = useState(false);
   const [status, setStatus] = useState("done");
+
+  const { dogId, groupId, familyId, dogName } = dog;
 
   const handleSubmit = async (values: { [key: string]: any }) => {
     if (status === "loading") return;
@@ -67,6 +68,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       updateContent: details[updateType],
       familyId,
       dogId,
+      dogName,
       groupId,
     };
 
@@ -256,8 +258,8 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     {
       itemGroup: "input",
       itemType: "textarea",
-      path: "other.comments",
-      label: "הערות:",
+      path: "other.message",
+      label: "הודעה:",
       itemProps: { showMic: false },
     },
   ];
@@ -316,7 +318,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
         </Typography>
         <Box display="flex" justifyContent="center" gap={2} mb={3}>
           <Button onClick={() => setFinish(false)}>
-            אשמח לעדכן / לבקש עוד משהו
+            אשמח לעדכן / לבקש דבר נוסף
           </Button>
         </Box>
       </Box>

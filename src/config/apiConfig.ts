@@ -28,4 +28,5 @@ export const apiConfig = {
   editFamily: "edit-family",
   dogsByPhoneNumber: "dogs-by-phone-number",
   familyUpdates: "family-updates",
+  editFamilyUpdatesStatus: "edit-family-updates-status",
 };

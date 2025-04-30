@@ -16,7 +16,7 @@ import {
 import { uniqueId } from "lodash";
 import styled from "styled-components";
 import { BEIGE_LIGHT, BROWN_DARK } from "../config/colors";
-import FamilyUpdateForm from "../components/FamilyUpdateForm";
+import FamilyUpdateForm from "../components/FamilyUpdates/FamilyUpdateForm";
 
 const FullPageContainer = styled.div`
   display: flex;

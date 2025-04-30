@@ -1,5 +1,10 @@
 export interface GearRequestContent {
-  requestedItems: string[];
+  lease: boolean;
+  collar: boolean;
+  easywalk: boolean;
+  bone: boolean;
+  wastebags: boolean;
+  other: boolean;
   comments?: string;
 }
 
@@ -20,7 +25,7 @@ export interface FoodRequestContent {
   comments?: string;
 }
 
-export interface FamilyNoticeContent {
+export interface OtherContent {
   message: string;
 }
 
@@ -30,14 +35,14 @@ export type UpdateContent =
   | FamilyAwayContent
   | MedicalUpdateContent
   | FoodRequestContent
-  | FamilyNoticeContent;
+  | OtherContent;
 
 export type UpdateType =
-  | "GearRequest"
-  | "FamilyAway"
-  | "VaccineUpdate"
-  | "FoodRequest"
-  | "FamilyNotice";
+  | "gearRequest"
+  | "familyAway"
+  | "medicalUpdate"
+  | "foodRequest"
+  | "other";
 
 export type StatusType = "Pending" | "Resolved";
 
@@ -45,10 +50,11 @@ export interface FamilyUpdate {
   updateId: string;
   familyId: string;
   dogId: string;
-  dogGroupId: string;
+  dogName: string;
+  groupId: string;
   updateType: UpdateType;
   updateContent: UpdateContent;
   resolved: boolean;
   status?: StatusType;
-  createdAt: string;
+  createdAt: number;
 }
