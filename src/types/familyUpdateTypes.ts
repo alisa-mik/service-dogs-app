@@ -1,5 +1,5 @@
 export interface GearRequestContent {
-  lease: boolean;
+  leash: boolean;
   collar: boolean;
   easywalk: boolean;
   bone: boolean;
@@ -26,7 +26,7 @@ export interface FoodRequestContent {
 }
 
 export interface OtherContent {
-  message: string;
+  comments: string;
 }
 
 // Now the union type:
@@ -49,6 +49,8 @@ export type StatusType = "Pending" | "Resolved";
 export interface FamilyUpdate {
   updateId: string;
   familyId: string;
+  familyName: string;
+  contactName: string;
   dogId: string;
   dogName: string;
   groupId: string;
@@ -58,3 +60,31 @@ export interface FamilyUpdate {
   status?: StatusType;
   createdAt: number;
 }
+
+export interface RequestInfo {
+  dogId: string;
+  dogName: string;
+  familyId: string;
+  contactName: string;
+  familyName: string;
+  groupId: string;
+  createdAt: number;
+  resolved: boolean;
+  comments?: string;
+}
+
+export type GearType =
+  | "leash"
+  | "collar"
+  | "easywalk"
+  | "bone"
+  | "wastebags"
+  | "other";
+
+export type GearItemDetail = {
+  allCount: number;
+  pendingCount: number;
+  requests: RequestInfo[];
+};
+
+export type GearSummary = Record<GearType, GearItemDetail>;

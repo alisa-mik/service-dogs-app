@@ -18,9 +18,11 @@
 	box-sizing: border-box;
 	&:focus {
 		outline: unset !important;
+		border-color: #e2b332 !important;
 	}
 	&:focus-visible {
 		outline: unset !important;
+		border-color: #e2b332 !important;
 	}
 }
 

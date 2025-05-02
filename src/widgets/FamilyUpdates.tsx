@@ -18,6 +18,7 @@ import {
   resolveFamilyUpdate,
   updateTypeTitles,
 } from "../utils/familyUpdatesUtils";
+import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
 
 export const FamilyUpdates = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -25,39 +26,48 @@ export const FamilyUpdates = () => {
   const status = useSelector(selectFamilyUpdatesStatus);
   const error = useSelector(selectFamilyUpdatesError);
 
+  console.log({ updates });
+
   const [startDate, setStartDate] = useState<number>(1740787200000); // Example: May 1, 2025
   const [endDate, setEndDate] = useState<number>(1745548800000); // Example: May 2, 2025
+  const [updatesByGroup, setUpdatesByGroup] = useState<FamilyUpdate[]>([]);
 
-  const [viewMode, setViewMode] = useState<"all" | "group" | "type">("all");
+  const [viewMode, setViewMode] = useState<"all" | "type">("all");
+  const selectedGroupId = useSelector(selectSelectedGroupId);
 
   useEffect(() => {
     handleFetchUpdates();
   }, []);
 
+  useEffect(() => {
+    const updatesFilteredByGroup = updates.filter((update) => {
+      if (selectedGroupId) return update.groupId === selectedGroupId;
+      else return updates;
+    });
+    setUpdatesByGroup(updatesFilteredByGroup);
+  }, [updates, selectedGroupId]);
+
   const groupedByType = useMemo(
-    () => groupByKey(updates, "updateType"),
-    [updates]
-  );
-  const groupedByGroupId = useMemo(
-    () => groupByKey(updates, "groupId"),
-    [updates]
+    () => groupByKey(updatesByGroup, "updateType"),
+    [updatesByGroup]
   );
 
   const sortedUpdates = useMemo(() => {
-    return [...updates].sort((a, b) => b.createdAt - a.createdAt);
-  }, [updates]);
+    return [...updatesByGroup].sort((a, b) => b.createdAt - a.createdAt);
+  }, [updatesByGroup]);
 
   const handleFetchUpdates = () => {
     const params = {
-      status: "Pending",
+      status: undefined,
       startDate,
       endDate,
     };
     dispatch(fetchFamilyUpdates(params));
   };
 
-  const handleResolve = (id: string) => {
-    resolveFamilyUpdate(id);
+  const handleResolve = async (id: string, resolved: boolean) => {
+    await resolveFamilyUpdate(id, resolved);
+    handleFetchUpdates();
   };
 
   return (
@@ -78,13 +88,7 @@ export const FamilyUpdates = () => {
             variant={viewMode === "all" ? "contained" : "outlined"}
             onClick={() => setViewMode("all")}
           >
-            הצג הכל
-          </Button>
-          <Button
-            variant={viewMode === "group" ? "contained" : "outlined"}
-            onClick={() => setViewMode("group")}
-          >
-            לפי קבוצה
+            לפי תאריך
           </Button>
           <Button
             variant={viewMode === "type" ? "contained" : "outlined"}
@@ -107,25 +111,6 @@ export const FamilyUpdates = () => {
                   viewMode={viewMode}
                 />
               ))}
-
-            {viewMode === "group" &&
-              Object.entries(groupedByGroupId).map(
-                ([groupId, groupUpdates]) => (
-                  <Box key={groupId} sx={{ mb: 3 }}>
-                    <Typography variant="h6" sx={{ color: BROWN_DARK }}>
-                      {groupId}
-                    </Typography>
-                    {groupUpdates.map((update) => (
-                      <FamilyUpdateItem
-                        key={update.updateId}
-                        update={update}
-                        onResolve={handleResolve}
-                        viewMode={viewMode}
-                      />
-                    ))}
-                  </Box>
-                )
-              )}
 
             {viewMode === "type" &&
               Object.entries(groupedByType).map(([type, typeUpdates]) => (

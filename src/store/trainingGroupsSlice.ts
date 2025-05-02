@@ -1,6 +1,9 @@
-
-
-import { createAsyncThunk, createSlice, createSelector, PayloadAction } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  createSelector,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
 import { reverse } from "lodash";
@@ -25,7 +28,6 @@ export interface Update {
   groupId?: string;
 }
 
-
 export interface Group {
   groupId: string;
   startDate: number;
@@ -37,10 +39,9 @@ export interface Group {
   updates: Update[];
 }
 
-
 interface GroupsState {
   groupIds: string[];
-  groups: { [ groupId: string ]: Group };
+  groups: { [groupId: string]: Group };
   selectedGroupId: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
@@ -55,15 +56,21 @@ const initialState: GroupsState = {
 };
 
 // Async thunks remain the same
-export const fetchGroups = createAsyncThunk("trainingGroups/fetchGroups", async () => {
-  const response = await apiClient.get(apiConfig.trainingGroups);
-  return response.data; // The data is { groupIds: [], groups: {} }
-});
+export const fetchGroups = createAsyncThunk(
+  "trainingGroups/fetchGroups",
+  async () => {
+    const response = await apiClient.get(apiConfig.trainingGroups);
+    return response.data; // The data is { groupIds: [], groups: {} }
+  }
+);
 
-export const refetchGroups = createAsyncThunk("trainingGroups/refetchGroups", async () => {
-  const response = await apiClient.get(apiConfig.trainingGroups);
-  return response.data;
-});
+export const refetchGroups = createAsyncThunk(
+  "trainingGroups/refetchGroups",
+  async () => {
+    const response = await apiClient.get(apiConfig.trainingGroups);
+    return response.data;
+  }
+);
 
 const trainingGroupsSlice = createSlice({
   name: "trainingGroups",
@@ -74,6 +81,10 @@ const trainingGroupsSlice = createSlice({
     },
     clearSelectedGroup(state) {
       state.selectedGroupId = null;
+    },
+    setFirstGroup(state) {
+      if (!state.selectedGroupId && state.groupIds)
+        state.selectedGroupId = state.groupIds[0];
     },
   },
   extraReducers: (builder) => {
@@ -86,7 +97,6 @@ const trainingGroupsSlice = createSlice({
         state.status = "succeeded";
         state.groupIds = reverse(action.payload.groupIds);
         state.groups = action.payload.groups;
-        state.selectedGroupId = action.payload.groupIds.at(0)
         state.error = null;
       })
       .addCase(fetchGroups.rejected, (state, action) => {
@@ -111,53 +121,56 @@ const trainingGroupsSlice = createSlice({
 });
 
 // Export actions
-export const { setSelectedGroup, clearSelectedGroup } = trainingGroupsSlice.actions;
+export const { setSelectedGroup, clearSelectedGroup, setFirstGroup } =
+  trainingGroupsSlice.actions;
 
 // Selectors
 
 // Select groupIds array
-export const selectGroupIds = (state: RootState) => state.trainingGroups.groupIds;
+export const selectGroupIds = (state: RootState) =>
+  state.trainingGroups.groupIds;
 
 // Select groups object
 export const selectGroups = (state: RootState) => state.trainingGroups.groups;
 
 // Select selectedGroupId
-export const selectSelectedGroupId = (state: RootState) => state.trainingGroups.selectedGroupId;
+export const selectSelectedGroupId = (state: RootState) =>
+  state.trainingGroups.selectedGroupId;
 
 // Select selectedGroup object
 export const selectSelectedGroup = createSelector(
-  [ selectGroups, selectSelectedGroupId ],
-  (groups, selectedGroupId) => (selectedGroupId ? groups[ selectedGroupId ] : null)
+  [selectGroups, selectSelectedGroupId],
+  (groups, selectedGroupId) =>
+    selectedGroupId ? groups[selectedGroupId] : null
 );
 
 // Select status
-export const selectGroupsStatus = (state: RootState) => state.trainingGroups.status;
+export const selectGroupsStatus = (state: RootState) =>
+  state.trainingGroups.status;
 
 // Select error
-export const selectGroupsError = (state: RootState) => state.trainingGroups.error;
+export const selectGroupsError = (state: RootState) =>
+  state.trainingGroups.error;
 
 // Select all groups as an array
-export const selectAllGroups = createSelector(
-  [ selectGroups ],
-  (groups) => Object.values(groups)
+export const selectAllGroups = createSelector([selectGroups], (groups) =>
+  Object.values(groups)
 );
 
 // Select specific group by ID
 export const selectGroupById = (state: RootState, groupId: string) =>
-  state.trainingGroups.groups[ groupId ];
+  state.trainingGroups.groups[groupId];
 
-export const selectAllGroupDogs = createSelector(
-  [ selectAllGroups ],
-  (groups) => groups.flatMap((group) => group.dogs || [])
+export const selectAllGroupDogs = createSelector([selectAllGroups], (groups) =>
+  groups.flatMap((group) => group.dogs || [])
 );
 
 // Select all updates from all groups (includes both updates and meetings)
-export const selectAllUpdates = createSelector(
-  [ selectAllGroups ],
-  (groups) => groups.flatMap((group) => group.updates || [])
+export const selectAllUpdates = createSelector([selectAllGroups], (groups) =>
+  groups.flatMap((group) => group.updates || [])
 );
 export const selectSelectedGroupUpdates = createSelector(
-  [ selectSelectedGroup ],
+  [selectSelectedGroup],
   (selectedGroup) => (selectedGroup ? selectedGroup.updates : [])
 );
 
@@ -178,6 +191,5 @@ export const selectSelectedGroupDogs = createSelector(
     });
   }
 );
-
 
 export default trainingGroupsSlice.reducer;

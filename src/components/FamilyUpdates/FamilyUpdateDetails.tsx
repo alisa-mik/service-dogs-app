@@ -71,9 +71,9 @@ const renderers: Record<string, (update: FamilyUpdate) => JSX.Element> = {
       </>
     );
   },
-  familyNotice: (update) => {
+  other: (update) => {
     const content = update.updateContent as OtherContent;
-    return <div>הודעה: {content.message || "לא צויין"}</div>;
+    return <div>הודעה: {content.comments || "לא צויין"}</div>;
   },
 };
 

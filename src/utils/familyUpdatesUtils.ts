@@ -10,14 +10,20 @@ export const updateTypeTitles: Record<string, string> = {
   familyNotice: "אחר",
 };
 
-export const resolveFamilyUpdate = async (updateId: string) => {
+export const resolveFamilyUpdate = async (
+  updateId: string,
+  resolved: boolean
+) => {
   try {
     await apiClient.post(apiConfig.editFamilyUpdatesStatus, {
       updateId,
-      resolved: true,
+      resolved,
     });
 
-    enqueueSnackbar("הפנייה סומנה כמטופלת", { variant: "success" });
+    enqueueSnackbar(
+      resolved ? "הפנייה סומנה כמטופלת" : "הפנייה סומנה כלא מטופלת",
+      { variant: "success" }
+    );
   } catch (error) {
     console.error("Error resolving update:", error);
     enqueueSnackbar("אירעה שגיאה בעת סימון הפנייה", { variant: "error" });

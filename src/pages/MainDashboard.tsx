@@ -3,6 +3,8 @@ import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { FamilyUpdates } from "../widgets/FamilyUpdates";
 import DogsStats from "../widgets/DogsStats";
+import GearRequestsSummary from "../widgets/GearRequestsSummary";
+import GroupsList from "../widgets/GroupsWidget";
 
 const Container = styled.div`
   width: 100%;
@@ -16,7 +18,18 @@ const Container = styled.div`
 export default function MainDashboard() {
   const widgets: WidgetConfig[] = [
     {
-      layout: { i: "a", x: 0, y: 0, w: 8, h: 20 },
+      layout: { w: 2, h: 50, x: 10, y: 0, i: "c" },
+      widget: {
+        props: {
+          showAddGroup: false,
+          showAllOption: true,
+        },
+        display: true,
+        type: GroupsList,
+      },
+    },
+    {
+      layout: { i: "a", x: 0, y: 0, w: 10, h: 20 },
       widget: {
         props: {},
         display: true,
@@ -24,15 +37,7 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "b", x: 3, y: 20, w: 5, h: 80 },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
-      },
-    },
-    {
-      layout: { i: "c", x: 8, y: 0, w: 4, h: 100 },
+      layout: { i: "b", x: 4, y: 20, w: 6, h: 80 },
       widget: {
         props: {},
         display: true,
@@ -40,11 +45,19 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "d", x: 0, y: 20, w: 3, h: 80 },
+      layout: { i: "z", x: 10, y: 50, w: 2, h: 50 },
       widget: {
         props: {},
         display: true,
         type: Container,
+      },
+    },
+    {
+      layout: { i: "d", x: 0, y: 20, w: 4, h: 80 },
+      widget: {
+        props: {},
+        display: true,
+        type: GearRequestsSummary,
       },
     },
   ];

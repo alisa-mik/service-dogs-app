@@ -45,6 +45,7 @@ export default function WidgetContainer({
   padding,
   widgetId,
   showExpanded = false,
+  ...rest
 }: WidgetContainerI) {
   const parentRef = useRef<any>();
   const transformRef = useRef<any>();
@@ -108,7 +109,7 @@ export default function WidgetContainer({
   return (
     <Container padding={padding} $isExpanded={isExpanded}>
       {renderExpandedController()}
-      <Component />
+      <Component {...rest} />
     </Container>
   );
 }

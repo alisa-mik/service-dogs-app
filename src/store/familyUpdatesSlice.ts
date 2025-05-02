@@ -5,7 +5,12 @@ import {
 } from "@reduxjs/toolkit";
 import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from ".";
-import { FamilyUpdate } from "../types/familyUpdateTypes";
+import {
+  FamilyUpdate,
+  GearRequestContent,
+  GearSummary,
+  GearType,
+} from "../types/familyUpdateTypes";
 
 interface FamilyUpdatesState {
   updates: FamilyUpdate[];
@@ -19,6 +24,22 @@ const initialState: FamilyUpdatesState = {
   error: null,
 };
 
+const gearKeys: GearType[] = [
+  "leash",
+  "collar",
+  "easywalk",
+  "bone",
+  "wastebags",
+  "other",
+];
+
+const initialGearSummary = (): GearSummary => {
+  return gearKeys.reduce((acc, key) => {
+    acc[key] = { allCount: 0, pendingCount: 0, requests: [] };
+    return acc;
+  }, {} as GearSummary);
+};
+
 export const fetchFamilyUpdates = createAsyncThunk(
   "familyUpdates/fetchFamilyUpdates",
   async ({
@@ -26,7 +47,7 @@ export const fetchFamilyUpdates = createAsyncThunk(
     startDate,
     endDate,
   }: {
-    status: string;
+    status: undefined | string;
     startDate: number;
     endDate: number;
   }) => {
@@ -79,6 +100,98 @@ export const selectFoodRequestsGroupedByGroupId = createSelector(
         grouped[groupId].push(update);
         return grouped;
       }, {});
+  }
+);
+
+export const selectGearSummaryByGroup = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates): Record<string, GearSummary> => {
+    return updates
+      .filter((u) => u.updateType === "gearRequest")
+      .reduce<Record<string, GearSummary>>((acc, update) => {
+        const {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          resolved,
+          createdAt,
+        } = update;
+
+        const groupId = update.groupId ?? "ungrouped";
+        const content = update.updateContent as GearRequestContent;
+        const { comments } = content;
+
+        if (!acc[groupId]) acc[groupId] = initialGearSummary();
+
+        const extraInfo = {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          groupId,
+          createdAt,
+          resolved,
+          comments: comments || "",
+        };
+
+        for (const key of gearKeys) {
+          if (content[key]) {
+            acc[groupId][key].allCount++;
+            if (!resolved) acc[groupId][key].pendingCount++;
+            acc[groupId][key].requests.push(extraInfo);
+          }
+        }
+
+        return acc;
+      }, {});
+  }
+);
+
+export const selectGearSummaryFlat = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates): GearSummary => {
+    return updates
+      .filter((u) => u.updateType === "gearRequest")
+      .reduce<GearSummary>((acc, update) => {
+        const {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          resolved,
+          createdAt,
+        } = update;
+
+        const groupId = update.groupId ?? "ungrouped";
+        const content = update.updateContent as GearRequestContent;
+        const { comments } = content;
+
+        const extraInfo = {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          groupId,
+          createdAt,
+          resolved,
+          comments: comments || "",
+        };
+
+        for (const key of gearKeys) {
+          if (content[key]) {
+            acc[key].allCount++;
+            if (!resolved) acc[key].pendingCount++;
+            acc[key].requests.push(extraInfo);
+          }
+        }
+
+        return acc;
+      }, initialGearSummary());
   }
 );
 

@@ -15,6 +15,7 @@ export const Gap = styled.div<{ gap?: string }>`
 `;
 
 export const Column = styled.div<{ gap?: string }>`
+  width: 100%;
   direction: rtl;
   display: flex;
   flex-direction: column;

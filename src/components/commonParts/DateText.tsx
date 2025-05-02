@@ -7,6 +7,8 @@ import { LIGHT_GREY } from "../../config/colors";
 const DateText = styled.div<{ size: string }>`
   font-size: ${({ size }) => size};
   color: ${LIGHT_GREY};
+  display: flex;
+  align-items: center;
 `;
 
 interface IdateText {

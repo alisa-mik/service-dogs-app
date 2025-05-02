@@ -6,6 +6,7 @@ import {
   selectGroupIds,
   selectSelectedGroupId,
   setSelectedGroup,
+  clearSelectedGroup,
 } from "../store/trainingGroupsSlice";
 import { AppDispatch } from "../store";
 import { Column } from "../components/commonParts/Layouts";
@@ -20,17 +21,22 @@ import {
 import styled from "styled-components";
 import { BEAMING_SUN, TOASTED_PINE_NUT, WHITE } from "../config/colors";
 
-export const CardContainer = styled.div<{ selected?: boolean }>`
+export const CardSimpleContainer = styled.div`
   direction: rtl;
   display: flex;
   align-items: center;
-  padding: 15px;
+  padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid ${TOASTED_PINE_NUT};
+  background: ${WHITE};
+  gap: 10px;
+`;
+
+export const CardContainer = styled(CardSimpleContainer)<{
+  selected?: boolean;
+}>`
   cursor: pointer;
   background: ${({ selected }) => (selected ? BEAMING_SUN : WHITE)};
-  gap: 10px;
-
   &:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
@@ -58,7 +64,7 @@ interface SortableListProps {
   items: string[]; // Define the type of `items` as an array of strings
 }
 
-const GroupList: React.FC = () => {
+const GroupList: React.FC<{ showAllOption: boolean }> = ({ showAllOption }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Get groupIds and groups from the store
@@ -97,14 +103,20 @@ const GroupList: React.FC = () => {
 
   const SortableItem = SortableElement<{ groupId: string }>(
     ({ groupId }: { groupId: string }) => {
+      const isAll = groupId === "all";
+      const label = isAll ? "כל הקבוצות" : groupId;
+      const selected = isAll ? !selectedGroupId : selectedGroupId === groupId;
+
       return (
         <CardContainer
-          selected={selectedGroupId === groupId}
+          selected={selected}
           key={groupId}
-          onClick={() => handleGroupClick(groupId)}
+          onClick={() =>
+            isAll ? dispatch(clearSelectedGroup()) : handleGroupClick(groupId)
+          }
         >
-          <DragHandle />
-          <Label>{groupId}</Label>
+          {!isAll && <DragHandle />}
+          <Label>{label}</Label>
         </CardContainer>
       );
     }
@@ -112,15 +124,24 @@ const GroupList: React.FC = () => {
 
   const SortableList = SortableContainer<SortableListProps>(
     ({ items }: SortableListProps) => {
+      const addAllItem = () => {
+        if (!showAllOption) return [];
+
+        return [<SortableItem key={`all`} index={-1} groupId={`all`} />];
+      };
+
       return (
         <Column>
-          {items.map((groupId: string, index: number) => (
-            <SortableItem
-              key={`group-${groupId}`}
-              index={index}
-              groupId={groupId}
-            />
-          ))}
+          {[
+            ...addAllItem(),
+            ...items.map((groupId: string, index: number) => (
+              <SortableItem
+                key={`group-${groupId}`}
+                index={index}
+                groupId={groupId}
+              />
+            )),
+          ]}
         </Column>
       );
     }

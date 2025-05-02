@@ -45,8 +45,8 @@ const initData = {
     other: false,
     comments: "",
   },
-  notice: {
-    message: "",
+  other: {
+    comments: "",
   },
 };
 
@@ -54,7 +54,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   const [finish, setFinish] = useState(false);
   const [status, setStatus] = useState("done");
 
-  const { dogId, groupId, familyId, dogName } = dog;
+  const { dogId, groupId, familyId, dogName, familyName, contactName } = dog;
 
   const handleSubmit = async (values: { [key: string]: any }) => {
     if (status === "loading") return;
@@ -67,6 +67,8 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       updateType,
       updateContent: details[updateType],
       familyId,
+      familyName,
+      contactName,
       dogId,
       dogName,
       groupId,
@@ -236,7 +238,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     {
       itemGroup: "input",
       itemType: "checkbox",
-      path: "gearRequest.wastebag",
+      path: "gearRequest.wastebags",
       itemProps: { label: "שקיות איסוף" },
     },
     {
@@ -258,7 +260,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     {
       itemGroup: "input",
       itemType: "textarea",
-      path: "other.message",
+      path: "other.comments",
       label: "הודעה:",
       itemProps: { showMic: false },
     },
