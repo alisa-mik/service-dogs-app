@@ -1,21 +1,21 @@
 import { Box, Checkbox } from "@mui/material";
-import { useState } from "react";
 import DateText from "../commonParts/DateText";
 import { FamilyUpdateDetails } from "./FamilyUpdateDetails";
 import { updateTypeTitles } from "../../utils/familyUpdatesUtils";
 import { Column, Row } from "../commonParts/Layouts";
+import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
 
 type Props = {
   update: any;
-  onResolve: (updateId: string, resolved: boolean) => void;
   viewMode: string;
 };
 
-export const FamilyUpdateItem = ({ update, onResolve, viewMode }: Props) => {
+export const FamilyUpdateItem = ({ update, viewMode }: Props) => {
   const title = updateTypeTitles[update.updateType] || "סוג פנייה לא ידוע";
+  const { handleResolve } = useFamilyUpdateResolve();
 
   const handleChange = () => {
-    onResolve(update.updateId, !update.resolved);
+    handleResolve(update.updateId, !update.resolved);
   };
 
   return (

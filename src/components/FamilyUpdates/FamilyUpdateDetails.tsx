@@ -44,7 +44,7 @@ const renderers: Record<string, (update: FamilyUpdate) => JSX.Element> = {
 
     return (
       <>
-        <div>פריטים נדרשים: {requestedItems || "לא צויינו"} </div>
+        <div>פריט נדרש: {requestedItems || "לא צויין"} </div>
         <div>הערות: {comments}</div>
       </>
     );

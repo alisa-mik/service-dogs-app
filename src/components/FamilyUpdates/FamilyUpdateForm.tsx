@@ -139,7 +139,14 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   const foodRequestItems: configType[] = [
     {
       itemGroup: "input",
-      itemType: "text",
+      itemType: "select",
+      itemProps: {
+        options: [
+          { value: "", label: "בחר סוג אוכל" },
+          { value: "salmon", label: "סלמון" },
+          { value: "bizon", label: "ביזון" },
+        ],
+      },
       path: "foodRequest.foodType",
       label: "סוג האוכל:",
     },

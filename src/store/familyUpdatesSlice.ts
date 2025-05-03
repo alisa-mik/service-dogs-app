@@ -164,6 +164,7 @@ export const selectGearSummaryFlat = createSelector(
           familyName,
           resolved,
           createdAt,
+          updateId,
         } = update;
 
         const groupId = update.groupId ?? "ungrouped";
@@ -179,6 +180,7 @@ export const selectGearSummaryFlat = createSelector(
           groupId,
           createdAt,
           resolved,
+          updateId,
           comments: comments || "",
         };
 

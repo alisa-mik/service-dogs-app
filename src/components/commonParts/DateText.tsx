@@ -9,6 +9,7 @@ const DateText = styled.div<{ size: string }>`
   color: ${LIGHT_GREY};
   display: flex;
   align-items: center;
+  cursor: default;
 `;
 
 interface IdateText {

@@ -65,6 +65,7 @@ export interface RequestInfo {
   dogId: string;
   dogName: string;
   familyId: string;
+  updateId: string;
   contactName: string;
   familyName: string;
   groupId: string;

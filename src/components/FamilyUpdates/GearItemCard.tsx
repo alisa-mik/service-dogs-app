@@ -60,7 +60,7 @@ export const GearItemCard = ({
             style={{ height: "20px" }}
             src={`/${type}.png?v=${uniqueId()}`}
           />
-          <Title>{label}</Title>
+          <Title style={{ cursor: "unset" }}>{label}</Title>
           <ColoredNum>({pendingCount} בקשות פתוחות)</ColoredNum>
         </SRow>
         {isOpen && (

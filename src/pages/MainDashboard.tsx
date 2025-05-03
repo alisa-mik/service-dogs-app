@@ -29,7 +29,7 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "a", x: 0, y: 0, w: 10, h: 20 },
+      layout: { i: "a", x: 3, y: 0, w: 7, h: 20 },
       widget: {
         props: {},
         display: true,
@@ -37,11 +37,11 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "b", x: 4, y: 20, w: 6, h: 80 },
+      layout: { i: "b", x: 7, y: 20, w: 3, h: 80 },
       widget: {
         props: {},
         display: true,
-        type: FamilyUpdates,
+        type: GearRequestsSummary,
       },
     },
     {
@@ -53,11 +53,27 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "d", x: 0, y: 20, w: 4, h: 80 },
+      layout: { i: "d", x: 0, y: 0, w: 3, h: 100 },
       widget: {
         props: {},
         display: true,
-        type: GearRequestsSummary,
+        type: FamilyUpdates,
+      },
+    },
+    {
+      layout: { i: "f", x: 3, y: 20, w: 4, h: 40 },
+      widget: {
+        props: {},
+        display: true,
+        type: Container,
+      },
+    },
+    {
+      layout: { i: "e", x: 3, y: 60, w: 4, h: 40 },
+      widget: {
+        props: {},
+        display: true,
+        type: Container,
       },
     },
   ];

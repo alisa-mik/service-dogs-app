@@ -20,13 +20,16 @@ export const Column = styled.div<{ gap?: string }>`
   display: flex;
   flex-direction: column;
   gap: ${({ gap = "10px" }) => gap};
+  cursor: default;
 `;
 
 export const Row = styled.div<{ gap?: string }>`
   direction: rtl;
   display: flex;
+  align-items: center;
   gap: ${({ gap = "10px" }) => gap};
   width: 100%;
+  cursor: default;
 `;
 
 export const RowWrap = styled(Row)`
