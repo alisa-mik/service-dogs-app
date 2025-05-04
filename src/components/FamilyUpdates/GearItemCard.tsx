@@ -61,7 +61,9 @@ export const GearItemCard = ({
             src={`/${type}.png?v=${uniqueId()}`}
           />
           <Title style={{ cursor: "unset" }}>{label}</Title>
-          <ColoredNum>({pendingCount} בקשות פתוחות)</ColoredNum>
+          {pendingCount !== 0 && (
+            <ColoredNum>( {pendingCount} בקשות פתוחות )</ColoredNum>
+          )}
         </SRow>
         {isOpen && (
           <RequestsDetails requests={requests} isTypeOther={isTypeOther} />

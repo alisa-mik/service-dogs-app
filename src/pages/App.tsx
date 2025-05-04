@@ -12,6 +12,7 @@ import { fetchFamilies } from "../store/familiesSlice";
 import { fetchGroups } from "../store/trainingGroupsSlice";
 import { version } from "../package.alias.json";
 import { motion, useAnimation } from "framer-motion";
+import { fetchFamilyUpdates } from "../store/familyUpdatesSlice";
 
 const Container = styled.div`
   width: 100%;
@@ -60,7 +61,7 @@ const Body = styled.div`
 
 const tabs = {
   main: {
-    label: "ראשי",
+    label: "בקשות",
     navigateTo: "main",
   },
   dogs: {
@@ -75,18 +76,6 @@ const tabs = {
     label: "קבוצות",
     navigateTo: "groups",
   },
-  // "dogs-in-training": {
-  //   label: "הכשרה",
-  //   navigateTo: "dogs-in-training",
-  // },
-  // "2-on-4": {
-  //   label: "2 על 4",
-  //   navigateTo: "2-on-4",
-  // },
-  // "dogs-for-soldiers": {
-  //   label: "כלבים ללוחמים",
-  //   navigateTo: "dogs-for-soldiers",
-  // },
 };
 
 export default function App() {
@@ -99,11 +88,18 @@ export default function App() {
 
   const dispatch = useDispatch<AppDispatch>();
 
+  const params = {
+    status: undefined,
+    startDate: 1740787200000,
+    endDate: 1745548800000,
+  };
+
   useEffect(() => {
     dispatch(fetchDogs());
     dispatch(fetchGroups());
     dispatch(fetchAllUpdates({}));
     dispatch(fetchFamilies());
+    dispatch(fetchFamilyUpdates(params));
   }, [dispatch]);
 
   useEffect(() => {

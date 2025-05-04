@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
-  fetchFamilyUpdates,
   selectFamilyUpdates,
   selectFamilyUpdatesError,
   selectFamilyUpdatesStatus,
@@ -14,40 +13,26 @@ import { FamilyUpdateItem } from "../components/FamilyUpdates/FamilyUpdateItem";
 import { FamilyUpdate } from "../types/familyUpdateTypes";
 import { groupByKey, updateTypeTitles } from "../utils/familyUpdatesUtils";
 import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
-import { AppDispatch } from "../store";
 
 export const FamilyUpdates = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
   const updates = useSelector(selectFamilyUpdates);
   const status = useSelector(selectFamilyUpdatesStatus);
   const error = useSelector(selectFamilyUpdatesError);
 
-  const [startDate, setStartDate] = useState<number>(1740787200000); // Example: May 1, 2025
-  const [endDate, setEndDate] = useState<number>(1745548800000);
   const [updatesByGroup, setUpdatesByGroup] = useState<FamilyUpdate[]>([]);
 
   const [viewMode, setViewMode] = useState<"all" | "type">("all");
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
-  const handleFetchUpdates = () => {
-    const params = {
-      status: undefined,
-      startDate,
-      endDate,
-    };
-    dispatch(fetchFamilyUpdates(params));
-  };
-
   useEffect(() => {
-    handleFetchUpdates();
-  }, []);
-
-  useEffect(() => {
-    const updatesFilteredByGroup = updates.filter((update) => {
-      if (selectedGroupId) return update.groupId === selectedGroupId;
-      else return updates;
-    });
+    const updatesFilteredByGroup = updates
+      .filter((update) => {
+        if (selectedGroupId) return update.groupId === selectedGroupId;
+        else return updates;
+      })
+      .filter(
+        (update) => !["gearRequest", "foodRequest"].includes(update.updateType)
+      ); // TODO: TEMP
     setUpdatesByGroup(updatesFilteredByGroup);
   }, [updates, selectedGroupId]);
 

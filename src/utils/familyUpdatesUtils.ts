@@ -10,6 +10,31 @@ export const updateTypeTitles: Record<string, string> = {
   familyNotice: "אחר",
 };
 
+export const gearMap: Record<string, string> = {
+  leash: "רצועה",
+  collar: "קולר",
+  easywalk: "ריתמה",
+  bone: "עצם לעיסה",
+  wastebags: "שקיות איסוף",
+  other: "אחר",
+};
+
+export const foodMap: Record<string, string> = {
+  salmon: "סלמון",
+  bison: "ביזון",
+  unknown: "לא ידוע",
+};
+
+export const proceduresMap: Record<string, string> = {
+  "vaccine-2": "משושה 2",
+  "vaccine-3": "משושה 3",
+  "rabies-1": "כלבת 1",
+  "rabies-2": "כלבת 2",
+  worms: "תילוע",
+  bravecto: "טיפול לפרעושים וקרציות",
+  chip: "שבב",
+};
+
 export const resolveFamilyUpdate = async (
   updateId: string,
   resolved: boolean

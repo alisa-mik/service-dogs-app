@@ -20,8 +20,10 @@ export interface MedicalUpdateContent {
   comments?: string;
 }
 
+export type FoodType = "salmon" | "bison" | "unknown";
+
 export interface FoodRequestContent {
-  foodType: string;
+  foodType: FoodType;
   comments?: string;
 }
 
@@ -82,10 +84,12 @@ export type GearType =
   | "wastebags"
   | "other";
 
-export type GearItemDetail = {
+export type RequestItemDetail = {
   allCount: number;
   pendingCount: number;
   requests: RequestInfo[];
 };
 
-export type GearSummary = Record<GearType, GearItemDetail>;
+export type GearSummary = Record<GearType, RequestItemDetail>;
+
+export type FoodSummary = Record<FoodType, RequestItemDetail>;

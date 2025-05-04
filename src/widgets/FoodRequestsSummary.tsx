@@ -1,54 +1,49 @@
-import {
-  Column,
-  Row,
-  WidgetBody,
-  WidgetHeader,
-} from "../components/commonParts/Layouts";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
-import { useSelector } from "react-redux";
-import {
-  selectGearSummaryByGroup,
-  selectGearSummaryFlat,
-} from "../store/familyUpdatesSlice";
-import { GearItemCard } from "../components/FamilyUpdates/GearItemCard";
 import styled from "styled-components";
 import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
-import { GearSummary, GearType } from "../types/familyUpdateTypes";
-import { gearMap } from "../utils/familyUpdatesUtils";
+import { useSelector } from "react-redux";
+import {
+  selectFlatFoodSummary,
+  selectFoodSummaryByGroup,
+} from "../store/familyUpdatesSlice";
+import { foodMap } from "../utils/familyUpdatesUtils";
+import { FoodSummary, FoodType } from "../types/familyUpdateTypes";
+import { GearItemCard } from "../components/FamilyUpdates/GearItemCard";
 
 const SwidgetBody = styled(WidgetBody)`
   width: 100%;
   justify-content: flex-start;
 `;
 
-export default function GearRequestsSummary() {
-  const gearRequests = useSelector(selectGearSummaryByGroup);
-  const gearSummaryRequests = useSelector(selectGearSummaryFlat);
+export default function FoodRequestsSummary() {
+  const foodRequests = useSelector(selectFoodSummaryByGroup);
+  const foodSummaryRequests = useSelector(selectFlatFoodSummary);
 
   const selectedGroupId = useSelector(selectSelectedGroupId);
   const selectedGroup = selectedGroupId ?? "all";
 
   const renderItems = () => {
-    const gearTypes = Object.keys(gearMap) as GearType[];
+    const foodTypes = Object.keys(foodMap) as FoodType[];
 
     const groupsToRender =
       selectedGroup === "all"
-        ? gearSummaryRequests
-        : gearRequests[selectedGroup];
+        ? foodSummaryRequests
+        : foodRequests[selectedGroup];
 
     if (!groupsToRender) return null;
 
     return (
       <>
-        {gearTypes.map((type) => {
-          const gearData = (groupsToRender as GearSummary)[type];
+        {foodTypes.map((type) => {
+          const gearData = (groupsToRender as FoodSummary)[type];
           //   if (!gearData || gearData.pendingCount === 0) return null;
 
           return (
             <GearItemCard
               key={type}
               type={type}
-              label={gearMap[type]}
+              label={foodMap[type]}
               pendingCount={gearData.pendingCount}
               allCount={gearData.allCount}
               requests={gearData.requests}
@@ -58,10 +53,11 @@ export default function GearRequestsSummary() {
       </>
     );
   };
+
   return (
     <>
       <WidgetHeader>
-        <WidgetTitle>ציוד</WidgetTitle>
+        <WidgetTitle>אוכל</WidgetTitle>
       </WidgetHeader>
       <SwidgetBody>{renderItems()}</SwidgetBody>
     </>

@@ -1,9 +1,9 @@
-import { Box, Checkbox } from "@mui/material";
+import { Box } from "@mui/material";
 import DateText from "../commonParts/DateText";
 import { FamilyUpdateDetails } from "./FamilyUpdateDetails";
 import { updateTypeTitles } from "../../utils/familyUpdatesUtils";
 import { Column, Row } from "../commonParts/Layouts";
-import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
+import { ResolveRequestIcon } from "./ResolveRequestIcon";
 
 type Props = {
   update: any;
@@ -12,11 +12,6 @@ type Props = {
 
 export const FamilyUpdateItem = ({ update, viewMode }: Props) => {
   const title = updateTypeTitles[update.updateType] || "סוג פנייה לא ידוע";
-  const { handleResolve } = useFamilyUpdateResolve();
-
-  const handleChange = () => {
-    handleResolve(update.updateId, !update.resolved);
-  };
 
   return (
     <Box
@@ -34,7 +29,10 @@ export const FamilyUpdateItem = ({ update, viewMode }: Props) => {
           <div>עבור {update.dogName}</div>
           {viewMode !== "group" && <div> ממחזור {update.groupId}</div>}
         </Row>
-        <Checkbox checked={update.resolved} onChange={handleChange} />
+        <ResolveRequestIcon
+          resolved={update.resolved}
+          updateId={update.updateId}
+        />
       </Box>
 
       <Column gap="8px">

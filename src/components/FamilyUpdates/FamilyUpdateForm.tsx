@@ -28,6 +28,7 @@ const initData = {
     "rabies-1": false,
     "rabies-2": false,
     worms: false,
+    bravecto: false,
     chip: false,
     isOther: false,
     comments: "",
@@ -144,7 +145,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
         options: [
           { value: "", label: "בחר סוג אוכל" },
           { value: "salmon", label: "סלמון" },
-          { value: "bizon", label: "ביזון" },
+          { value: "bison", label: "ביזון" },
         ],
       },
       path: "foodRequest.foodType",
@@ -195,6 +196,12 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       itemType: "checkbox",
       path: "medicalUpdate.worms",
       itemProps: { label: "תילוע" },
+    },
+    {
+      itemGroup: "input",
+      itemType: "checkbox",
+      path: "medicalUpdate.bravecto",
+      itemProps: { label: "טיפול פרעושים וקרציות" },
     },
     {
       itemGroup: "input",

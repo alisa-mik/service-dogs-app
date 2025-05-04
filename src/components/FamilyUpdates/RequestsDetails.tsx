@@ -1,14 +1,13 @@
-import { isEmpty, uniqueId } from "lodash";
+import { isEmpty } from "lodash";
 import { RequestInfo } from "../../types/familyUpdateTypes";
 import DateText from "../commonParts/DateText";
 import { Label } from "../commonParts/Labels";
 import { Column, Row } from "../commonParts/Layouts";
 import styled from "styled-components";
-import { PAINTED_PONY, TOASTED_PINE_NUT } from "../../config/colors";
-import { Divider } from "@mui/material";
+import { PAINTED_PONY } from "../../config/colors";
 import { useSelector } from "react-redux";
 import { selectSelectedGroupId } from "../../store/trainingGroupsSlice";
-import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
+import { ResolveRequestIcon } from "./ResolveRequestIcon";
 
 interface RequestsDetailsProps {
   requests: RequestInfo[];
@@ -19,23 +18,10 @@ const SRow = styled(Row)`
   color: ${PAINTED_PONY};
 `;
 
-const IconRow = styled(Row)`
-  cursor: pointer;
-  width: fit-content;
-`;
-
-const ResolveCheckbox = styled.div`
-  height: 20px;
-  width: 20px;
-  border-radius: 6px;
-  border: 1px solid ${TOASTED_PINE_NUT};
-`;
-
 export function RequestsDetails({
   requests,
   isTypeOther,
 }: RequestsDetailsProps) {
-  const { handleResolve } = useFamilyUpdateResolve();
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
   const renderItems = () => {
@@ -51,18 +37,6 @@ export function RequestsDetails({
         resolved,
       } = item;
 
-      const renderResolvedIcon = () => {
-        const icon = resolved ? (
-          <img
-            style={{ height: "20px" }}
-            src={`/checked.png?v=${uniqueId()}`}
-          />
-        ) : (
-          <ResolveCheckbox />
-        );
-        return icon;
-      };
-
       return (
         <Column gap="0px" key={createdAt}>
           <Row>
@@ -72,9 +46,8 @@ export function RequestsDetails({
             </Label>
             {!selectedGroupId && <Label>{groupId}</Label>}
             <DateText date={createdAt} />
-            <IconRow onClick={() => handleResolve(updateId, !resolved)}>
-              {renderResolvedIcon()}
-            </IconRow>
+
+            <ResolveRequestIcon resolved={resolved} updateId={updateId} />
           </Row>
           {isTypeOther && !isEmpty(comments) && <SRow>הערות: {comments}</SRow>}
         </Column>

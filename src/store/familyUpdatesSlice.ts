@@ -7,10 +7,13 @@ import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from ".";
 import {
   FamilyUpdate,
+  FoodRequestContent,
+  FoodSummary,
   GearRequestContent,
   GearSummary,
   GearType,
 } from "../types/familyUpdateTypes";
+import { gearMap } from "../utils/familyUpdatesUtils";
 
 interface FamilyUpdatesState {
   updates: FamilyUpdate[];
@@ -24,14 +27,7 @@ const initialState: FamilyUpdatesState = {
   error: null,
 };
 
-const gearKeys: GearType[] = [
-  "leash",
-  "collar",
-  "easywalk",
-  "bone",
-  "wastebags",
-  "other",
-];
+const gearKeys = Object.keys(gearMap) as GearType[];
 
 const initialGearSummary = (): GearSummary => {
   return gearKeys.reduce((acc, key) => {
@@ -39,6 +35,12 @@ const initialGearSummary = (): GearSummary => {
     return acc;
   }, {} as GearSummary);
 };
+
+const initialFoodSummary = (): FoodSummary => ({
+  salmon: { allCount: 0, pendingCount: 0, requests: [] },
+  bison: { allCount: 0, pendingCount: 0, requests: [] },
+  unknown: { allCount: 0, pendingCount: 0, requests: [] },
+});
 
 export const fetchFamilyUpdates = createAsyncThunk(
   "familyUpdates/fetchFamilyUpdates",
@@ -87,19 +89,64 @@ export const selectFamilyUpdatesStatus = (state: RootState) =>
 export const selectFamilyUpdatesError = (state: RootState) =>
   state.familyUpdates.error;
 
-export const selectFoodRequestsGroupedByGroupId = createSelector(
+export const selectUnresolvedFamilyUpdatesCount = createSelector(
   (state: RootState) => state.familyUpdates.updates,
-  (updates) => {
+  (updates) => updates.filter((u) => !u.resolved).length
+);
+
+export const selectResolvedFamilyUpdatesCount = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates) => updates.filter((u) => u.resolved).length
+);
+
+export const selectFoodSummaryByGroup = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates): Record<string, FoodSummary> => {
     return updates
-      .filter((update) => update.updateType === "foodRequest")
-      .reduce((grouped: Record<string, FamilyUpdate[]>, update) => {
-        const groupId = update.groupId || "ungrouped";
-        if (!grouped[groupId]) {
-          grouped[groupId] = [];
+      .filter((u) => u.updateType === "foodRequest")
+      .reduce<Record<string, FoodSummary>>((acc, update) => {
+        const { updateContent, groupId = "ungrouped", resolved } = update;
+        const foodType =
+          (updateContent as FoodRequestContent).foodType || "unknown";
+
+        if (!acc[groupId]) {
+          acc[groupId] = initialFoodSummary();
         }
-        grouped[groupId].push(update);
-        return grouped;
+
+        acc[groupId][foodType].allCount++;
+        if (!resolved) acc[groupId][foodType].pendingCount++;
+        acc[groupId][foodType].requests.push(update);
+
+        return acc;
       }, {});
+  }
+);
+
+export const selectFlatFoodSummary = createSelector(
+  (state: RootState) => state.familyUpdates.updates,
+  (updates): FoodSummary => {
+    return updates
+      .filter((u) => u.updateType === "foodRequest")
+      .reduce<FoodSummary>((acc, update) => {
+        const { updateContent, resolved } = update;
+        const foodType =
+          (updateContent as FoodRequestContent).foodType || "unknown";
+
+        // Initialize foodType section if missing
+        if (!acc[foodType]) {
+          acc[foodType] = {
+            allCount: 0,
+            pendingCount: 0,
+            requests: [],
+          };
+        }
+
+        acc[foodType].allCount++;
+        if (!resolved) acc[foodType].pendingCount++;
+        acc[foodType].requests.push(update);
+
+        return acc;
+      }, initialFoodSummary());
   }
 );
 
@@ -116,6 +163,7 @@ export const selectGearSummaryByGroup = createSelector(
           contactName,
           familyName,
           resolved,
+          updateId,
           createdAt,
         } = update;
 
@@ -132,6 +180,7 @@ export const selectGearSummaryByGroup = createSelector(
           contactName,
           familyName,
           groupId,
+          updateId,
           createdAt,
           resolved,
           comments: comments || "",

@@ -3,11 +3,10 @@ import {
   FamilyAwayContent,
   OtherContent,
   FamilyUpdate,
-  FoodRequestContent,
-  GearRequestContent,
   MedicalUpdateContent,
 } from "../../types/familyUpdateTypes";
 import { isEmpty } from "lodash";
+import { proceduresMap } from "../../utils/familyUpdatesUtils";
 
 type Props = {
   update: FamilyUpdate;
@@ -15,49 +14,27 @@ type Props = {
 
 // Renderers by update type
 const renderers: Record<string, (update: FamilyUpdate) => JSX.Element> = {
-  foodRequest: (update) => {
-    const content = update.updateContent as FoodRequestContent;
-    const comments = isEmpty(content.comments) ? "-" : content.comments;
+  medicalUpdate: (update) => {
+    const content = update.updateContent as MedicalUpdateContent;
+    const showComments = !isEmpty(content.comments);
+    const formattedDate = dayjs(content.date * 1000).format("D/M/YYYY");
 
-    return (
-      <>
-        <div>סוג אוכל: {content.foodType || "לא צויין"} </div>
-        <div>הערות: {comments}</div>
-      </>
-    );
-  },
-  gearRequest: (update) => {
-    const content = update.updateContent as GearRequestContent;
-    const comments = isEmpty(content.comments) ? "-" : content.comments;
-
-    const requestedItems = Object.entries({
-      leash: "רצועה",
-      collar: "קולר",
-      easywalk: "ריתמה",
-      bone: "עצם לעיסה",
-      wastebag: "שקיות איסוף",
-      other: "אחר",
-    })
-      .filter(([key]) => content[key as keyof GearRequestContent])
+    const procedures = Object.entries(proceduresMap)
+      .filter(([key]) => content[key as keyof MedicalUpdateContent])
       .map(([, label]) => label)
       .join(", ");
 
     return (
       <>
-        <div>פריט נדרש: {requestedItems || "לא צויין"} </div>
-        <div>הערות: {comments}</div>
+        <div> תאריך: {formattedDate}</div>
+        <div>פעולות שבוצעו: {procedures}</div>
+        {showComments && <div>הערות: {content.comments}</div>}
       </>
     );
   },
-  medicalUpdate: (update) => {
-    const content = update.updateContent as MedicalUpdateContent;
-    const comments = isEmpty(content.comments) ? "-" : content.comments;
-
-    return <div>הערות: {comments}</div>;
-  },
   familyAway: (update) => {
     const content = update.updateContent as FamilyAwayContent;
-    const comments = isEmpty(content.comments) ? "-" : content.comments;
+    const showComments = !isEmpty(content.comments);
     const formattedStartDate = dayjs(content.startDate * 1000).format(
       "D/M/YYYY"
     );
@@ -67,7 +44,7 @@ const renderers: Record<string, (update: FamilyUpdate) => JSX.Element> = {
         <div>
           תאריכים: {formattedStartDate} - {formattedEndDate}
         </div>
-        <div>הערות: {comments}</div>
+        {showComments && <div>הערות: {content.comments}</div>}
       </>
     );
   },
