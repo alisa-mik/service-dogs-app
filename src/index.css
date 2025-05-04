@@ -107,3 +107,32 @@ body,
 	/* background: #f7ce5b(39, 65, 66); */
 	display: none;
 }
+
+input[type="checkbox"] {
+	appearance: none;
+	width: 20px;
+	height: 20px;
+	border: 1px solid #555;
+	border-radius: 4px;
+	background-color: white;
+	cursor: pointer;
+	position: relative;
+	display: inline-block;
+  }
+  
+  input[type="checkbox"]:checked {
+	background-color: #f7ce5b; /* Indigo */
+	border: 1px solid #f7ce5b;
+  }
+  
+  input[type="checkbox"]:checked::after {
+	content: "";
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	width: 5px;
+	height: 10px;
+	border: solid white;
+	border-width: 0 2px 2px 0;
+	transform: translate(-50%, -50%) rotate(45deg);
+  }
