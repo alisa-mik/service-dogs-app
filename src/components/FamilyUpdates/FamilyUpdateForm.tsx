@@ -30,7 +30,8 @@ const initData = {
     worms: false,
     bravecto: false,
     chip: false,
-    isOther: false,
+    spay: false,
+    other: false,
     comments: "",
   },
   foodRequest: {
@@ -42,7 +43,7 @@ const initData = {
     collar: false,
     easywalk: false,
     bone: false,
-    wastebag: false,
+    wastebags: false,
     other: false,
     comments: "",
   },
@@ -112,6 +113,16 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       },
       path: "updateType",
       label: "סוג הפנייה:",
+    },
+  ];
+
+  const otherItems: configType[] = [
+    {
+      itemGroup: "input",
+      itemType: "textarea",
+      path: "other.comments",
+      label: "הודעה:",
+      itemProps: { showMic: false },
     },
   ];
 
@@ -212,7 +223,13 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     {
       itemGroup: "input",
       itemType: "checkbox",
-      path: "medicalUpdate.isOther",
+      path: "medicalUpdate.spay",
+      itemProps: { label: "עיקור / סירוס" },
+    },
+    {
+      itemGroup: "input",
+      itemType: "checkbox",
+      path: "medicalUpdate.other",
       itemProps: { label: "אחר- פרטו בהערות" },
     },
     {
@@ -259,24 +276,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       itemGroup: "input",
       itemType: "checkbox",
       path: "gearRequest.other",
-      itemProps: { label: "אחר- פרטו בהערות" },
-    },
-    {
-      itemGroup: "input",
-      itemType: "textarea",
-      path: "gearRequest.comments",
-      label: "הערות:",
-      itemProps: { showMic: false },
-    },
-  ];
-
-  const otherItems: configType[] = [
-    {
-      itemGroup: "input",
-      itemType: "textarea",
-      path: "other.comments",
-      label: "הודעה:",
-      itemProps: { showMic: false },
+      itemProps: { label: "אחר- פרטו בהודעה" },
     },
   ];
 
@@ -322,6 +322,17 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       itemGroup: "section",
       itemType: "condition",
       itemProps: { conditions: [{ path: "updateType", values: ["other"] }] },
+      items: otherItems,
+    },
+    {
+      itemGroup: "section",
+      itemType: "condition",
+      itemProps: {
+        conditions: [
+          { path: "updateType", values: ["gearRequest"] },
+          { path: "gearRequest.other", values: [true] },
+        ],
+      },
       items: otherItems,
     },
   ];
