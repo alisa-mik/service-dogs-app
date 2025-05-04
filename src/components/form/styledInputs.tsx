@@ -44,7 +44,7 @@ export const Checkbox = styled.input`
 export const Select = styled.select`
   ${common}
   ${focus}
-    -webkit-appearance: none; /* Chrome, Safari, Edge */
+  -webkit-appearance: none; /* Chrome, Safari, Edge */
   appearance: none;
 `;
 
