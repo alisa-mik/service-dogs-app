@@ -23,8 +23,8 @@ const FullPageContainer = styled.div`
 `;
 
 const getNav = (pathname: string): string => {
-  if (pathname.includes("login")) return "/app/dogs";
-  if (pathname === "/") return "/app/dogs";
+  if (pathname.includes("login")) return "/app/main";
+  if (pathname === "/") return "/app/main";
 
   return pathname;
 };
