@@ -7,7 +7,13 @@ import {
 } from "../store/familyUpdatesSlice";
 import { CircularProgress, Box, Typography, Button } from "@mui/material";
 import { BROWN_DARK } from "../config/colors";
-import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import {
+  Center,
+  Column,
+  Row,
+  WidgetBody,
+  WidgetHeader,
+} from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { FamilyUpdateItem } from "../components/FamilyUpdates/FamilyUpdateItem";
 import { FamilyUpdate } from "../types/familyUpdateTypes";
@@ -32,7 +38,7 @@ export const FamilyUpdates = () => {
       })
       .filter(
         (update) => !["gearRequest", "foodRequest"].includes(update.updateType)
-      ); // TODO: TEMP
+      );
     setUpdatesByGroup(updatesFilteredByGroup);
   }, [updates, selectedGroupId]);
 
@@ -48,60 +54,72 @@ export const FamilyUpdates = () => {
   return (
     <>
       <WidgetHeader>
-        <WidgetTitle>כל הפניות האחרונות</WidgetTitle>
+        <WidgetTitle>בקשות נוספות</WidgetTitle>
       </WidgetHeader>
-      <WidgetBody style={{ gap: "5px", justifyContent: "flex-start" }}>
-        <Box sx={{ display: "flex", gap: 1, marginBottom: 2 }}>
-          <Button
-            variant={viewMode === "all" ? "contained" : "outlined"}
-            onClick={() => setViewMode("all")}
-          >
-            לפי תאריך
-          </Button>
-          <Button
-            variant={viewMode === "type" ? "contained" : "outlined"}
-            onClick={() => setViewMode("type")}
-          >
-            לפי סוג פנייה
-          </Button>
-        </Box>
-        {status === "loading" && updates.length === 0 && <CircularProgress />}
-        {status === "failed" && <Typography color="error">{error}</Typography>}
+      <WidgetBody style={{ justifyContent: "flex-start" }}>
+        <Row>
+          <Box sx={{ display: "flex", gap: 1, marginBottom: 2 }}>
+            <Button
+              variant={viewMode === "all" ? "contained" : "outlined"}
+              onClick={() => setViewMode("all")}
+            >
+              לפי תאריך
+            </Button>
+            <Button
+              variant={viewMode === "type" ? "contained" : "outlined"}
+              onClick={() => setViewMode("type")}
+            >
+              לפי סוג פנייה
+            </Button>
+          </Box>
+        </Row>
+        <Column style={{ overflow: "auto", flex: 1 }}>
+          {status === "loading" && updatesByGroup.length === 0 && (
+            <Center>
+              <CircularProgress />
+            </Center>
+          )}
+          {status === "failed" && (
+            <Typography color="error">{error}</Typography>
+          )}
 
-        {updates.length > 0 && (
-          <div>
-            {viewMode === "all" &&
-              sortedUpdates.map((update) => (
-                <FamilyUpdateItem
-                  key={update.updateId}
-                  update={update}
-                  viewMode={viewMode}
-                />
-              ))}
+          {updatesByGroup.length > 0 && (
+            <div>
+              {viewMode === "all" &&
+                sortedUpdates.map((update) => (
+                  <FamilyUpdateItem
+                    key={update.updateId}
+                    update={update}
+                    viewMode={viewMode}
+                  />
+                ))}
 
-            {viewMode === "type" &&
-              Object.entries(groupedByType).map(([type, typeUpdates]) => (
-                <div key={type}>
-                  <Typography variant="h6" sx={{ color: BROWN_DARK }}>
-                    {updateTypeTitles[type]}
-                  </Typography>
-                  {typeUpdates.map((update) => (
-                    <FamilyUpdateItem
-                      key={update.updateId}
-                      update={update}
-                      viewMode={viewMode}
-                    />
-                  ))}
-                </div>
-              ))}
-          </div>
-        )}
+              {viewMode === "type" &&
+                Object.entries(groupedByType).map(([type, typeUpdates]) => (
+                  <div key={type}>
+                    <Typography variant="h6" sx={{ color: BROWN_DARK }}>
+                      {updateTypeTitles[type]}
+                    </Typography>
+                    {typeUpdates.map((update) => (
+                      <FamilyUpdateItem
+                        key={update.updateId}
+                        update={update}
+                        viewMode={viewMode}
+                      />
+                    ))}
+                  </div>
+                ))}
+            </div>
+          )}
 
-        {status === "succeeded" && updates.length === 0 && (
-          <Typography style={{ color: BROWN_DARK }}>
-            אין פניות פתוחות
-          </Typography>
-        )}
+          {status === "succeeded" && updatesByGroup.length === 0 && (
+            <Center>
+              <Typography style={{ color: BROWN_DARK }}>
+                אין פניות פתוחות
+              </Typography>
+            </Center>
+          )}
+        </Column>
       </WidgetBody>
     </>
   );
