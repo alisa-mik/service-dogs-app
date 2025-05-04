@@ -15,9 +15,17 @@ export interface FamilyAwayContent {
 }
 
 export interface MedicalUpdateContent {
-  type: string;
   date: number;
-  comments?: string;
+  "vaccine-2": boolean;
+  "vaccine-3": boolean;
+  "rabies-1": boolean;
+  "rabies-2": boolean;
+  worms: boolean;
+  bravecto: boolean;
+  chip: boolean;
+  spay: boolean;
+  other: boolean;
+  comments: string;
 }
 
 export type FoodType = "salmon" | "bison" | "unknown";

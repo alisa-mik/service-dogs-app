@@ -44,12 +44,16 @@ export const GearItemCard = ({
   pendingCount,
   requests,
 }: GearItemCardProps) => {
-  const isTypeOther = type === "other";
+  const showCommentsTypes = ["other", "unknown", "salmon", "bison"];
+  const showComments = showCommentsTypes.includes(type);
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggleOpen = () => {
     setIsOpen((prev) => !prev);
   };
+
+  console.log({ requests });
 
   return (
     <StyledGearItem $open={isOpen}>
@@ -65,7 +69,7 @@ export const GearItemCard = ({
           )}
         </SRow>
         {isOpen && (
-          <RequestsDetails requests={requests} isTypeOther={isTypeOther} />
+          <RequestsDetails requests={requests} showComments={showComments} />
         )}
       </Column>
     </StyledGearItem>

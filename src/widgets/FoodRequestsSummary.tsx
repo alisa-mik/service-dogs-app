@@ -36,7 +36,7 @@ export default function FoodRequestsSummary() {
     return (
       <>
         {foodTypes.map((type) => {
-          const gearData = (groupsToRender as FoodSummary)[type];
+          const foodData = (groupsToRender as FoodSummary)[type];
           //   if (!gearData || gearData.pendingCount === 0) return null;
 
           return (
@@ -44,9 +44,9 @@ export default function FoodRequestsSummary() {
               key={type}
               type={type}
               label={foodMap[type]}
-              pendingCount={gearData.pendingCount}
-              allCount={gearData.allCount}
-              requests={gearData.requests}
+              pendingCount={foodData.pendingCount}
+              allCount={foodData.allCount}
+              requests={foodData.requests}
             />
           );
         })}

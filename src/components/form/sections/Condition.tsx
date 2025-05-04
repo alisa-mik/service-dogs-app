@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SectionInjector, { ISection, Section } from "../SectionInjector";
 import InputInjector, { InputType } from "../InputInjector";
+import { get } from "lodash";
 
 type Con = {
   path: string;
@@ -16,8 +17,9 @@ const Condition: React.FC<IConditions> = ({ config, formik, conditions }) => {
 
   useEffect(() => {
     const val = conditions.every((con) =>
-      con.values.includes(formik.values[con.path])
+      con.values.includes(get(formik.values, con.path))
     );
+
     setRenderSection(val);
   }, [formik.values]);
 

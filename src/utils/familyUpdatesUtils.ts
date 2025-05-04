@@ -33,6 +33,8 @@ export const proceduresMap: Record<string, string> = {
   worms: "תילוע",
   bravecto: "טיפול לפרעושים וקרציות",
   chip: "שבב",
+  spay: "עיקור / סירוס",
+  other: "אחר",
 };
 
 export const resolveFamilyUpdate = async (

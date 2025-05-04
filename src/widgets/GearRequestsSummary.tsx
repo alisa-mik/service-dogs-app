@@ -37,7 +37,6 @@ export default function GearRequestsSummary() {
       <>
         {gearTypes.map((type) => {
           const gearData = (groupsToRender as GearSummary)[type];
-          //   if (!gearData || gearData.pendingCount === 0) return null;
 
           return (
             <GearItemCard

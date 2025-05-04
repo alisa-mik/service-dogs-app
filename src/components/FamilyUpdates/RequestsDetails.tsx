@@ -11,7 +11,7 @@ import { ResolveRequestIcon } from "./ResolveRequestIcon";
 
 interface RequestsDetailsProps {
   requests: RequestInfo[];
-  isTypeOther: boolean;
+  showComments: boolean;
 }
 
 const SRow = styled(Row)`
@@ -20,7 +20,7 @@ const SRow = styled(Row)`
 
 export function RequestsDetails({
   requests,
-  isTypeOther,
+  showComments,
 }: RequestsDetailsProps) {
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
@@ -49,7 +49,7 @@ export function RequestsDetails({
 
             <ResolveRequestIcon resolved={resolved} updateId={updateId} />
           </Row>
-          {isTypeOther && !isEmpty(comments) && <SRow>הערות: {comments}</SRow>}
+          {showComments && !isEmpty(comments) && <SRow>הערות: {comments}</SRow>}
         </Column>
       );
     });

@@ -105,7 +105,22 @@ export const selectFoodSummaryByGroup = createSelector(
     return updates
       .filter((u) => u.updateType === "foodRequest")
       .reduce<Record<string, FoodSummary>>((acc, update) => {
-        const { updateContent, groupId = "ungrouped", resolved } = update;
+        const {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          resolved,
+          updateId,
+          createdAt,
+          updateContent,
+          groupId = "ungrouped",
+        } = update;
+
+        const content = update.updateContent as FoodRequestContent;
+        const { comments } = content;
+
         const foodType =
           (updateContent as FoodRequestContent).foodType || "unknown";
 
@@ -113,9 +128,22 @@ export const selectFoodSummaryByGroup = createSelector(
           acc[groupId] = initialFoodSummary();
         }
 
+        const requestInfo = {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          groupId,
+          updateId,
+          createdAt,
+          resolved,
+          comments: comments || "",
+        };
+
         acc[groupId][foodType].allCount++;
         if (!resolved) acc[groupId][foodType].pendingCount++;
-        acc[groupId][foodType].requests.push(update);
+        acc[groupId][foodType].requests.push(requestInfo);
 
         return acc;
       }, {});
@@ -128,9 +156,21 @@ export const selectFlatFoodSummary = createSelector(
     return updates
       .filter((u) => u.updateType === "foodRequest")
       .reduce<FoodSummary>((acc, update) => {
-        const { updateContent, resolved } = update;
-        const foodType =
-          (updateContent as FoodRequestContent).foodType || "unknown";
+        const {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          resolved,
+          updateId,
+          createdAt,
+          groupId = "ungrouped",
+        } = update;
+
+        const content = update.updateContent as FoodRequestContent;
+        const { comments } = content;
+        const foodType = (content as FoodRequestContent).foodType || "unknown";
 
         // Initialize foodType section if missing
         if (!acc[foodType]) {
@@ -141,9 +181,22 @@ export const selectFlatFoodSummary = createSelector(
           };
         }
 
+        const requestInfo = {
+          dogId,
+          dogName,
+          familyId,
+          contactName,
+          familyName,
+          groupId,
+          updateId,
+          createdAt,
+          resolved,
+          comments: comments || "",
+        };
+
         acc[foodType].allCount++;
         if (!resolved) acc[foodType].pendingCount++;
-        acc[foodType].requests.push(update);
+        acc[foodType].requests.push(requestInfo);
 
         return acc;
       }, initialFoodSummary());
@@ -165,15 +218,15 @@ export const selectGearSummaryByGroup = createSelector(
           resolved,
           updateId,
           createdAt,
+          groupId = "ungrouped",
         } = update;
 
-        const groupId = update.groupId ?? "ungrouped";
         const content = update.updateContent as GearRequestContent;
         const { comments } = content;
 
         if (!acc[groupId]) acc[groupId] = initialGearSummary();
 
-        const extraInfo = {
+        const requestInfo = {
           dogId,
           dogName,
           familyId,
@@ -190,7 +243,7 @@ export const selectGearSummaryByGroup = createSelector(
           if (content[key]) {
             acc[groupId][key].allCount++;
             if (!resolved) acc[groupId][key].pendingCount++;
-            acc[groupId][key].requests.push(extraInfo);
+            acc[groupId][key].requests.push(requestInfo);
           }
         }
 
