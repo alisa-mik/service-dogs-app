@@ -42,7 +42,6 @@ export const GearItemCard = ({
   type,
   label,
   pendingCount,
-  allCount,
   requests,
 }: GearItemCardProps) => {
   const isTypeOther = type === "other";

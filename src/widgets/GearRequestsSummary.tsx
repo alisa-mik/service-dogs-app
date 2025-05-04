@@ -1,9 +1,4 @@
-import {
-  Column,
-  Row,
-  WidgetBody,
-  WidgetHeader,
-} from "../components/commonParts/Layouts";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
 import { WidgetTitle } from "../components/commonParts/Labels";
 import { useSelector } from "react-redux";
 import {
