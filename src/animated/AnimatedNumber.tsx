@@ -7,7 +7,7 @@ export default function AnimatedNumber({ target }: { target: number }) {
   const rounded = useTransform(count, (latest) => Math.round(latest));
 
   useEffect(() => {
-    const controls = animate(count, target, { duration: 2 });
+    const controls = animate(count, target, { duration: 1 });
     return () => controls.stop();
   }, [target]);
 
