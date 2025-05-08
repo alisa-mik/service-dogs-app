@@ -11,6 +11,11 @@ export const Title = styled(Label)`
   font-weight: 500;
 `;
 
+export const AlignRightTitle = styled(Title)`
+  width: 100%;
+  text-align: start;
+`;
+
 export const CardTitle = styled(Label)`
   font-weight: 500;
 `;

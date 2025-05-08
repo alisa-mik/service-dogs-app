@@ -3,10 +3,10 @@ import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { FamilyUpdates } from "../widgets/FamilyUpdates";
 import DogsStats from "../widgets/DogsStats";
-import GearRequestsSummary from "../widgets/GearRequestsSummary";
 import GroupsList from "../widgets/GroupsWidget";
-import FoodRequestsSummary from "../widgets/FoodRequestsSummary";
 import DogsImage from "../widgets/DogsImage";
+import { Todos } from "../widgets/Todos";
+import { RequestsSummary } from "../widgets/RequestsSummary";
 
 const Container = styled.div`
   width: 100%;
@@ -31,7 +31,7 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "a", x: 3.5, y: 0, w: 6.5, h: 20 },
+      layout: { i: "a", x: 3, y: 0, w: 7, h: 20 },
       widget: {
         props: {},
         display: true,
@@ -43,7 +43,7 @@ export default function MainDashboard() {
       widget: {
         props: {},
         display: true,
-        type: GearRequestsSummary,
+        type: RequestsSummary,
       },
     },
     {
@@ -55,27 +55,19 @@ export default function MainDashboard() {
       },
     },
     {
-      layout: { i: "d", x: 0, y: 0, w: 3.5, h: 100 },
+      layout: { i: "d", x: 0, y: 0, w: 3, h: 100 },
+      widget: {
+        props: {},
+        display: true,
+        type: Todos,
+      },
+    },
+    {
+      layout: { i: "e", x: 3, y: 20, w: 4, h: 80 },
       widget: {
         props: {},
         display: true,
         type: FamilyUpdates,
-      },
-    },
-    {
-      layout: { i: "f", x: 3.5, y: 20, w: 3.5, h: 40 },
-      widget: {
-        props: {},
-        display: true,
-        type: FoodRequestsSummary,
-      },
-    },
-    {
-      layout: { i: "e", x: 3.5, y: 60, w: 3.5, h: 40 },
-      widget: {
-        props: {},
-        display: true,
-        type: Container,
       },
     },
   ];

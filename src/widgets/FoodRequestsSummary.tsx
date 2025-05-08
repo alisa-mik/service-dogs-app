@@ -1,6 +1,3 @@
-import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
-import { WidgetTitle } from "../components/commonParts/Labels";
-import styled from "styled-components";
 import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
 import { useSelector } from "react-redux";
 import {
@@ -10,11 +7,7 @@ import {
 import { foodMap } from "../utils/familyUpdatesUtils";
 import { FoodSummary, FoodType } from "../types/familyUpdateTypes";
 import { GearItemCard } from "../components/FamilyUpdates/GearItemCard";
-
-const SwidgetBody = styled(WidgetBody)`
-  width: 100%;
-  justify-content: flex-start;
-`;
+import { AlignRightTitle } from "../components/commonParts/Labels";
 
 export default function FoodRequestsSummary() {
   const foodRequests = useSelector(selectFoodSummaryByGroup);
@@ -56,10 +49,8 @@ export default function FoodRequestsSummary() {
 
   return (
     <>
-      <WidgetHeader>
-        <WidgetTitle>אוכל</WidgetTitle>
-      </WidgetHeader>
-      <SwidgetBody>{renderItems()}</SwidgetBody>
+      <AlignRightTitle>אוכל</AlignRightTitle>
+      {renderItems()}
     </>
   );
 }

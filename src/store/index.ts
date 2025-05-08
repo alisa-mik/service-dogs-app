@@ -9,6 +9,7 @@ import trainingGroupsReducer from "./trainingGroupsSlice";
 import familiesReducer from "./familiesSlice";
 import dogsByPhoneNumberReducer from "./dogsByPhoneNumberSlice";
 import familyUpdatesReducer from "./familyUpdatesSlice";
+import todosReducer from "./todosSlice";
 
 const store = configureStore({
   reducer: {
@@ -22,6 +23,7 @@ const store = configureStore({
     updatesByDogId: updatesByDogIdReducer,
     dogsByPhoneNumber: dogsByPhoneNumberReducer,
     familyUpdates: familyUpdatesReducer,
+    todos: todosReducer,
   },
 });
 
