@@ -3,7 +3,8 @@ import DateText from "../commonParts/DateText";
 import { FamilyUpdateDetails } from "./FamilyUpdateDetails";
 import { updateTypeTitles } from "../../utils/familyUpdatesUtils";
 import { Column, Row } from "../commonParts/Layouts";
-import { ResolveRequestIcon } from "./ResolveRequestIcon";
+import { ResolveIcon } from "./ResolveIcon";
+import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
 
 type Props = {
   update: any;
@@ -11,7 +12,8 @@ type Props = {
 };
 
 export const FamilyUpdateItem = ({ update, viewMode }: Props) => {
-  const title = updateTypeTitles[update.updateType] || "סוג פנייה לא ידוע";
+  const { handleResolve } = useFamilyUpdateResolve();
+  const title = updateTypeTitles[ update.updateType ] || "סוג פנייה לא ידוע";
 
   return (
     <Box
@@ -29,9 +31,10 @@ export const FamilyUpdateItem = ({ update, viewMode }: Props) => {
           <div>עבור {update.dogName}</div>
           {viewMode !== "group" && <div> ממחזור {update.groupId}</div>}
         </Row>
-        <ResolveRequestIcon
-          resolved={update.resolved}
-          updateId={update.updateId}
+        <ResolveIcon
+          checked={update.resolved}
+          id={update.updateId}
+          handleChange={handleResolve}
         />
       </Box>
 

@@ -20,6 +20,7 @@ import { Center } from "../components/commonParts/Layouts";
 import { UpdatesList } from "../widgets/UpdatesList";
 import { setSelectedDogId } from "../store/dogsSlice";
 import DogProfilePDF from "../components/DogProfilePDF";
+import { DogMedicalInfo } from "../widgets/DogMedicalInfo";
 
 // const Container = styled.div`
 //   width: 100%;
@@ -49,7 +50,7 @@ export default function DogProfile() {
       dispatch(fetchUpdatesByDogId(dogId));
       dispatch(setSelectedDogId(dogId));
     }
-  }, [dispatch, dogId]);
+  }, [ dispatch, dogId ]);
 
   const widgets: WidgetConfig[] = useMemo(
     () => [
@@ -73,7 +74,7 @@ export default function DogProfile() {
       //   },
       // },
       {
-        layout: { w: 4, h: 40, x: 8, y: 0, i: "c" },
+        layout: { w: 4, h: 50, x: 8, y: 0, i: "c" },
         widget: {
           props: {},
           display: true,
@@ -81,15 +82,15 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 3, h: 60, x: 0, y: 30, i: "d" },
+        layout: { w: 4, h: 50, x: 8, y: 50, i: "d" },
         widget: {
           props: {},
           display: true,
-          type: DogProfilePDF,
+          type: DogMedicalInfo,
         },
       },
       {
-        layout: { w: 3, h: 40, x: 0, y: 0, i: "e" },
+        layout: { w: 3, h: 45, x: 0, y: 0, i: "e" },
         widget: {
           props: {},
           display: true,
@@ -97,11 +98,19 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 4, h: 60, x: 8, y: 50, i: "f" },
+        layout: { w: 3, h: 30, x: 0, y: 45, i: "f" },
         widget: {
           props: {},
           display: true,
           type: DogSummary,
+        },
+      },
+      {
+        layout: { w: 3, h: 25, x: 0, y: 75, i: "g" },
+        widget: {
+          props: {},
+          display: true,
+          type: DogProfilePDF,
         },
       },
     ],

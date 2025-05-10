@@ -24,7 +24,7 @@ export interface DogDetailsForUpdate {
     image: string;
 }
 
-export interface DogBasic  {
+export interface DogBasic {
     dogId: string;
     dogName: string;
     gender: string;
@@ -34,7 +34,7 @@ export interface DogBasic  {
     dogStatus: string;
     active: boolean;
     groupId: string;
-  };
+};
 
 export interface DogWithFamily extends DogBasic {
     family: Family;
@@ -47,7 +47,23 @@ export interface Dog extends DogBasic {
     dropDate: number,
     dropReason: string,
     chipNumber: string,
+    medicalInfo: MedicalInfo,
     summary?: string;
+}
+
+export interface MedicalInfo {
+    scheduled: number;
+    reason: string;
+    bp: number;
+    "vaccine-1": number;
+    "vaccine-2": number;
+    "vaccine-3": number;
+    "rabies-1": number;
+    "rabies-2": number;
+    worms: number;
+    bravecto: number;
+    chip: number;
+    spay: number;
 }
 
 export interface AddDogFormValues {
@@ -70,17 +86,10 @@ export interface AddDogFormValues {
 }
 
 export interface AddDogFormStepProps {
-    formik: FormikProps<AddDogFormValues>; 
+    formik: FormikProps<AddDogFormValues>;
 }
 
 export type AssignedFamily = {
-familyId: string;
-familyName: string;
+    familyId: string;
+    familyName: string;
 }
-
-
-
-// export type ParentDog = {
-//     dogId: string;
-//     dogName: string;
-// }

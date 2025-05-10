@@ -7,7 +7,8 @@ import styled from "styled-components";
 import { PAINTED_PONY } from "../../config/colors";
 import { useSelector } from "react-redux";
 import { selectSelectedGroupId } from "../../store/trainingGroupsSlice";
-import { ResolveRequestIcon } from "./ResolveRequestIcon";
+import { ResolveIcon } from "./ResolveIcon";
+import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
 
 interface RequestsDetailsProps {
   requests: RequestInfo[];
@@ -22,6 +23,7 @@ export function RequestsDetails({
   requests,
   showComments,
 }: RequestsDetailsProps) {
+  const { handleResolve } = useFamilyUpdateResolve();
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
   const renderItems = () => {
@@ -47,7 +49,7 @@ export function RequestsDetails({
             {!selectedGroupId && <Label>{groupId}</Label>}
             <DateText date={createdAt} />
 
-            <ResolveRequestIcon resolved={resolved} updateId={updateId} />
+            <ResolveIcon checked={resolved} id={updateId} handleChange={handleResolve} />
           </Row>
           {showComments && !isEmpty(comments) && <SRow>הערות: {comments}</SRow>}
         </Column>

@@ -16,15 +16,16 @@ export default function DogSummary() {
     <>
       <WidgetHeader>
         <WidgetTitle>התרשמות</WidgetTitle>
-      </WidgetHeader>
-      <WidgetBody>
-        <div>{summary}</div>
         <EditSummaryForm
           data={{
             summary: summary || "",
             dogId,
           }}
         />
+      </WidgetHeader>
+      <WidgetBody>
+        <div>{summary}</div>
+
       </WidgetBody>
     </>
   );

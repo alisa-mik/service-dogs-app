@@ -13,6 +13,9 @@ import { fetchGroups } from "../store/trainingGroupsSlice";
 import { version } from "../package.alias.json";
 import { motion, useAnimation } from "framer-motion";
 import { fetchFamilyUpdates } from "../store/familyUpdatesSlice";
+import { fetchToDos } from "../store/todosSlice";
+import { CurrentDateTimeHebrew } from "../components/CurrentDateTime";
+import { Row } from "../components/commonParts/Layouts";
 
 const Container = styled.div`
   width: 100%;
@@ -83,8 +86,8 @@ export default function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [selectedTab, setSelectedTab] = useState("");
-  const [showVersion, setShowVersion] = useState(false);
+  const [ selectedTab, setSelectedTab ] = useState("");
+  const [ showVersion, setShowVersion ] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -100,24 +103,25 @@ export default function App() {
     dispatch(fetchAllUpdates({}));
     dispatch(fetchFamilies());
     dispatch(fetchFamilyUpdates(params));
-  }, [dispatch]);
+    dispatch(fetchToDos({ limit: 100 }))
+  }, [ dispatch ]);
 
   useEffect(() => {
-    const tabByLocation = location.pathname.split("/")[2];
+    const tabByLocation = location.pathname.split("/")[ 2 ];
     if (isEmpty(tabByLocation)) navigate("/app/dogs");
-  }, [location]);
+  }, [ location ]);
 
   useEffect(() => {
-    const tabByLocation = location.pathname.split("/")[2];
+    const tabByLocation = location.pathname.split("/")[ 2 ];
     setSelectedTab(tabByLocation);
-  }, [location]);
+  }, [ location ]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       if (showVersion) {
         controls.start({
           x: 0,
-          transition: { duration: 1, ease: [0.25, 3.5, 0.5, 1] },
+          transition: { duration: 1, ease: [ 0.25, 3.5, 0.5, 1 ] },
         });
       }
       if (!showVersion) {
@@ -129,10 +133,10 @@ export default function App() {
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [controls, showVersion]);
+  }, [ controls, showVersion ]);
 
   const renderItems = (): ReactElement[] => {
-    return Object.entries(tabs).map(([navigateTo, tab]) => {
+    return Object.entries(tabs).map(([ navigateTo, tab ]) => {
       return (
         <StyledLink
           key={tab.label}
@@ -158,6 +162,7 @@ export default function App() {
         <motion.div initial={{ x: "100%" }} animate={controls}>
           {version}
         </motion.div>
+        <CurrentDateTimeHebrew />
       </TopBar>
       <Body>
         <Outlet />

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Row } from "../commonParts/Layouts";
 import { TOASTED_PINE_NUT } from "../../config/colors";
 import { uniqueId } from "lodash";
-import { useFamilyUpdateResolve } from "../../hooks/useFamilyUpdateResolve";
 import { useEffect, useState } from "react";
 
 const IconRow = styled(Row)`
@@ -15,17 +14,20 @@ const ResolveCheckbox = styled.div`
   width: 20px;
   border-radius: 6px;
   border: 1px solid ${TOASTED_PINE_NUT};
+  padding: 5px;
 `;
 
-export const ResolveRequestIcon = ({
-  resolved,
-  updateId,
+export const ResolveIcon = ({
+  checked,
+  id,
+  handleChange
 }: {
-  resolved: boolean;
-  updateId: string;
+  checked: boolean;
+  id: string;
+  handleChange: (id: string, value: boolean) => void;
 }) => {
-  const { handleResolve } = useFamilyUpdateResolve();
-  const [isLoading, setIsLoading] = useState(false);
+
+  const [ isLoading, setIsLoading ] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => {
@@ -35,12 +37,12 @@ export const ResolveRequestIcon = ({
     return () => {
       clearTimeout(t);
     };
-  }, [isLoading]);
+  }, [ isLoading ]);
 
   const handleClick = () => {
     if (isLoading) return;
 
-    handleResolve(updateId, !resolved);
+    handleChange(id, !checked);
     setIsLoading(true);
   };
 
@@ -53,7 +55,7 @@ export const ResolveRequestIcon = ({
         />
       );
 
-    if (resolved)
+    if (checked)
       return (
         <img style={{ height: "20px" }} src={`/checked.png?v=${uniqueId()}`} />
       );

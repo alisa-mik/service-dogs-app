@@ -8,7 +8,7 @@ import { isEmpty } from "lodash";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
 import DogsImage from "../widgets/DogsImage";
 import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
-import { WidgetBody, WidgetHeader } from "./commonParts/Layouts";
+import { Row, WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";
 
 interface GeneratePDFContentProps {
@@ -53,9 +53,8 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
               </div>
               <!-- Right column -->
               <div style="margin: 0; padding: 0;">
-              <p><strong>גיל:</strong> ${
-                getAgeFromSeconds(birthDate) || "לא זמין"
-              }</p>
+              <p><strong>גיל:</strong> ${getAgeFromSeconds(birthDate) || "לא זמין"
+    }</p>
               <p><strong>מספר שבב:</strong> ${chipNumber || "לא זמין"}</p>
               <p><strong>קבוצה:</strong> ${groupId || "לא זמין"}</p>
               <p><strong>סטטוס:</strong> ${dogStatus || "לא זמין"}</p>
@@ -67,24 +66,22 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
 </div>
           <h3 style="direction: rtl; margin: 0; padding: 0;">עדכונים:</h3>
           <div style="direction: rtl; margin: 0; padding: 0;">
-            ${
-              updates
-                ? updates
-                    .map((update: any) => {
-                      return `
+            ${updates
+      ? updates
+        .map((update: any) => {
+          return `
                         <div style="margin-bottom: 10px;">
-                          <p style="margin: 0; padding: 0;">${
-                            update.content
-                          }</p>
+                          <p style="margin: 0; padding: 0;">${update.content
+            }</p>
                           <p style="margin: 0; padding: 0; font-size: 12px; color: grey;">${formatDateFromSeconds(
-                            update.date
-                          )}</p>
+              update.date
+            )}</p>
                         </div>
                       `;
-                    })
-                    .join("")
-                : "<div>אין עדכונים זמינים</div>"
-            }
+        })
+        .join("")
+      : "<div>אין עדכונים זמינים</div>"
+    }
           </div>
         </div>
       </body>
@@ -137,18 +134,10 @@ const DogProfilePDF = () => {
         <WidgetTitle>פעולות</WidgetTitle>
       </WidgetHeader>
       <WidgetBody>
-        <div
-          style={{
-            display: "flex",
-            height: "100%",
-            flexDirection: "column",
-            justifyContent: "end",
-            alignItems: "center",
-          }}
-        >
+        <Row>
           <Button onClick={handleGeneratePDF}>הפקת דו"ח</Button>
-          <DogsImage />
-        </div>
+          {/* <DogsImage /> */}
+        </Row>
       </WidgetBody>
     </>
   );
