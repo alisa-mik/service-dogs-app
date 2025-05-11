@@ -1,25 +1,75 @@
-import styled from "styled-components"
-import { WidgetTitle } from "../components/commonParts/Labels"
-import { LabelValue } from "../components/commonParts/LabelValue"
-import { Column, Row, WidgetBody, WidgetHeader } from "../components/commonParts/Layouts"
-import { useSelector } from "react-redux"
-import { selectDogProfile } from "../store/dogProfileSlice"
-import { DogMedicalInfoForm } from "../components/Forms/DogMedicalInfoForm"
-import { Dog } from "../types/dogTypes"
+import styled from "styled-components";
+import { WidgetTitle } from "../components/commonParts/Labels";
+import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import { useSelector } from "react-redux";
+import { selectDogProfile } from "../store/dogProfileSlice";
+import { DogMedicalInfoForm } from "../components/Forms/DogMedicalInfoForm";
+import { Dog } from "../types/dogTypes";
+import { MedicalCard } from "./medical/MedicalCard";
+
+type MedicalInfo = {
+  type: string;
+  label: string;
+  dates: number[];
+  gap?: number;
+  initialGap: number;
+};
 
 const SWidgetBody = styled(WidgetBody)`
   justify-content: start;
   gap: 30px;
-`
+`;
 
-const StyledRow = styled(Row)`
-  align-items: flex-start;
-`
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  width: 100%;
+  height: 100%;
+`;
+
+const modifiedMedicalInfo: MedicalInfo[] = [
+  {
+    type: "vaccine",
+    label: "משושה",
+    dates: [1745991907, 1747892707, -1],
+    gap: 40,
+    initialGap: 42,
+  },
+  {
+    type: "rabies",
+    label: "כלבת",
+    dates: [1747892707, -1],
+    gap: 30,
+    initialGap: 15,
+  },
+  {
+    type: "worms",
+    label: "תילוע",
+    dates: [1745991907, -1],
+    gap: 10,
+    initialGap: 180,
+  },
+  {
+    type: "bravecto",
+    label: "פרעושים",
+    dates: [-1, -1],
+    gap: 180,
+    initialGap: 60,
+  },
+  {
+    type: "spay",
+    label: "חיסון / סירוס",
+    dates: [1745991907],
+    initialGap: 240,
+  },
+  { type: "bp", label: "חיסון", dates: [-1], initialGap: 10 },
+];
 
 export const DogMedicalInfo = () => {
   const dog = useSelector(selectDogProfile);
 
-  const { dogId } = dog as Dog;
+  const { dogId, birthDate } = dog as Dog;
 
   const data = {
     dogId: dogId,
@@ -34,9 +84,8 @@ export const DogMedicalInfo = () => {
     worms: "",
     bravecto: "",
     chip: "",
-    spay: ""
-  }
-
+    spay: "",
+  };
 
   return (
     <>
@@ -45,25 +94,12 @@ export const DogMedicalInfo = () => {
         <DogMedicalInfoForm data={data} icon={"edit"} />
       </WidgetHeader>
       <SWidgetBody>
-        <Row>
-          <LabelValue label="מועד שנקבע:" value={'5/5/2021'} />
-          <LabelValue label="עבור:" value={'חיסון משושה'} />
-        </Row>
-        <StyledRow>
-          <Column gap={'5px'}>
-            <LabelValue label="חיסון BP:" value={'5/5/2021'} />
-            <LabelValue label="חיסון משושה 1:" value={'5/5/2021'} />
-            <LabelValue label="חיסון משושה 2:" value={'5/5/2021'} />
-            <LabelValue label="חיסון משושה 3:" value={''} />
-            <LabelValue label="חיסון כלבת 1:" value={'5/5/2021'} />
-            <LabelValue label="חיסון כלבת 2:" value={''} />
-          </Column>
-          <Column gap={'5px'}>
-            <LabelValue label="שבב:" value={'5/5/2021'} />
-            <LabelValue label="עיקור/ סירוס:" value={'5/5/2021'} />
-          </Column>
-        </StyledRow>
+        <Grid>
+          {modifiedMedicalInfo.map((item) => (
+            <MedicalCard key={item.type} item={item} birthDate={birthDate} />
+          ))}
+        </Grid>
       </SWidgetBody>
     </>
-  )
-}
+  );
+};
