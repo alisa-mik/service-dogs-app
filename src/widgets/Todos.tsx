@@ -6,6 +6,7 @@ import { TodoItem } from "../components/TodoItem";
 import { AddToDoForm } from "../components/Forms/AddToDoForm";
 import { useMemo } from "react";
 import { CircularProgress } from "@mui/material";
+import { sortTodos } from "../utils/toDoUtils";
 
 export const Todos = () => {
   const todos = useSelector(selectAllToDos);
@@ -17,21 +18,8 @@ export const Todos = () => {
     text: "",
   };
 
-  const sortedToDos = useMemo(() => {
-    return [ ...todos ]
-      .sort((a, b) => {
-        // 1. Sort by completed status: incomplete first
-        if (a.completed !== b.completed) {
-          return a.completed ? 1 : -1;
-        }
 
-        // 2. Then sort by dueDate ascending (earlier dates first)
-        const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
-        const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
-
-        return dateA - dateB;
-      });
-  }, [ todos ]);
+  const sortedToDos = useMemo(() => sortTodos(todos), [ todos ]);
 
 
   return <>

@@ -51,13 +51,13 @@ export const ResolveIcon = ({
       return (
         <img
           style={{ height: "20px", opacity: 0.3 }}
-          src={`/checked.png?v=${uniqueId()}`}
+          src={`/checked.png`}
         />
       );
 
     if (checked)
       return (
-        <img style={{ height: "20px" }} src={`/checked.png?v=${uniqueId()}`} />
+        <img style={{ height: "20px" }} src={`/checked.png`} />
       );
 
     return <ResolveCheckbox />;
