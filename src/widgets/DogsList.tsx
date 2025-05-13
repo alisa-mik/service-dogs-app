@@ -32,7 +32,7 @@ export default function DogsList() {
     momDog: "",
     dadDog: "",
     groupId: "",
-    assignedFamily: "",
+    assignedFamily: "unassigned",
     active: true,
     image: "",
     dogStatus: "",

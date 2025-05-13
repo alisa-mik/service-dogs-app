@@ -74,7 +74,6 @@ const DogDetails: React.FC = () => {
     dropDate,
     dropReason,
     groupId,
-    // assignedFamily,
     birthDate,
   } = dog as Dog;
 
@@ -102,7 +101,6 @@ const DogDetails: React.FC = () => {
             <LabelValue label="שם האם:" value={momDog} />
             <LabelValue label="שם האב:" value={dadDog} />
             <LabelValue label="קבוצה:" value={groupId} />
-            {/* <LabelValue label="משויך למשפחה:" value={assignedFamily.familyName} /> */}
             <LabelValue label="סטטוס:" value={dogStatus} />
           </Section>
         </Row>

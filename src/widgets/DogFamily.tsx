@@ -17,10 +17,10 @@ const Section = styled.section`
 
 export default function DogFamily() {
   const dog = useSelector<RootState, Dog | null>(selectDogProfile);
-  const { assignedFamily = "" } = dog as Dog;
+  const { assignedFamily } = dog as Dog;
   const family = useSelector(selectFamilyById(assignedFamily));
 
-  if (!assignedFamily) return <div>לא משוייך למשפחה</div>;
+  if (assignedFamily === "unassigned") return <div>לא משוייך למשפחה</div>;
 
   const renderFamilyDetails = () => {
     const { familyName, contactName, generalInfo, contactInfo } = family;
