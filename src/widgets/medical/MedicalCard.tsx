@@ -59,7 +59,7 @@ const CardWrapper = styled.div<{
   width: 100%;
   height: 100%;
   background-color: ${(p) => p.background};
-  border: 4px solid ${(p) => p.borderColor};
+  border: 2px solid ${(p) => p.borderColor};
   color: ${(p) => p.textColor};
   border-radius: 16px;
   display: flex;
@@ -96,7 +96,7 @@ const CardFace = styled.div<{ front?: boolean }>`
 
 const TypeLabel = styled.div`
   font-size: 1.4rem;
-  font-weight: bold;
+  font-weight: 500;
 `;
 
 const DateList = styled.div`
@@ -112,8 +112,8 @@ const getStatusColors = (
 ): ColorSet => {
   const base = getStatusColorBase(item, birth, validDates);
 
-  const bg = tinycolor(base).lighten(10).toHexString();
-  const border = tinycolor(base).darken(15).toHexString();
+  const bg = tinycolor(base).lighten(25).toHexString();
+  const border = tinycolor(base).lighten(10).toHexString();
 
   return { background: bg, border };
 };
@@ -122,7 +122,7 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
   item,
   birthDate,
 }) => {
-  const [flipped, setFlipped] = useState(false);
+  const [flipped, setFlipped] = useState(true);
   const birth = dayjs(birthDate * 1000);
 
   const validDates = item.dates.filter((d): d is number => d > 0);
@@ -137,7 +137,7 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
       background={background}
       borderColor={border}
       textColor={textColor}
-      onClick={() => setFlipped((prev) => !prev)}
+      // onClick={() => setFlipped((prev) => !prev)}
     >
       <CardInner
         animate={{ rotateY: flipped ? 180 : 0 }}
@@ -155,7 +155,7 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
                   <Label key={i}>{dayjs(d * 1000).format("DD/MM/YYYY")}</Label>
                 ))
               ) : (
-                <Label>אין חיסונים עדיין</Label>
+                <Label>אין מידע</Label>
               )}
             </DateList>
           </div>

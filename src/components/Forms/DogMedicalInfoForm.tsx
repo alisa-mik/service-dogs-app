@@ -7,12 +7,12 @@ import { fetchToDos } from "../../store/todosSlice";
 import { configType } from "../form/Form";
 import FormButtonDialog from "../form/FormButtonDialog";
 
-const validate = (values: { [ key: string ]: any }) => {
-  const errors: { [ key: string ]: string } = {};
+const validate = (values: { [key: string]: any }) => {
+  const errors: { [key: string]: string } = {};
 
-  const typedValues = values as { text: string; };
+  const typedValues = values as { date: string };
 
-  if (!typedValues.text.trim()) {
+  if (!typedValues.date) {
     errors.content = "שדה התוכן הוא שדה חובה";
   }
 
@@ -30,8 +30,8 @@ export const DogMedicalInfoForm = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (values: { [ key: string ]: any }) => {
-    console.log('sending?');
+  const onSubmit = async (values: { [key: string]: any }) => {
+    console.log("sending?");
 
     const todoId = uuidv4();
 
@@ -45,15 +45,14 @@ export const DogMedicalInfoForm = ({
         enqueueSnackbar(`תזכורת נוספה בהצלחה`, {
           variant: "success",
         });
-        dispatch(fetchToDos({ limit: 100 }))
-
+        dispatch(fetchToDos({ limit: 100 }));
       })
       .catch((error) => {
         console.error("Error adding todo:", error);
         enqueueSnackbar("אירעה שגיעה בעת שליחת הבקשה", {
           variant: "error",
         });
-      })
+      });
   };
 
   const config: configType[] = [
@@ -64,89 +63,48 @@ export const DogMedicalInfoForm = ({
         {
           itemGroup: "input",
           itemType: "date",
-          path: "scheduled",
-          label: "מועד קרוב:",
+          path: "date",
+          label: "תאריך:",
         },
         {
           itemGroup: "input",
-          itemType: "text",
-          path: "reason",
-          label: "עבור:",
-        }
-      ]
-    },
-    {
-      itemGroup: "section",
-      itemType: "common",
-      items: [
-        {
-          itemGroup: "input",
-          itemType: "date",
+          itemType: "checkbox",
           path: "bp",
-          label: "חיסון BP:",
+
+          itemProps: { label: "חיסון BP" },
         },
         {
           itemGroup: "input",
-          itemType: "date",
-          path: "vaccine-1",
-          label: "משושה 1:",
+          itemType: "checkbox",
+          path: "vaccine",
+          itemProps: { label: "משושה" },
         },
         {
           itemGroup: "input",
-          itemType: "date",
-          path: "vaccine-2",
-          label: "משושה 2:",
+          itemType: "checkbox",
+          path: "rabies",
+          itemProps: { label: "כלבת" },
         },
         {
           itemGroup: "input",
-          itemType: "date",
-          path: "vaccine-3",
-          label: "משושה 3:",
-        },
-      ]
-    },
-    {
-      itemGroup: "section",
-      itemType: "common",
-      items: [
-        {
-          itemGroup: "input",
-          itemType: "date",
-          path: "rabies-1",
-          label: "כלבת 1:",
-        },
-        {
-          itemGroup: "input",
-          itemType: "date",
-          path: "rabies-2",
-          label: "כלבת 2:",
-        },
-        {
-          itemGroup: "input",
-          itemType: "date",
+          itemType: "checkbox",
           path: "worms",
-          label: "תילוע אחרון:",
+          itemProps: { label: "תילוע" },
         },
         {
           itemGroup: "input",
-          itemType: "date",
+          itemType: "checkbox",
           path: "bravecto",
-          label: "ברבקטו:",
+          itemProps: { label: "ברבקטו" },
         },
         {
           itemGroup: "input",
-          itemType: "date",
-          path: "chip",
-          label: "שבב:",
-        },
-        {
-          itemGroup: "input",
-          itemType: "date",
+          itemType: "checkbox",
           path: "spay",
-          label: "עיקור/ סירוס:",
+          itemProps: { label: "עיקור/ סירוס" },
         },
       ],
-    }
+    },
   ];
 
   return (
@@ -154,7 +112,7 @@ export const DogMedicalInfoForm = ({
       data={data}
       buttonText="הוסף תזכורת"
       formConfig={config}
-      formType="steps"
+      formType="single"
       onSubmit={onSubmit}
       validate={validate}
       icon={icon}
@@ -162,4 +120,3 @@ export const DogMedicalInfoForm = ({
     />
   );
 };
-

@@ -46,24 +46,24 @@ const modifiedMedicalInfo: MedicalInfo[] = [
   {
     type: "worms",
     label: "תילוע",
-    dates: [1745991907, -1],
-    gap: 10,
-    initialGap: 180,
+    dates: [1745991907, -1, -1, -1, -1],
+    gap: 180,
+    initialGap: 20,
   },
   {
     type: "bravecto",
     label: "פרעושים",
-    dates: [-1, -1],
+    dates: [-1, -1, -1, -1, -1],
     gap: 180,
     initialGap: 60,
   },
   {
     type: "spay",
-    label: "חיסון / סירוס",
+    label: "עיקור / סירוס",
     dates: [1745991907],
     initialGap: 240,
   },
-  { type: "bp", label: "חיסון", dates: [-1], initialGap: 10 },
+  { type: "bp", label: "BP", dates: [-1], initialGap: 300 },
 ];
 
 export const DogMedicalInfo = () => {
@@ -73,18 +73,15 @@ export const DogMedicalInfo = () => {
 
   const data = {
     dogId: dogId,
-    scheduled: "",
-    reason: "",
-    bp: "",
-    "vaccine-1": "",
-    "vaccine-2": "",
-    "vaccine-3": "",
-    "rabies-1": "",
-    "rabies-2": "",
-    worms: "",
-    bravecto: "",
-    chip: "",
-    spay: "",
+    date: null,
+    scheduled: false,
+    reason: false,
+    bp: false,
+    vaccine: false,
+    rabies: false,
+    worms: false,
+    bravecto: false,
+    spay: false,
   };
 
   return (
