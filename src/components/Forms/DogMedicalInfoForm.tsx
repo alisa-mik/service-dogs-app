@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
 import { AppDispatch } from "../../store";
 import { apiClient, apiConfig } from "../../config/apiConfig";
@@ -7,8 +7,8 @@ import { fetchToDos } from "../../store/todosSlice";
 import { configType } from "../form/Form";
 import FormButtonDialog from "../form/FormButtonDialog";
 
-const validate = (values: { [key: string]: any }) => {
-  const errors: { [key: string]: string } = {};
+const validate = (values: { [ key: string ]: any }) => {
+  const errors: { [ key: string ]: string } = {};
 
   const typedValues = values as { date: string };
 
@@ -30,8 +30,7 @@ export const DogMedicalInfoForm = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (values: { [key: string]: any }) => {
-    console.log("sending?");
+  const onSubmit = async (values: { [ key: string ]: any }) => {
 
     const todoId = uuidv4();
 
@@ -110,7 +109,7 @@ export const DogMedicalInfoForm = ({
   return (
     <FormButtonDialog
       data={data}
-      buttonText="הוסף תזכורת"
+      buttonText="הוסף מידע רפואי"
       formConfig={config}
       formType="single"
       onSubmit={onSubmit}

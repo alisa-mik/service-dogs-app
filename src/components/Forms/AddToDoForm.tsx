@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
 import { AppDispatch } from "../../store";
 import { apiClient, apiConfig } from "../../config/apiConfig";

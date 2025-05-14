@@ -63,40 +63,18 @@ const CardWrapper = styled.div<{
   color: ${(p) => p.textColor};
   border-radius: 16px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  perspective: 1000px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-`;
-
-const CardInner = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  transform-style: preserve-3d;
-  position: relative;
-`;
-
-const CardFace = styled.div<{ front?: boolean }>`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  backface-visibility: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 16px;
   padding: 12px;
   box-sizing: border-box;
-  ${(p) => (p.front ? "" : "transform: rotateY(180deg);")}
-  flex-direction: column;
   text-align: center;
 `;
 
 const TypeLabel = styled.div`
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 500;
+  margin-bottom: 8px;
 `;
 
 const DateList = styled.div`
@@ -122,14 +100,11 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
   item,
   birthDate,
 }) => {
-  const [flipped, setFlipped] = useState(true);
   const birth = dayjs(birthDate * 1000);
-
-  const validDates = item.dates.filter((d): d is number => d > 0);
-
+  const validDates = item.dates.filter(d => d > 0);
   const { background, border } = getStatusColors(item, birth, validDates);
   const textColor = tinycolor
-    .mostReadable(background, ["#000", "#fff"])
+    .mostReadable(background, [ "#000", "#fff" ])
     .toHexString();
 
   return (
@@ -137,30 +112,17 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
       background={background}
       borderColor={border}
       textColor={textColor}
-      // onClick={() => setFlipped((prev) => !prev)}
     >
-      <CardInner
-        animate={{ rotateY: flipped ? 180 : 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <CardFace front>
-          <TypeLabel>{item.label}</TypeLabel>
-        </CardFace>
-        <CardFace>
-          <div>
-            <Title>{` ${item.label}:`}</Title>
-            <DateList>
-              {validDates.length ? (
-                validDates.map((d, i) => (
-                  <Label key={i}>{dayjs(d * 1000).format("DD/MM/YYYY")}</Label>
-                ))
-              ) : (
-                <Label>אין מידע</Label>
-              )}
-            </DateList>
-          </div>
-        </CardFace>
-      </CardInner>
+      <TypeLabel>{item.label}</TypeLabel>
+      <DateList>
+        {validDates.length ? (
+          validDates.map((d, i) => (
+            <Label key={i}>{dayjs(d * 1000).format("DD/MM/YYYY")}</Label>
+          ))
+        ) : (
+          <Label>אין מידע</Label>
+        )}
+      </DateList>
     </CardWrapper>
   );
 };

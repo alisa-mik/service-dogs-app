@@ -28,48 +28,9 @@ const Grid = styled.div`
   height: 100%;
 `;
 
-const modifiedMedicalInfo: MedicalInfo[] = [
-  {
-    type: "vaccine",
-    label: "משושה",
-    dates: [1745991907, 1747892707, -1],
-    gap: 40,
-    initialGap: 42,
-  },
-  {
-    type: "rabies",
-    label: "כלבת",
-    dates: [1747892707, -1],
-    gap: 30,
-    initialGap: 15,
-  },
-  {
-    type: "worms",
-    label: "תילוע",
-    dates: [1745991907, -1, -1, -1, -1],
-    gap: 180,
-    initialGap: 20,
-  },
-  {
-    type: "bravecto",
-    label: "פרעושים",
-    dates: [-1, -1, -1, -1, -1],
-    gap: 180,
-    initialGap: 60,
-  },
-  {
-    type: "spay",
-    label: "עיקור / סירוס",
-    dates: [1745991907],
-    initialGap: 240,
-  },
-  { type: "bp", label: "BP", dates: [-1], initialGap: 300 },
-];
-
 export const DogMedicalInfo = () => {
   const dog = useSelector(selectDogProfile);
-
-  const { dogId, birthDate } = dog as Dog;
+  const { dogId, birthDate, gender } = dog as Dog;
 
   const data = {
     dogId: dogId,
@@ -84,15 +45,53 @@ export const DogMedicalInfo = () => {
     spay: false,
   };
 
+  const medicalInfo = [
+    {
+      type: "vaccine",
+      label: "משושה",
+      dates: [ 1745991907, 1747892707, -1 ],
+      gap: 40,
+      initialGap: 42,
+    },
+    {
+      type: "rabies",
+      label: "כלבת",
+      dates: [ 1747892707, -1 ],
+      gap: 30,
+      initialGap: 15,
+    },
+    {
+      type: "worms",
+      label: "תילוע",
+      dates: [ 1745991907, -1, -1, -1, -1 ],
+      gap: 180,
+      initialGap: 20,
+    },
+    {
+      type: "bravecto",
+      label: "פרעושים וקרציות",
+      dates: [ -1, -1, -1, -1, -1 ],
+      gap: 180,
+      initialGap: 60,
+    },
+    {
+      type: "spay",
+      label: gender === "נקבה" ? "עיקור" : "סירוס",
+      dates: [ 1745991907 ],
+      initialGap: 240,
+    },
+    { type: "bp", label: "BP", dates: [ -1 ], initialGap: 300 },
+  ];
+
   return (
     <>
       <WidgetHeader>
         <WidgetTitle>מידע רפואי</WidgetTitle>
-        <DogMedicalInfoForm data={data} icon={"edit"} />
+        <DogMedicalInfoForm data={data} />
       </WidgetHeader>
       <SWidgetBody>
         <Grid>
-          {modifiedMedicalInfo.map((item) => (
+          {medicalInfo.map((item) => (
             <MedicalCard key={item.type} item={item} birthDate={birthDate} />
           ))}
         </Grid>
