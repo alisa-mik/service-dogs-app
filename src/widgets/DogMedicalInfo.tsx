@@ -40,7 +40,7 @@ export const DogMedicalInfo = () => {
     bp: false,
     vaccine: false,
     rabies: false,
-    worms: false,
+    deworm: false,
     bravecto: false,
     spay: false,
   };

@@ -1,19 +1,20 @@
-import { v4 as uuidv4 } from "uuid";
-import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
-import { AppDispatch } from "../../store";
 import { apiClient, apiConfig } from "../../config/apiConfig";
-import { fetchToDos } from "../../store/todosSlice";
 import { configType } from "../form/Form";
 import FormButtonDialog from "../form/FormButtonDialog";
 
 const validate = (values: { [ key: string ]: any }) => {
   const errors: { [ key: string ]: string } = {};
 
-  const typedValues = values as { date: string };
+  if (!values.date) {
+    errors.date = "תאריך הוא שדה חובה";
+  }
 
-  if (!typedValues.date) {
-    errors.content = "שדה התוכן הוא שדה חובה";
+  const hasSelectedTreatment = [ 'bp', 'vaccine', 'rabies', 'deworm', 'bravecto', 'spay' ]
+    .some(key => values[ key ]);
+
+  if (!hasSelectedTreatment) {
+    errors.spay = "יש לבחור לפחות טיפול אחד";
   }
 
   return errors;
@@ -28,27 +29,30 @@ export const DogMedicalInfoForm = ({
   data: any;
   onOpen?: () => void;
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values: { [ key: string ]: any }) => {
+    const submitData = {
+      date: values.date,
+      treatments: Object.entries(values)
+        .filter(([ key, value ]) =>
+          key !== 'date' && value === true
+        )
+        .map(([ key ]) => key)
+    };
 
-    const todoId = uuidv4();
+    console.log({ submitData });
+
 
     await apiClient
-      .post(apiConfig.todos, {
-        todoId: todoId,
-        text: values.text,
-        dueDate: values.dueDate,
-      })
+      .post(`${apiConfig.medicalInfo}/${data.dogId}`, submitData)
       .then(() => {
-        enqueueSnackbar(`תזכורת נוספה בהצלחה`, {
+        enqueueSnackbar(`מידע רפואי נוסף בהצלחה`, {
           variant: "success",
         });
-        dispatch(fetchToDos({ limit: 100 }));
       })
       .catch((error) => {
-        console.error("Error adding todo:", error);
-        enqueueSnackbar("אירעה שגיעה בעת שליחת הבקשה", {
+        console.error("Error adding medical info:", error);
+        enqueueSnackbar("אירעה שגיאה בעת שליחת הבקשה", {
           variant: "error",
         });
       });
@@ -69,7 +73,6 @@ export const DogMedicalInfoForm = ({
           itemGroup: "input",
           itemType: "checkbox",
           path: "bp",
-
           itemProps: { label: "חיסון BP" },
         },
         {
@@ -87,14 +90,14 @@ export const DogMedicalInfoForm = ({
         {
           itemGroup: "input",
           itemType: "checkbox",
-          path: "worms",
+          path: "deworm",
           itemProps: { label: "תילוע" },
         },
         {
           itemGroup: "input",
           itemType: "checkbox",
           path: "bravecto",
-          itemProps: { label: "ברבקטו" },
+          itemProps: { label: "פרעושים וקרציות" },
         },
         {
           itemGroup: "input",

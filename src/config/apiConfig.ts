@@ -1,9 +1,8 @@
 import axios from "axios";
 
 export const apiClient = axios.create({
-  baseURL: `https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/${
-    import.meta.env.MODE
-  }`,
+  baseURL: `https://q4anwwvawd.execute-api.eu-west-1.amazonaws.com/${import.meta.env.MODE
+    }`,
   timeout: 5000, // Request timeout
   headers: {
     "Content-Type": "application/json",
@@ -30,4 +29,5 @@ export const apiConfig = {
   familyUpdates: "family-updates",
   editFamilyUpdatesStatus: "edit-family-updates-status",
   todos: "todos",
+  medicalInfo: "medical-info",
 };
