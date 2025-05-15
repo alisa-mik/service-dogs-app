@@ -30,7 +30,9 @@ export const TodoItem = ({ todo }: { todo: ToDo }) => {
     <AnimatedItem>
 
       <StyledRow>
-        <ResolveIcon id={todoId} checked={completed} handleChange={handleComplete} />
+        <div style={{ marginTop: "4px" }}>
+          <ResolveIcon id={todoId} checked={completed} handleChange={handleComplete} />
+        </div>
         <Column gap="1px">
           <StyledText completed={completed}>{text}</StyledText>
           {dueDate && (
