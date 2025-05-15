@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import { MEDICAL_STATUS } from "../config/colors";
 import { Dog, MedicalInfo } from "../types/dogTypes";
 
 export type VaccineStatus = "COMPLETED" | "UPCOMING" | "SOON" | "DUE" | "OVERDUE";
