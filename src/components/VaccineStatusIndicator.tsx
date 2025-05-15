@@ -1,24 +1,21 @@
 import styled from "styled-components";
 import { MEDICAL_STATUS } from "../config/colors";
 import { VaccineStatus } from "../utils/medicalUtils";
-import tinycolor from "tinycolor2";
-
-const StatusDot = styled.div<{ status: VaccineStatus }>`
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: ${({ status }) => {
-    const baseColor = MEDICAL_STATUS[ status ];
-    return tinycolor(baseColor).lighten(20).toHexString();
-  }};
-  border: 3px solid ${({ status }) => MEDICAL_STATUS[ status ]};
-  margin-right: 4px;
-`;
+import { PawIcon } from "./PawIcon";
 
 const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
+`;
+
+const LogoWrapper = styled.div`
+  width:24px;
+  height:24px;
+  display: flex;
+  align-items: center;
+  transform:rotate(-30deg);
+  justify-content: center;
 `;
 
 interface Props {
@@ -35,9 +32,17 @@ const statusLabels: Record<VaccineStatus, string> = {
 };
 
 export const VaccineStatusIndicator: React.FC<Props> = ({ status, showLabel = false }) => {
+  const baseColor = MEDICAL_STATUS[ status ];
+
   return (
     <Container>
-      <StatusDot status={status} title={statusLabels[ status ]} />
+      <LogoWrapper title={statusLabels[ status ]}>
+        <PawIcon
+          width={24}
+          height={24}
+          primaryColor={baseColor}
+        />
+      </LogoWrapper>
       {showLabel && <span>{statusLabels[ status ]}</span>}
     </Container>
   );
