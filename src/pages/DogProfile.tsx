@@ -74,7 +74,7 @@ export default function DogProfile() {
       //   },
       // },
       {
-        layout: { w: 4, h: 50, x: 8, y: 0, i: "c" },
+        layout: { w: 4, h: 42, x: 8, y: 0, i: "c" },
         widget: {
           props: {},
           display: true,
@@ -82,7 +82,7 @@ export default function DogProfile() {
         },
       },
       {
-        layout: { w: 4, h: 50, x: 8, y: 50, i: "d" },
+        layout: { w: 4, h: 58, x: 8, y: 50, i: "d" },
         widget: {
           props: {},
           display: true,

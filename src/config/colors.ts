@@ -22,7 +22,7 @@ export const MEDICAL_STATUS = {
   SOON: "#ffb300",       // Due within 7 days
   DUE: "#f47f1f",        // Due now or within -7 days
   OVERDUE: "#c72929",    // Overdue more than 7 days
-  COMPLETED: "#7dd421",  // Treatment completed and not due yet
+  COMPLETED: "#729c42",  // Treatment completed and not due yet
 } as const;
 
 export const CATEGORY_COLORS: Record<string, string> = {

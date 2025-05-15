@@ -8,34 +8,29 @@ import { isEmpty } from "lodash";
 import { Dog } from "../types/dogTypes";
 import DogForm from "../components/DogForm/DogForm";
 import { WidgetBody, WidgetHeader } from "../components/commonParts/Layouts";
+import { LabelValue } from "../components/commonParts/LabelValue";
+
+const SPACING_XS = "0.2rem";
 
 const Section = styled.section`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: ${SPACING_XS};
 `;
 
 const Row = styled.div`
   display: flex;
-  gap: 5px;
-  font-size: 16px;
+  gap: ${SPACING_XS};
+  font-size: 0.95em;
 `;
 
-const Label = styled.span`
-  font-weight: bold;
-  color: #888888;
-`;
-
-const Value = styled.span`
-  color: #333;
-`;
 
 const NoProfile = styled.div`
   text-align: center;
   color: #888;
   font-size: 1.2em;
-  padding: 50px 0;
+  padding: 0.3rem 0;
 `;
 
 const Body = styled(WidgetBody)`
@@ -43,17 +38,8 @@ const Body = styled(WidgetBody)`
   flex-direction: column;
 `;
 
-interface LabelValueProps {
-  label: string;
-  value: React.ReactNode;
-}
 
-const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
-  <Row>
-    <Label>{label}</Label>
-    <Value>{value || "-"}</Value>
-  </Row>
-);
+
 
 const DogDetails: React.FC = () => {
   const dog = useSelector(selectDogProfile);
@@ -84,7 +70,7 @@ const DogDetails: React.FC = () => {
         <DogForm icon={"edit"} data={dog} />
       </WidgetHeader>
 
-      <Body style={{ gap: "5px", justifyContent: "flex-start" }}>
+      <Body style={{ gap: SPACING_XS, justifyContent: "flex-start" }}>
         <Row>
           <Section>
             <LabelValue label="שם הכלב:" value={dogName} />

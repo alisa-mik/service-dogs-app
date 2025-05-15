@@ -10,7 +10,7 @@ const Section = styled.section`
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 0.2rem;
 `;
 
 export default function FamilyDetails() {

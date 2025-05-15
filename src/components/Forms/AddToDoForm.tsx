@@ -31,7 +31,6 @@ export const AddToDoForm = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values: { [ key: string ]: any }) => {
-    console.log('sending?');
 
     const todoId = uuidv4();
 
@@ -42,11 +41,7 @@ export const AddToDoForm = ({
         dueDate: values.dueDate,
       })
       .then(() => {
-        enqueueSnackbar(`תזכורת נוספה בהצלחה`, {
-          variant: "success",
-        });
-        dispatch(fetchToDos({ limit: 100 }))
-
+        dispatch(fetchToDos({ limit: 100 }));
       })
       .catch((error) => {
         console.error("Error adding todo:", error);

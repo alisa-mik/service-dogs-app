@@ -98,7 +98,7 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
     },
     {
       type: "bravecto",
-      label: "פרעושים וקרציות",
+      label: "ברבקטו",
       dates: medicalInfo.bravecto || [],
       gap: 90,
       initialGap: 180,

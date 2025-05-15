@@ -46,11 +46,6 @@ export const resolveFamilyUpdate = async (
       updateId,
       resolved,
     });
-
-    enqueueSnackbar(
-      resolved ? "הפנייה סומנה כמטופלת" : "הפנייה סומנה כלא מטופלת",
-      { variant: "success" }
-    );
   } catch (error) {
     console.error("Error resolving update:", error);
     enqueueSnackbar("אירעה שגיאה בעת סימון הפנייה", { variant: "error" });
@@ -62,13 +57,13 @@ export function groupByKey<K extends keyof FamilyUpdate>(
   key: K
 ): Record<string, FamilyUpdate[]> {
   return updates.reduce((acc, update) => {
-    const value = update[key] ?? "unknown";
+    const value = update[ key ] ?? "unknown";
     const group =
       typeof value === "string" || typeof value === "number"
         ? String(value)
         : "unknown";
-    if (!acc[group]) acc[group] = [];
-    acc[group].push(update);
+    if (!acc[ group ]) acc[ group ] = [];
+    acc[ group ].push(update);
     return acc;
   }, {} as Record<string, FamilyUpdate[]>);
 }
