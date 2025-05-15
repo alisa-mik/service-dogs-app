@@ -1,4 +1,4 @@
-import { AlignRightTitle, Title } from "../components/commonParts/Labels";
+import { AlignRightTitle } from "../components/commonParts/Labels";
 import { useSelector } from "react-redux";
 import {
   selectGearSummaryByGroup,
@@ -22,20 +22,20 @@ export default function GearRequestsSummary() {
     const groupsToRender =
       selectedGroup === "all"
         ? gearSummaryRequests
-        : gearRequests[selectedGroup];
+        : gearRequests[ selectedGroup ];
 
     if (!groupsToRender) return null;
 
     return (
       <>
         {gearTypes.map((type) => {
-          const gearData = (groupsToRender as GearSummary)[type];
+          const gearData = (groupsToRender as GearSummary)[ type ];
 
           return (
             <GearItemCard
               key={type}
               type={type}
-              label={gearMap[type]}
+              label={gearMap[ type ]}
               pendingCount={gearData.pendingCount}
               allCount={gearData.allCount}
               requests={gearData.requests}

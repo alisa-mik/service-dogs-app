@@ -5,13 +5,12 @@ import DateText from "./commonParts/DateText"
 import { Column, Row } from "./commonParts/Layouts"
 import { ResolveIcon } from "./FamilyUpdates/ResolveIcon"
 import dayjs from "dayjs"
-import { motion } from "framer-motion";
 import { AnimatedItem } from "./commonParts/AnimatedItem"
 
 const StyledRow = styled(Row)`
   align-items: flex-start;
 `
-const StyledText = styled.div.attrs<{ completed: boolean }>((props) => ({
+const StyledText = styled.div.attrs<{ completed: boolean }>(() => ({
 })) <{ completed: boolean }>`
   font-size: 1rem;
   color: #333;

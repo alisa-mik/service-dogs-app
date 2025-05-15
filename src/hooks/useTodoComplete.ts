@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { resolveFamilyUpdate } from "../utils/familyUpdatesUtils";
 import { AppDispatch } from "../store";
 import { fetchToDos } from "../store/todosSlice";
 import { completeToDo } from "../utils/toDoUtils";

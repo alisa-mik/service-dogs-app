@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Row } from "../commonParts/Layouts";
 import { TOASTED_PINE_NUT } from "../../config/colors";
-import { uniqueId } from "lodash";
 import { useEffect, useState } from "react";
 
 const IconRow = styled(Row)`

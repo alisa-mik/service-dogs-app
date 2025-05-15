@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { WidgetManager } from "../components/widgetManager/WidgetManager";
 import { WidgetConfig } from "../components/widgetManager/WidgetManagerTypes";
 import { FamilyUpdates } from "../widgets/FamilyUpdates";
@@ -8,14 +7,14 @@ import DogsImage from "../widgets/DogsImage";
 import { Todos } from "../widgets/Todos";
 import { RequestsSummary } from "../widgets/RequestsSummary";
 
-const Container = styled.div`
-  width: 100%;
-  height: 100%;
-  border-radius: 16px;
-  background-image: url("/placeholder.jpg");
-  background-size: 200px 200px;
-  background-repeat: repeat;
-`;
+// const Container = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   border-radius: 16px;
+//   background-image: url("/placeholder.jpg");
+//   background-size: 200px 200px;
+//   background-repeat: repeat;
+// `;
 
 export default function MainDashboard() {
   const widgets: WidgetConfig[] = [

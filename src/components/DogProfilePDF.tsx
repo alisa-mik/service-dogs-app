@@ -6,7 +6,6 @@ import { Dog, Update } from "../types/dogTypes";
 import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { isEmpty } from "lodash";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
-import DogsImage from "../widgets/DogsImage";
 import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
 import { Row, WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";

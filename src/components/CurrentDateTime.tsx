@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/he"; // Import Hebrew locale
 import styled from "styled-components";
