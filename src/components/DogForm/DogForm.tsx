@@ -13,8 +13,8 @@ import {
   selectGroupIds,
 } from "../../store/trainingGroupsSlice.ts";
 
-const validate = (values: { [key: string]: any }) => {
-  const errors: { [key: string]: string } = {};
+const validate = (values: { [ key: string ]: any }) => {
+  const errors: { [ key: string ]: string } = {};
 
   if (!values.dogName?.trim()) {
     errors.dogName = "שם הכלב הוא שדה חובה";
@@ -27,7 +27,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
   const families = useSelector(selectFamiliesArray);
   const GroupIds = useSelector(selectGroupIds);
 
-  const onSubmit = async (values: { [key: string]: any }) => {
+  const onSubmit = async (values: { [ key: string ]: any }) => {
     const formattedValues = {
       ...values,
       groupId: values.groupId !== "" ? values.groupId : null,
@@ -139,7 +139,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemGroup: "input",
           itemType: "checkbox",
           itemProps: {
-            label: "פעיל:",
+            label: "פעיל",
           },
           path: "active",
         },
@@ -221,7 +221,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
             conditions: [
               {
                 path: "dogStatus",
-                values: ["נפסל"],
+                values: [ "נפסל" ],
               },
             ],
           },

@@ -8,6 +8,7 @@ import { apiClient, apiConfig } from "../config/apiConfig";
 import { RootState } from "../store";
 import { reverse } from "lodash";
 import { selectFamilies } from "./familiesSlice";
+import { MedicalInfo } from "../types/dogTypes";
 
 export interface Dog {
   dogId: string;
@@ -17,6 +18,7 @@ export interface Dog {
   birthDate: string;
   image: string;
   gender: string;
+  medicalInfo: MedicalInfo;
 }
 
 export interface Update {
@@ -41,7 +43,7 @@ export interface Group {
 
 interface GroupsState {
   groupIds: string[];
-  groups: { [groupId: string]: Group };
+  groups: { [ groupId: string ]: Group };
   selectedGroupId: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
@@ -84,7 +86,7 @@ const trainingGroupsSlice = createSlice({
     },
     setFirstGroup(state) {
       if (!state.selectedGroupId && state.groupIds)
-        state.selectedGroupId = state.groupIds[0];
+        state.selectedGroupId = state.groupIds[ 0 ];
     },
   },
   extraReducers: (builder) => {
@@ -95,8 +97,19 @@ const trainingGroupsSlice = createSlice({
       })
       .addCase(fetchGroups.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.groupIds = reverse(action.payload.groupIds);
-        state.groups = action.payload.groups;
+        // Filter active groups and their IDs
+        const activeGroupIds = action.payload.groupIds.filter((id: string) =>
+          action.payload.groups[ id ] && action.payload.groups[ id ].active
+        );
+
+        // Create new groups object with only active groups
+        const activeGroups: { [ groupId: string ]: Group } = {};
+        activeGroupIds.forEach((id: string) => {
+          activeGroups[ id ] = action.payload.groups[ id ];
+        });
+
+        state.groupIds = reverse(activeGroupIds);
+        state.groups = activeGroups;
         state.error = null;
       })
       .addCase(fetchGroups.rejected, (state, action) => {
@@ -109,8 +122,19 @@ const trainingGroupsSlice = createSlice({
       })
       .addCase(refetchGroups.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.groupIds = action.payload.groupIds;
-        state.groups = action.payload.groups;
+        // Filter active groups and their IDs
+        const activeGroupIds = action.payload.groupIds.filter((id: string) =>
+          action.payload.groups[ id ] && action.payload.groups[ id ].active
+        );
+
+        // Create new groups object with only active groups
+        const activeGroups: { [ groupId: string ]: Group } = {};
+        activeGroupIds.forEach((id: string) => {
+          activeGroups[ id ] = action.payload.groups[ id ];
+        });
+
+        state.groupIds = activeGroupIds;
+        state.groups = activeGroups;
         state.error = null;
       })
       .addCase(refetchGroups.rejected, (state, action) => {
@@ -139,9 +163,9 @@ export const selectSelectedGroupId = (state: RootState) =>
 
 // Select selectedGroup object
 export const selectSelectedGroup = createSelector(
-  [selectGroups, selectSelectedGroupId],
+  [ selectGroups, selectSelectedGroupId ],
   (groups, selectedGroupId) =>
-    selectedGroupId ? groups[selectedGroupId] : null
+    selectedGroupId ? groups[ selectedGroupId ] : null
 );
 
 // Select status
@@ -153,29 +177,29 @@ export const selectGroupsError = (state: RootState) =>
   state.trainingGroups.error;
 
 // Select all groups as an array
-export const selectAllGroups = createSelector([selectGroups], (groups) =>
+export const selectAllGroups = createSelector([ selectGroups ], (groups) =>
   Object.values(groups)
 );
 
 // Select specific group by ID
 export const selectGroupById = (state: RootState, groupId: string) =>
-  state.trainingGroups.groups[groupId];
+  state.trainingGroups.groups[ groupId ];
 
-export const selectAllGroupDogs = createSelector([selectAllGroups], (groups) =>
+export const selectAllGroupDogs = createSelector([ selectAllGroups ], (groups) =>
   groups.flatMap((group) => group.dogs || [])
 );
 
 // Select all updates from all groups (includes both updates and meetings)
-export const selectAllUpdates = createSelector([selectAllGroups], (groups) =>
+export const selectAllUpdates = createSelector([ selectAllGroups ], (groups) =>
   groups.flatMap((group) => group.updates || [])
 );
 export const selectSelectedGroupUpdates = createSelector(
-  [selectSelectedGroup],
+  [ selectSelectedGroup ],
   (selectedGroup) => (selectedGroup ? selectedGroup.updates : [])
 );
 
 export const selectSelectedGroupDogs = createSelector(
-  [selectSelectedGroup, selectFamilies],
+  [ selectSelectedGroup, selectFamilies ],
   (selectedGroup, families) => {
     if (!selectedGroup || !selectedGroup.dogs) {
       return [];
@@ -183,7 +207,7 @@ export const selectSelectedGroupDogs = createSelector(
 
     // Map the dogs in the selected group with their family details
     return selectedGroup.dogs.map((dog) => {
-      const familyDetails = families[dog.assignedFamily] || null;
+      const familyDetails = families[ dog.assignedFamily ] || null;
       return {
         ...dog,
         family: familyDetails, // Attach the full family details

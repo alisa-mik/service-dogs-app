@@ -13,21 +13,26 @@ import {
 } from "../store/trainingGroupsSlice";
 
 const AttendanceTable: React.FC = () => {
-  const gruopDogs = useSelector(selectSelectedGroupDogs);
-  const groupUpdates = useSelector(selectSelectedGroupUpdates);
-  const [enrichUpdates, setEnrichUpdates] = useState<any>([]);
+  const groupDogs = useSelector(selectSelectedGroupDogs) || [];
+  const groupUpdates = useSelector(selectSelectedGroupUpdates) || [];
+  const [ enrichUpdates, setEnrichUpdates ] = useState<any>([]);
 
   useEffect(() => {
+    if (!groupUpdates.length || !groupDogs.length) {
+      // setEnrichUpdates([]);
+      return;
+    }
+
     const attendanceUpdates = groupUpdates.filter(
       (update) => update.type === "meeting"
     );
 
     const enrich = attendanceUpdates.map((en) => {
-      return gruopDogs.reduce(
+      return groupDogs.reduce(
         (res, dog) => {
           return {
             ...res,
-            [dog.dogName]: en.attendance?.includes(dog.dogId),
+            [ dog.dogName ]: en.attendance?.includes(dog.dogId),
           };
         },
         { id: en.date, date: en.date }
@@ -35,7 +40,7 @@ const AttendanceTable: React.FC = () => {
     });
 
     setEnrichUpdates(enrich);
-  }, [groupUpdates, gruopDogs]);
+  }, [ groupUpdates, groupDogs ]);
 
   const getColumns = () => {
     const columns: GridColDef[] = [
@@ -47,7 +52,7 @@ const AttendanceTable: React.FC = () => {
       },
     ];
 
-    gruopDogs.forEach((dog) => {
+    groupDogs.forEach((dog) => {
       columns.push({
         field: dog.dogName,
         headerName: dog.dogName,

@@ -52,18 +52,16 @@ export interface Dog extends DogBasic {
 }
 
 export interface MedicalInfo {
-  scheduled: number;
-  reason: string;
-  bp: number;
-  "vaccine-1": number;
-  "vaccine-2": number;
-  "vaccine-3": number;
-  "rabies-1": number;
-  "rabies-2": number;
-  worms: number;
-  bravecto: number;
-  chip: number;
-  spay: number;
+  scheduled: {
+    reason: string;
+    date: number;
+  }
+  dp: number[];
+  vaccination: number[];
+  deworming: number[];
+  rabies: number[];
+  bravecto: number[];
+  spay: number[];
 }
 
 export interface AddDogFormValues {

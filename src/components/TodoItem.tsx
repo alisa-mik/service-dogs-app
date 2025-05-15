@@ -6,6 +6,7 @@ import { Column, Row } from "./commonParts/Layouts"
 import { ResolveIcon } from "./FamilyUpdates/ResolveIcon"
 import dayjs from "dayjs"
 import { motion } from "framer-motion";
+import { AnimatedItem } from "./commonParts/AnimatedItem"
 
 const StyledRow = styled(Row)`
   align-items: flex-start;
@@ -27,13 +28,8 @@ export const TodoItem = ({ todo }: { todo: ToDo }) => {
   const isOverdue = !!dueDate && dayjs().startOf("day").isAfter(dayjs(dueDate * 1000).startOf("day"));
 
   return (
-    <motion.div
-      layout
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.3 }}
-    >
+    <AnimatedItem>
+
       <StyledRow>
         <ResolveIcon id={todoId} checked={completed} handleChange={handleComplete} />
         <Column gap="1px">
@@ -46,6 +42,6 @@ export const TodoItem = ({ todo }: { todo: ToDo }) => {
           )}
         </Column>
       </StyledRow>
-    </motion.div>
+    </AnimatedItem>
   )
 }

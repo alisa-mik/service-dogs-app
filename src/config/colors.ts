@@ -16,6 +16,15 @@ export const BROWN_DARK = "#1f1300";
 
 export const DEFAULT_CATEGORY_COLOR = "#A9A9A9";
 
+// Medical status colors
+export const MEDICAL_STATUS = {
+  UPCOMING: "#00b8ff",    // More than 7 days until due (empty)
+  SOON: "#ffb300",       // Due within 7 days
+  DUE: "#f47f1f",        // Due now or within -7 days
+  OVERDUE: "#c72929",    // Overdue more than 7 days
+  COMPLETED: "#7dd421",  // Treatment completed and not due yet
+} as const;
+
 export const CATEGORY_COLORS: Record<string, string> = {
   health: "#797d62ff",
   groupTraining: "#9b9b7aff",

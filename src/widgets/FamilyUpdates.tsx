@@ -25,9 +25,9 @@ export const FamilyUpdates = () => {
   const status = useSelector(selectFamilyUpdatesStatus);
   const error = useSelector(selectFamilyUpdatesError);
 
-  const [updatesByGroup, setUpdatesByGroup] = useState<FamilyUpdate[]>([]);
+  const [ updatesByGroup, setUpdatesByGroup ] = useState<FamilyUpdate[]>([]);
 
-  const [viewMode, setViewMode] = useState<"all" | "type">("all");
+  const [ viewMode, setViewMode ] = useState<"all" | "type">("all");
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
   useEffect(() => {
@@ -37,19 +37,34 @@ export const FamilyUpdates = () => {
         else return updates;
       })
       .filter(
-        (update) => !["gearRequest", "foodRequest"].includes(update.updateType)
+        (update) => ![ "gearRequest", "foodRequest" ].includes(update.updateType)
       );
     setUpdatesByGroup(updatesFilteredByGroup);
-  }, [updates, selectedGroupId]);
+  }, [ updates, selectedGroupId ]);
 
-  const groupedByType = useMemo(
-    () => groupByKey(updatesByGroup, "updateType"),
-    [updatesByGroup]
-  );
+  const sortByResolvedAndDate = (a: FamilyUpdate, b: FamilyUpdate) => {
+    // First sort by resolved status
+    if (!a.resolved && b.resolved) return -1;
+    if (a.resolved && !b.resolved) return 1;
+    // Then sort by creation date (newest first)
+    return b.createdAt - a.createdAt;
+  };
 
   const sortedUpdates = useMemo(() => {
-    return [...updatesByGroup].sort((a, b) => b.createdAt - a.createdAt);
-  }, [updatesByGroup]);
+    return [ ...updatesByGroup ].sort(sortByResolvedAndDate);
+  }, [ updatesByGroup ]);
+
+  const groupedByType = useMemo(
+    () => {
+      const grouped = groupByKey(updatesByGroup, "updateType");
+      // Sort updates within each type
+      Object.values(grouped).forEach(updates => {
+        updates.sort(sortByResolvedAndDate);
+      });
+      return grouped;
+    },
+    [ updatesByGroup ]
+  );
 
   return (
     <>
@@ -95,10 +110,10 @@ export const FamilyUpdates = () => {
                 ))}
 
               {viewMode === "type" &&
-                Object.entries(groupedByType).map(([type, typeUpdates]) => (
+                Object.entries(groupedByType).map(([ type, typeUpdates ]) => (
                   <div key={type}>
                     <Typography variant="h6" sx={{ color: BROWN_DARK }}>
-                      {updateTypeTitles[type]}
+                      {updateTypeTitles[ type ]}
                     </Typography>
                     {typeUpdates.map((update) => (
                       <FamilyUpdateItem

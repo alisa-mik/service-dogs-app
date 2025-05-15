@@ -1,7 +1,10 @@
+import { useDispatch } from "react-redux";
 import { enqueueSnackbar } from "notistack";
+import { AppDispatch } from "../../store";
 import { apiClient, apiConfig } from "../../config/apiConfig";
 import { configType } from "../form/Form";
 import FormButtonDialog from "../form/FormButtonDialog";
+import { refetchDogById } from "../../store/dogProfileSlice";
 
 const validate = (values: { [ key: string ]: any }) => {
   const errors: { [ key: string ]: string } = {};
@@ -10,7 +13,7 @@ const validate = (values: { [ key: string ]: any }) => {
     errors.date = "תאריך הוא שדה חובה";
   }
 
-  const hasSelectedTreatment = [ 'bp', 'vaccine', 'rabies', 'deworm', 'bravecto', 'spay' ]
+  const hasSelectedTreatment = [ 'dp', 'vaccination', 'rabies', 'deworming', 'bravecto', 'spay' ]
     .some(key => values[ key ]);
 
   if (!hasSelectedTreatment) {
@@ -29,6 +32,7 @@ export const DogMedicalInfoForm = ({
   data: any;
   onOpen?: () => void;
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
 
   const onSubmit = async (values: { [ key: string ]: any }) => {
     const submitData = {
@@ -42,13 +46,13 @@ export const DogMedicalInfoForm = ({
 
     console.log({ submitData });
 
-
     await apiClient
       .post(`${apiConfig.medicalInfo}/${data.dogId}`, submitData)
       .then(() => {
         enqueueSnackbar(`מידע רפואי נוסף בהצלחה`, {
           variant: "success",
         });
+        dispatch(refetchDogById(data.dogId));
       })
       .catch((error) => {
         console.error("Error adding medical info:", error);
@@ -72,13 +76,13 @@ export const DogMedicalInfoForm = ({
         {
           itemGroup: "input",
           itemType: "checkbox",
-          path: "bp",
-          itemProps: { label: "חיסון BP" },
+          path: "dp",
+          itemProps: { label: "חיסון DP" },
         },
         {
           itemGroup: "input",
           itemType: "checkbox",
-          path: "vaccine",
+          path: "vaccination",
           itemProps: { label: "משושה" },
         },
         {
@@ -90,7 +94,7 @@ export const DogMedicalInfoForm = ({
         {
           itemGroup: "input",
           itemType: "checkbox",
-          path: "deworm",
+          path: "deworming",
           itemProps: { label: "תילוע" },
         },
         {

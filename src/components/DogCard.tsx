@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { DogBasic, DogWithFamily } from "../types/dogTypes";
+import { DogBasic, DogWithFamily, Dog } from "../types/dogTypes";
+import { VaccineStatusIndicator } from "./VaccineStatusIndicator";
+import { getOverallVaccineStatus } from "../utils/medicalUtils";
 
 const Card = styled.div`
   padding: 10px;
@@ -8,21 +10,29 @@ const Card = styled.div`
   flex-direction: column;
   min-width: 200px;
   text-align: right;
-  overflow: auto;
+  overflow: hidden;
   direction: rtl;
   border: 1px solid #cccccc;
   border-radius: 16px;
   cursor: pointer;
+  position: relative;
 
   &:hover {
     background-color: #f5f5f5;
   }
 `;
 
+const StatusContainer = styled.div`
+  position: absolute;
+  left: 10px;
+  top: 10px;
+`;
+
 const Row = styled.div`
   display: flex;
   gap: 10px;
   font-size: 16px;
+  align-items: center;
 `;
 
 const Label = styled.span`
@@ -38,10 +48,10 @@ interface LabelValueProps {
   value: React.ReactNode;
 }
 
-const LabelValue: React.FC<LabelValueProps> = ({ label, value }) => (
+const LabelValue = ({ label, value }: LabelValueProps) => (
   <Row>
     <Label>{label}</Label>
-    <Value>{value || "-"}</Value>
+    <Value>{value}</Value>
   </Row>
 );
 
@@ -49,6 +59,10 @@ interface DogCardProps {
   dog: DogWithFamily | DogBasic;
   showFamily?: boolean;
 }
+
+const isDogHaveMedicalInfo = (dog: DogWithFamily | DogBasic): dog is Dog => {
+  return 'medicalInfo' in dog && 'birthDate' in dog;
+};
 
 export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
   const navigate = useNavigate();
@@ -70,8 +84,21 @@ export const DogCard = ({ dog, showFamily = true }: DogCardProps) => {
     return undefined;
   };
 
+  const renderVaccineStatusIndicator = () => {
+    const vaccineStatus = isDogHaveMedicalInfo(dog) ? getOverallVaccineStatus(dog) : undefined;
+
+    if (!vaccineStatus) return undefined;
+
+    return (
+      <StatusContainer>
+        <VaccineStatusIndicator status={vaccineStatus} />
+      </StatusContainer>
+    )
+  }
+
   return (
     <Card onClick={() => navigate(`/app/dogs/${dogId}`)}>
+      {renderVaccineStatusIndicator()}
       <LabelValue label="שם הכלב:" value={dogName} />
       <LabelValue label="גזע:" value={breed} />
       <LabelValue label="מין:" value={gender} />
