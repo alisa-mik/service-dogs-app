@@ -5,8 +5,8 @@ import { RootState } from ".";
 // Use a new type name to avoid conflicts with `Dog` or `DogBasic`
 export interface FamilyDogEntry {
   dogId: string;
-  familyName: string;
-  contactName: string;
+  familyName?: string;
+  contactName?: string;
   dogName: string;
   familyId: string;
   groupId: string;

@@ -8,6 +8,7 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { BROWN_DARK } from "../../config/colors.ts";
 import { Button } from "../commonParts/Buttons.tsx";
+import FormButtonDialog from "../form/FormButtonDialog.tsx";
 
 const validate = (values: { [ key: string ]: any }) => {
   const errors: { [ key: string ]: string } = {};
@@ -52,7 +53,7 @@ const initData = {
   },
 };
 
-const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
+export const AddFamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   const [ finish, setFinish ] = useState(false);
   const [ status, setStatus ] = useState("done");
 
@@ -337,26 +338,13 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     },
   ];
 
-  if (finish)
-    return (
-      <Box>
-        <Typography variant="h6" gutterBottom style={{ color: BROWN_DARK }}>
-          תודה רבה!
-        </Typography>
-        <Box display="flex" justifyContent="center" gap={2} mb={3}>
-          <Button onClick={() => setFinish(false)}>
-            אשמח לעדכן / לבקש דבר נוסף
-          </Button>
-        </Box>
-      </Box>
-    );
-
   return (
     <>
-      <Form
-        formType="single"
-        config={config}
+      <FormButtonDialog
         data={initData}
+        buttonText="הוסף בקשה"
+        formConfig={config}
+        formType="single"
         onSubmit={handleSubmit}
         validate={validate}
       />
@@ -364,4 +352,3 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   );
 };
 
-export default FamilyUpdateForm;

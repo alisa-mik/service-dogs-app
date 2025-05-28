@@ -9,6 +9,8 @@ import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
 import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
 import { Row, WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";
+import { AddFamilyUpdateForm } from "./Forms/AddFamilyUpdateForm";
+import { selectFamilyById } from "../store/familiesSlice";
 
 interface GeneratePDFContentProps {
   dog: Dog;
@@ -91,10 +93,20 @@ const generatePDFContent = ({ dog, updates }: GeneratePDFContentProps) => {
 const DogProfilePDF = () => {
   const dog = useSelector(selectDogProfile);
   const updates = useSelector(selectUpdatesByDogId) || [];
+  const family = useSelector(selectFamilyById(dog?.assignedFamily || ""));
 
   if (isEmpty(dog)) {
     return <div>No dog profile available.</div>;
   }
+
+  const modifiedDog = {
+    dogId: dog.dogId,
+    dogName: dog.dogName,
+    familyId: family?.familyId || "",
+    familyName: family?.familyName || "",
+    contactName: family?.contactName || "",
+    groupId: dog.groupId,
+  };
 
   const handleGeneratePDF = () => {
     const content = generatePDFContent({ dog, updates });
@@ -135,7 +147,7 @@ const DogProfilePDF = () => {
       <WidgetBody>
         <Row>
           <Button onClick={handleGeneratePDF}>הפקת דו"ח</Button>
-          {/* <DogsImage /> */}
+          <AddFamilyUpdateForm dog={modifiedDog} />
         </Row>
       </WidgetBody>
     </>

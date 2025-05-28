@@ -165,7 +165,7 @@ const DogForm = ({ data, icon }: { data: any; icon?: string }) => {
           itemProps: {
             options: [
               {
-                value: "",
+                value: "unassigned",
                 label: "לא משוייך למשפחה",
               },
               ...assignedFamilyOptions,
