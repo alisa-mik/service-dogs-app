@@ -9,7 +9,11 @@ import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
 import { GearSummary, GearType } from "../types/familyUpdateTypes";
 import { gearMap } from "../utils/familyUpdatesUtils";
 
-export default function GearRequestsSummary() {
+interface GearRequestsSummaryProps {
+  showOnlyUnread?: boolean;
+}
+
+export default function GearRequestsSummary({ showOnlyUnread = false }: GearRequestsSummaryProps) {
   const gearRequests = useSelector(selectGearSummaryByGroup);
   const gearSummaryRequests = useSelector(selectGearSummaryFlat);
 
@@ -31,14 +35,21 @@ export default function GearRequestsSummary() {
         {gearTypes.map((type) => {
           const gearData = (groupsToRender as GearSummary)[ type ];
 
+          if (!gearData) return null;
+          const filteredRequests = showOnlyUnread
+            ? gearData.requests.filter((req) => !req.resolved)
+            : gearData.requests;
+          const pendingCount = filteredRequests.length;
+          if (pendingCount === 0) return null;
+
           return (
             <GearItemCard
               key={type}
               type={type}
               label={gearMap[ type ]}
-              pendingCount={gearData.pendingCount}
+              pendingCount={pendingCount}
               allCount={gearData.allCount}
-              requests={gearData.requests}
+              requests={filteredRequests}
             />
           );
         })}

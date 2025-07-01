@@ -9,7 +9,11 @@ import { FoodSummary, FoodType } from "../types/familyUpdateTypes";
 import { GearItemCard } from "../components/FamilyUpdates/GearItemCard";
 import { AlignRightTitle } from "../components/commonParts/Labels";
 
-export default function FoodRequestsSummary() {
+interface FoodRequestsSummaryProps {
+  showOnlyUnread?: boolean;
+}
+
+export default function FoodRequestsSummary({ showOnlyUnread = false }: FoodRequestsSummaryProps) {
   const foodRequests = useSelector(selectFoodSummaryByGroup);
   const foodSummaryRequests = useSelector(selectFlatFoodSummary);
 
@@ -22,24 +26,29 @@ export default function FoodRequestsSummary() {
     const groupsToRender =
       selectedGroup === "all"
         ? foodSummaryRequests
-        : foodRequests[selectedGroup];
+        : foodRequests[ selectedGroup ];
 
     if (!groupsToRender) return null;
 
     return (
       <>
         {foodTypes.map((type) => {
-          const foodData = (groupsToRender as FoodSummary)[type];
-          //   if (!gearData || gearData.pendingCount === 0) return null;
+          const foodData = (groupsToRender as FoodSummary)[ type ];
+          if (!foodData) return null;
+          const filteredRequests = showOnlyUnread
+            ? foodData.requests.filter((req) => !req.resolved)
+            : foodData.requests;
+          const pendingCount = filteredRequests.length;
+          if (pendingCount === 0) return null;
 
           return (
             <GearItemCard
               key={type}
               type={type}
-              label={foodMap[type]}
-              pendingCount={foodData.pendingCount}
+              label={foodMap[ type ]}
+              pendingCount={pendingCount}
               allCount={foodData.allCount}
-              requests={foodData.requests}
+              requests={filteredRequests}
             />
           );
         })}

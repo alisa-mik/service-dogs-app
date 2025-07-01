@@ -5,7 +5,7 @@ import {
   selectFamilyUpdatesError,
   selectFamilyUpdatesStatus,
 } from "../store/familyUpdatesSlice";
-import { CircularProgress, Box, Typography, Button } from "@mui/material";
+import { CircularProgress, Box, Typography, Button as MuiButton } from "@mui/material";
 import { BROWN_DARK } from "../config/colors";
 import {
   Center,
@@ -19,6 +19,7 @@ import { FamilyUpdateItem } from "../components/FamilyUpdates/FamilyUpdateItem";
 import { FamilyUpdate } from "../types/familyUpdateTypes";
 import { groupByKey, updateTypeTitles } from "../utils/familyUpdatesUtils";
 import { selectSelectedGroupId } from "../store/trainingGroupsSlice";
+import { Button } from "../components/commonParts/Buttons";
 
 export const FamilyUpdates = () => {
   const updates = useSelector(selectFamilyUpdates);
@@ -26,7 +27,7 @@ export const FamilyUpdates = () => {
   const error = useSelector(selectFamilyUpdatesError);
 
   const [ updatesByGroup, setUpdatesByGroup ] = useState<FamilyUpdate[]>([]);
-
+  const [ showOnlyUnread, setShowOnlyUnread ] = useState(false);
   const [ viewMode, setViewMode ] = useState<"all" | "type">("all");
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
@@ -50,42 +51,51 @@ export const FamilyUpdates = () => {
     return b.createdAt - a.createdAt;
   };
 
+  const filteredUpdates = useMemo(() => {
+    return showOnlyUnread
+      ? updatesByGroup.filter((u) => !u.resolved)
+      : updatesByGroup;
+  }, [ updatesByGroup, showOnlyUnread ]);
+
   const sortedUpdates = useMemo(() => {
-    return [ ...updatesByGroup ].sort(sortByResolvedAndDate);
-  }, [ updatesByGroup ]);
+    return [ ...filteredUpdates ].sort(sortByResolvedAndDate);
+  }, [ filteredUpdates ]);
 
   const groupedByType = useMemo(
     () => {
-      const grouped = groupByKey(updatesByGroup, "updateType");
+      const grouped = groupByKey(filteredUpdates, "updateType");
       // Sort updates within each type
       Object.values(grouped).forEach(updates => {
         updates.sort(sortByResolvedAndDate);
       });
       return grouped;
     },
-    [ updatesByGroup ]
+    [ filteredUpdates ]
   );
 
   return (
     <>
       <WidgetHeader>
         <WidgetTitle>בקשות נוספות</WidgetTitle>
+        <Button onClick={() => setShowOnlyUnread((v) => !v)}>
+          {showOnlyUnread ? "הצג הכל" : "הצג רק שלא נקראו"}
+        </Button>
       </WidgetHeader>
       <WidgetBody style={{ justifyContent: "flex-start" }}>
         <Row>
           <Box sx={{ display: "flex", gap: 1, marginBottom: 2 }}>
-            <Button
+            <MuiButton
               variant={viewMode === "all" ? "contained" : "outlined"}
               onClick={() => setViewMode("all")}
             >
               לפי תאריך
-            </Button>
-            <Button
+            </MuiButton>
+            <MuiButton
               variant={viewMode === "type" ? "contained" : "outlined"}
               onClick={() => setViewMode("type")}
             >
               לפי סוג פנייה
-            </Button>
+            </MuiButton>
           </Box>
         </Row>
         <Column style={{ overflow: "auto", flex: 1 }}>
@@ -98,7 +108,7 @@ export const FamilyUpdates = () => {
             <Typography color="error">{error}</Typography>
           )}
 
-          {updatesByGroup.length > 0 && (
+          {filteredUpdates.length > 0 && (
             <div>
               {viewMode === "all" &&
                 sortedUpdates.map((update) => (
@@ -127,7 +137,7 @@ export const FamilyUpdates = () => {
             </div>
           )}
 
-          {status === "succeeded" && updatesByGroup.length === 0 && (
+          {status === "succeeded" && filteredUpdates.length === 0 && (
             <Center>
               <Typography style={{ color: BROWN_DARK }}>
                 אין פניות פתוחות
