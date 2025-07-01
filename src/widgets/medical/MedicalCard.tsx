@@ -67,9 +67,10 @@ const CardWrapper = styled.div<{
   borderColor: string;
   textColor: string;
 }>`
-  width: 150px;
+  min-width: 150px;
   min-height: 120px;
-  max-height: 150px;
+  max-height: 220px;
+  height: 100%;
   background-color: ${(p) => p.background};
   border: 2px solid ${(p) => p.borderColor};
   color: ${(p) => p.textColor};
@@ -94,26 +95,24 @@ const DateList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex: 1;
+  flex: 1 1 auto;
   overflow-y: auto;
   max-height: 150px;
   padding-right: 4px;
-  
+  /* justify-content: center; */
+  /* align-items: center; */
   /* Scrollbar styling */
   ::-webkit-scrollbar {
     width: 6px;
   }
-  
   ::-webkit-scrollbar-track {
     background: rgba(0, 0, 0, 0.05);
     border-radius: 3px;
   }
-  
   ::-webkit-scrollbar-thumb {
     background: rgba(0, 0, 0, 0.15);
     border-radius: 3px;
   }
-  
   ::-webkit-scrollbar-thumb:hover {
     background: rgba(0, 0, 0, 0.25);
   }
@@ -167,6 +166,9 @@ const DeleteButtonWrapper = styled.div`
 const NoDataLabel = styled(StyledLabel)`
   opacity: 0.7;
   font-style: italic;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const getStatusColors = (

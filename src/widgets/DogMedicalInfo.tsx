@@ -9,12 +9,18 @@ import { MedicalCard } from "./medical/MedicalCard";
 import { getMedicalCardsInfo } from "../utils/medicalUtils";
 
 const SWidgetBody = styled(WidgetBody)`
-width: 100%;
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-justify-content: center;
+  width: 100%;
+  padding: 0;
 `;
+
+const CardGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  width: 100%;
+  align-items: stretch;
+`;
+
 export const DogMedicalInfo = () => {
   const dog = useSelector(selectDogProfile);
   const { dogId, birthDate, gender, medicalInfo } = dog as Dog;
@@ -41,14 +47,16 @@ export const DogMedicalInfo = () => {
         <DogMedicalInfoForm data={data} />
       </WidgetHeader>
       <SWidgetBody>
-        {medicalCardsInfo.map((item) => (
-          <MedicalCard
-            key={item.type}
-            item={item}
-            birthDate={birthDate}
-            dogId={dogId}
-          />
-        ))}
+        <CardGrid>
+          {medicalCardsInfo.map((item) => (
+            <MedicalCard
+              key={item.type}
+              item={item}
+              birthDate={birthDate}
+              dogId={dogId}
+            />
+          ))}
+        </CardGrid>
       </SWidgetBody>
     </>
   );
