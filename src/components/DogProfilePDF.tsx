@@ -11,6 +11,7 @@ import { Row, WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";
 import { AddFamilyUpdateForm } from "./Forms/AddFamilyUpdateForm";
 import { selectFamilyById } from "../store/familiesSlice";
+import { Button } from "./commonParts/Buttons";
 
 interface GeneratePDFContentProps {
   dog: Dog;
@@ -154,19 +155,5 @@ const DogProfilePDF = () => {
   );
 };
 
-// Styled-components for the button
-const Button = styled.button`
-  background-color: ${YELLOW};
-  color: ${BROWN_DARK};
-  padding: 10px 20px;
-  border: none;
-  width: fit-content;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  &:hover {
-    background-color: ${YELLOW_DARKER};
-  }
-`;
 
 export default DogProfilePDF;

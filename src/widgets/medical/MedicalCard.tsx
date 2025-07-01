@@ -4,6 +4,13 @@ import dayjs from "dayjs";
 import tinycolor from "tinycolor2";
 import { Label } from "../../components/commonParts/Labels";
 import { MEDICAL_STATUS } from "../../config/colors";
+import DeleteButton from "../../components/commonParts/DeleteButton";
+import { apiClient, apiConfig } from "../../config/apiConfig";
+import { enqueueSnackbar } from "notistack";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
+import { refetchDogById } from "../../store/dogProfileSlice";
+import Tooltip from "@mui/material/Tooltip";
 
 const getStatusColorBase = (
   item: MedicalInfo,
@@ -47,6 +54,7 @@ type MedicalInfo = {
 type MedicalCardProps = {
   item: MedicalInfo;
   birthDate: number;
+  dogId: string;
 };
 
 type ColorSet = {
@@ -59,8 +67,9 @@ const CardWrapper = styled.div<{
   borderColor: string;
   textColor: string;
 }>`
-  width: 100%;
+  width: 150px;
   min-height: 120px;
+  max-height: 150px;
   background-color: ${(p) => p.background};
   border: 2px solid ${(p) => p.borderColor};
   color: ${(p) => p.textColor};
@@ -116,6 +125,43 @@ const StyledLabel = styled(Label)`
   border-radius: 4px;
   margin: 0;
   font-size: 0.85rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    .delete-button {
+      opacity: 1;
+    }
+  }
+`;
+
+const DateRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+`;
+
+const DateLabel = styled(StyledLabel)`
+  flex: 1;
+  text-align: right;
+`;
+
+const DeleteButtonWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  z-index: 2;
+
+  svg {
+    color: #acacac;
+    font-size: 1.4rem;
+    transition: color 0.2s;
+  }
 `;
 
 const NoDataLabel = styled(StyledLabel)`
@@ -139,13 +185,32 @@ const getStatusColors = (
 export const MedicalCard: React.FC<MedicalCardProps> = ({
   item,
   birthDate,
+  dogId,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const birth = dayjs(birthDate * 1000);
   const validDates = item.dates.filter(d => d > 0);
   const { background, border } = getStatusColors(item, birth, validDates);
   const textColor = tinycolor
     .mostReadable(background, [ "#000", "#fff" ])
     .toHexString();
+
+  const handleDeleteDate = async (dateToDelete: number) => {
+    try {
+      await apiClient.delete(`${apiConfig.medicalInfo}/${dogId}`, {
+        data: {
+          type: item.type,
+          date: dateToDelete
+        }
+      });
+
+      enqueueSnackbar("תאריך נמחק בהצלחה", { variant: "success" });
+      dispatch(refetchDogById(dogId));
+    } catch (error) {
+      console.error("Error deleting medical date:", error);
+      enqueueSnackbar("שגיאה במחיקת התאריך", { variant: "error" });
+    }
+  };
 
   return (
     <CardWrapper
@@ -159,9 +224,16 @@ export const MedicalCard: React.FC<MedicalCardProps> = ({
           validDates
             .sort((a, b) => b - a) // Sort dates in descending order
             .map((d, i) => (
-              <StyledLabel key={i}>
-                {dayjs(d * 1000).format("DD/MM/YYYY")}
-              </StyledLabel>
+              <DateRow key={i}>
+                <DateLabel>
+                  {dayjs(d * 1000).format("DD/MM/YYYY")}
+                </DateLabel>
+                <DeleteButtonWrapper>
+                  <Tooltip title="מחק תאריך">
+                    <DeleteButton onDelete={() => handleDeleteDate(d)} />
+                  </Tooltip>
+                </DeleteButtonWrapper>
+              </DateRow>
             ))
         ) : (
           <NoDataLabel>אין מידע</NoDataLabel>

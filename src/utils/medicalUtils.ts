@@ -66,7 +66,7 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
 
   return [
     {
-      type: "vaccine",
+      type: "vaccination",
       label: "משושה",
       dates: medicalInfo.vaccination || [],
       getNextGap: (completedCount: number) => {
@@ -90,7 +90,7 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
       },
     },
     {
-      type: "worms",
+      type: "deworming",
       label: "תילוע",
       dates: medicalInfo.deworming || [],
       gap: 180,
