@@ -69,7 +69,7 @@ const CardWrapper = styled.div<{
 }>`
   min-width: 150px;
   min-height: 120px;
-  max-height: 220px;
+  max-height: 50vh;
   height: 100%;
   background-color: ${(p) => p.background};
   border: 2px solid ${(p) => p.borderColor};
@@ -97,7 +97,7 @@ const DateList = styled.div`
   gap: 4px;
   flex: 1 1 auto;
   overflow-y: auto;
-  max-height: 150px;
+  max-height: 120px;
   padding-right: 4px;
   /* justify-content: center; */
   /* align-items: center; */
