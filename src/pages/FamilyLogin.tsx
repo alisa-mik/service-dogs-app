@@ -8,33 +8,80 @@ import {
 import { AppDispatch } from "../store";
 import {
   CircularProgress,
-  TextField,
-  Button,
-  Box,
-  Typography,
+
 } from "@mui/material";
 import { uniqueId } from "lodash";
 import styled from "styled-components";
-import { BEIGE_LIGHT, BROWN_DARK } from "../config/colors";
+import { BEIGE_LIGHT, BROWN_DARK, YELLOW_DARKER } from "../config/colors";
 import FamilyUpdateForm from "../components/FamilyUpdates/FamilyUpdateForm";
+import { Title } from "../components/commonParts/Labels";
+import Text from "../components/form/inputs/Text";
 
 const FullPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
   height: 100vh;
   width: 100vw;
-  background-color: ${BEIGE_LIGHT};
   text-align: center;
-  padding: 0;
   margin: 0;
   direction: rtl;
   overflow: auto;
   padding-bottom: 20px;
 `;
 
+const Container = styled.div`
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: start;
+`
+
+const Header = styled.div`
+width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: ${BEIGE_LIGHT};
+  border-bottom: 1px solid ${YELLOW_DARKER};
+  gap: 10px;
+  padding: 16px;
+  height: 60px;
+`
+
+
+const StyledInput = styled.input`
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  background: #fff;
+  box-sizing: border-box;
+  direction: rtl;
+`;
+
+const StyledButton = styled.div<{ $disabled?: boolean }>`
+  width: 100%;
+  padding: 12px 0;
+  background: ${({ $disabled }) => $disabled ? '#c5c5c5' : YELLOW_DARKER};
+  color: #fff;
+  border: none;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  cursor: ${({ $disabled }) => $disabled ? 'not-allowed' : 'pointer'};
+  opacity: ${({ $disabled }) => $disabled ? 0.6 : 1};
+  transition: background 0.2s;
+  user-select: none;
+  pointer-events: ${({ $disabled }) => $disabled ? 'none' : 'auto'};
+`;
+
 export function FamilyLogin() {
-  const [phone, setPhone] = useState("");
+  const [ phone, setPhone ] = useState("");
   const dispatch = useDispatch<AppDispatch>();
 
   const dogs = useSelector(selectDogsByPhoneNumber);
@@ -47,37 +94,38 @@ export function FamilyLogin() {
 
   return (
     <FullPageContainer>
-      <img
-        style={{ width: "150px", margin: "10px 0 20px 0" }}
-        src={`/logo.jpg?v=${uniqueId()}`}
-      />
+      <Header>
+        <img
+          style={{ width: "40px" }}
+          src={`/logo.png?v=${uniqueId()}`}
+        />
+        <div>המרכז להכשרות כלבי שירות</div>
+      </Header>
+
       {!(status === "succeeded" && dogs.length > 0) && (
-        <Box>
-          <Typography variant="h6" gutterBottom style={{ color: BROWN_DARK }}>
+        <Container>
+          <Title>
             הזינו מספר טלפון לזיהוי
-          </Typography>
-          <Box display="flex" justifyContent="center" gap={2} mb={3}>
-            <TextField
-              label="מספר טלפון"
-              variant="outlined"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              //   fullWidth
-            />
-            <Button
-              variant="contained"
-              onClick={handleSubmit}
-              disabled={status === "loading"}
-            >
-              שלח
-            </Button>
-          </Box>
-        </Box>
+          </Title>
+          <StyledInput
+            type="tel"
+            placeholder="מספר טלפון"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            dir="rtl"
+          />
+          <StyledButton
+            onClick={phone.trim() === "" ? undefined : handleSubmit}
+            $disabled={phone.trim() === ""}
+          >
+            שלח
+          </StyledButton>
+        </Container>
       )}
 
       {status === "loading" && <CircularProgress />}
 
-      {status === "failed" && <Typography color="error">שגיאה</Typography>}
+      {status === "failed" && <p style={{ color: 'red' }}>שגיאה</p>}
 
       {status === "succeeded" && dogs.length > 0 && (
         <div
@@ -91,12 +139,12 @@ export function FamilyLogin() {
             שלום למשפחה של{" "}
             <span>{dogs.map((dog) => dog.dogName).join(" ו")}</span>!
           </div>
-          <FamilyUpdateForm dog={dogs[0]} />
+          <FamilyUpdateForm dog={dogs[ 0 ]} />
         </div>
       )}
 
       {status === "succeeded" && dogs.length === 0 && (
-        <Typography style={{ color: BROWN_DARK }}>לא נמצאו כלבים.</Typography>
+        <p style={{ color: BROWN_DARK }}>לא נמצאו כלבים.</p>
       )}
     </FullPageContainer>
   );

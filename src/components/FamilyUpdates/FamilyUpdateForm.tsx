@@ -100,10 +100,9 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   const updateTypeSelector: configType[] = [
     {
       itemGroup: "input",
-      itemType: "select",
+      itemType: "cardSelect",
       itemProps: {
         options: [
-          { value: "", label: "בחר סוג פנייה" },
           { value: "foodRequest", label: "הזמנת אוכל" },
           { value: "gearRequest", label: "הזמנת ציוד" },
           { value: "familyAway", label: "הזמנת פנסיון" },
@@ -151,12 +150,12 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   const foodRequestItems: configType[] = [
     {
       itemGroup: "input",
-      itemType: "select",
+      itemType: "cardSelect",
       itemProps: {
         options: [
-          { value: "", label: "בחר סוג אוכל" },
           { value: "salmon", label: "סלמון" },
           { value: "bison", label: "ביזון" },
+          { value: "", label: "לא ידוע" },
         ],
       },
       path: "foodRequest.foodType",
@@ -280,12 +279,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
     },
   ];
 
-  const config: configType[] = [
-    {
-      itemGroup: "section",
-      itemType: "common",
-      items: updateTypeSelector,
-    },
+  const bla: configType[] = [
     {
       itemGroup: "section",
       itemType: "condition",
@@ -335,6 +329,19 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       },
       items: otherItems,
     },
+  ]
+
+  const config: configType[] = [
+    {
+      itemGroup: "section",
+      itemType: "common",
+      items: updateTypeSelector,
+    },
+    {
+      itemGroup: "section",
+      itemType: "common",
+      items: bla,
+    }
   ];
 
   if (finish)
@@ -354,7 +361,7 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
   return (
     <>
       <Form
-        formType="single"
+        formType="steps"
         config={config}
         data={initData}
         onSubmit={handleSubmit}

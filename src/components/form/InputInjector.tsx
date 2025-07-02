@@ -11,6 +11,7 @@ import styled from "styled-components";
 import { AttendanceInput } from "./inputs/AttendanceInput";
 import AutoComplete from "./inputs/AutoComplete";
 import { get } from "lodash";
+import { CardSelect } from "./inputs/CardSelect";
 
 const ErrorText = styled.div`
   color: red;
@@ -20,6 +21,7 @@ const ErrorText = styled.div`
 
 export type InputType =
   | "select"
+  | "cardSelect"
   | "autoComplete"
   | "text"
   | "date"
@@ -30,7 +32,7 @@ export type InputType =
 
 export interface IInput {
   path: string;
-  formik: FormikProps<{ [key: string]: any }>;
+  formik: FormikProps<{ [ key: string ]: any }>;
   value: any;
 }
 
@@ -38,9 +40,9 @@ interface IInputInjector {
   path: string;
   label?: string;
   config?: configType[]; // Optional now
-  formik: FormikProps<{ [key: string]: any }>;
+  formik: FormikProps<{ [ key: string ]: any }>;
   inputType: InputType;
-  itemProp: { [key: string]: any };
+  itemProp: { [ key: string ]: any };
 }
 
 const InputInjector: React.FC<IInputInjector> = ({
@@ -54,6 +56,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     text: Text,
     date: DatePicker,
     select: Select,
+    cardSelect: CardSelect,
     autoComplete: AutoComplete,
     checkbox: Checkbox,
     textarea: TextArea,
@@ -61,7 +64,7 @@ const InputInjector: React.FC<IInputInjector> = ({
     attendance: AttendanceInput,
   };
 
-  const Component = inputsMap[inputType];
+  const Component = inputsMap[ inputType ];
 
   // Check if the Component exists before using it
   if (!Component) {
