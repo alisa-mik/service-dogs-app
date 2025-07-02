@@ -20,7 +20,6 @@ const FullPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: #fff;
   gap: 20px;
   height: 100vh;
@@ -38,7 +37,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   gap: 10px;
   flex: 1;
   text-align: start;
