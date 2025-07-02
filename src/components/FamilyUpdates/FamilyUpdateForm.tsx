@@ -153,9 +153,9 @@ const FamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
       itemType: "cardSelect",
       itemProps: {
         options: [
+          { value: "", label: "לא ידוע" },
           { value: "salmon", label: "סלמון" },
           { value: "bison", label: "ביזון" },
-          { value: "", label: "לא ידוע" },
         ],
       },
       path: "foodRequest.foodType",

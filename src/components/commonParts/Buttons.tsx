@@ -12,7 +12,7 @@ export const Button = styled.button<ButtonType>`
   color: ${BROWN_DARK};
   border: 1px solid transparent;
   padding: ${({ padding = "7px" }) => padding};
-  /* font-size: 16px; */
+  font-size: 16px;
   font-weight: ${({ weight = 400 }) => weight};
   cursor: pointer;
   transition: border-color 0.25s;

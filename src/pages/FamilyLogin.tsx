@@ -20,6 +20,7 @@ const FullPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #fff;
   gap: 20px;
   height: 100vh;
   width: 100vw;
@@ -45,6 +46,7 @@ width: 100%;
   align-items: center;
   background-color: ${BEIGE_LIGHT};
   border-bottom: 1px solid ${YELLOW_DARKER};
+  color: ${BROWN_DARK};
   gap: 10px;
   padding: 16px;
   height: 60px;
@@ -57,6 +59,7 @@ const StyledInput = styled.input`
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 1.1rem;
+  color: ${BROWN_DARK};
   background: #fff;
   box-sizing: border-box;
   direction: rtl;
