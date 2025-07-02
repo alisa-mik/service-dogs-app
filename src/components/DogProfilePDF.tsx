@@ -1,12 +1,10 @@
 import html2pdf from "html2pdf.js";
-import styled from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDogProfile } from "../store/dogProfileSlice";
 import { Dog, Update } from "../types/dogTypes";
 import { selectUpdatesByDogId } from "../store/updatesByDogIdSlice";
 import { isEmpty } from "lodash";
 import { formatDateFromSeconds, getAgeFromSeconds } from "../utils/converts";
-import { BROWN_DARK, YELLOW, YELLOW_DARKER } from "../config/colors";
 import { Row, WidgetBody, WidgetHeader } from "./commonParts/Layouts";
 import { WidgetTitle } from "./commonParts/Labels";
 import { AddFamilyUpdateForm } from "./Forms/AddFamilyUpdateForm";

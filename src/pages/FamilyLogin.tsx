@@ -15,7 +15,6 @@ import styled from "styled-components";
 import { BEIGE_LIGHT, BROWN_DARK, YELLOW_DARKER } from "../config/colors";
 import FamilyUpdateForm from "../components/FamilyUpdates/FamilyUpdateForm";
 import { Title } from "../components/commonParts/Labels";
-import Text from "../components/form/inputs/Text";
 
 const FullPageContainer = styled.div`
   display: flex;

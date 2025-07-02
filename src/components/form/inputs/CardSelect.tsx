@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BEAMING_SUN, BEIGE_LIGHT, YELLOW_DARKER } from "../../../config/colors";
+import { BEIGE_LIGHT, YELLOW_DARKER } from "../../../config/colors";
 import { IInput } from "../InputInjector";
 
 const TypeList = styled.div`

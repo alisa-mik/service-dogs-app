@@ -1,13 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
-import Form, { configType } from "../form/Form.tsx";
+import { configType } from "../form/Form.tsx";
 import { enqueueSnackbar } from "notistack";
 import { pick } from "lodash";
 import { apiClient, apiConfig } from "../../config/apiConfig.ts";
 import { FamilyDogEntry } from "../../store/dogsByPhoneNumberSlice.ts";
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
-import { BROWN_DARK } from "../../config/colors.ts";
-import { Button } from "../commonParts/Buttons.tsx";
 import FormButtonDialog from "../form/FormButtonDialog.tsx";
 
 const validate = (values: { [ key: string ]: any }) => {
@@ -54,7 +51,6 @@ const initData = {
 };
 
 export const AddFamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
-  const [ finish, setFinish ] = useState(false);
   const [ status, setStatus ] = useState("done");
 
   const { dogId, groupId, familyId, dogName, familyName, contactName } = dog;
@@ -93,7 +89,6 @@ export const AddFamilyUpdateForm = ({ dog }: { dog: FamilyDogEntry }) => {
         });
       })
       .finally(() => {
-        setFinish(true);
         setStatus("done");
       });
   };
