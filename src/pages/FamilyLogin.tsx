@@ -20,6 +20,7 @@ const FullPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   background-color: #fff;
   gap: 20px;
   height: 100vh;
@@ -36,7 +37,10 @@ const Container = styled.div`
   max-width: 300px;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 10px;
+  flex: 1;
   text-align: start;
 `
 
@@ -135,6 +139,7 @@ export function FamilyLogin() {
             display: "flex",
             flexDirection: "column",
             gap: "15px",
+            flex: 1
           }}
         >
           <div style={{ color: BROWN_DARK }}>
