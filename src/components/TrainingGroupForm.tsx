@@ -6,8 +6,8 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { refetchGroups } from "../store/trainingGroupsSlice";
 
-const validate = (values: { [key: string]: any }) => {
-  const errors: { [key: string]: string } = {};
+const validate = (values: { [ key: string ]: any }) => {
+  const errors: { [ key: string ]: string } = {};
 
   if (!values.groupId || typeof values.groupId !== "string") {
     errors.groupId = "שדה הקבוצה הוא שדה חובה";
@@ -27,7 +27,7 @@ const TrainingGroupForm: React.FC<TrainingGroupFormProps> = ({
 }) => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const onSubmit = async (values: { [key: string]: any }) => {
+  const onSubmit = async (values: { [ key: string ]: any }) => {
     try {
       await apiClient.post(apiConfig.addTrainingGroup, {
         groupId: values.groupId,
@@ -63,7 +63,7 @@ const TrainingGroupForm: React.FC<TrainingGroupFormProps> = ({
           itemType: "checkbox",
           path: "active",
           itemProps: {
-            label: "פעילה:",
+            label: "פעילה",
           },
         },
       ],

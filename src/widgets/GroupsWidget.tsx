@@ -16,8 +16,9 @@ import {
 export default function GroupsWidget({
   showAddGroup = true,
   showAllOption = false,
+  allowDelete = false,
 }) {
-  const [open, setOpen] = useState<boolean>(false);
+  const [ open, setOpen ] = useState<boolean>(false);
   const selectedGroupId = useSelector(selectSelectedGroupId);
 
   const dispatch = useDispatch<AppDispatch>();
@@ -65,7 +66,7 @@ export default function GroupsWidget({
         >
           <TrainingGroupForm onClose={handleClose} data={data} />
         </CustomDialog>
-        <GroupList showAllOption={showAllOption} />
+        <GroupList showAllOption={showAllOption} allowDelete={allowDelete} />
       </WidgetBody>
     </>
   );

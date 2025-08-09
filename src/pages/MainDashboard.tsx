@@ -24,6 +24,7 @@ export default function MainDashboard() {
         props: {
           showAddGroup: false,
           showAllOption: true,
+          allowDelete: false,
         },
         display: true,
         type: GroupsList,

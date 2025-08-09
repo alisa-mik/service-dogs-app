@@ -7,6 +7,8 @@ import {
   selectSelectedGroupId,
   setSelectedGroup,
   clearSelectedGroup,
+  refetchGroups,
+  selectGroupById,
 } from "../store/trainingGroupsSlice";
 import { AppDispatch } from "../store";
 import { Column } from "../components/commonParts/Layouts";
@@ -18,6 +20,11 @@ import {
   SortableElement,
   SortableHandle,
 } from "react-sortable-hoc";
+// import { arrayMoveImmutable } from "array-move";
+import DeleteButton from "../components/commonParts/DeleteButton";
+import { apiClient } from "../config/apiConfig";
+import { apiConfig } from "../config/apiConfig";
+import { enqueueSnackbar } from "notistack";
 import styled from "styled-components";
 import { BEAMING_SUN, TOASTED_PINE_NUT, WHITE } from "../config/colors";
 
@@ -25,20 +32,32 @@ export const CardSimpleContainer = styled.div`
   direction: rtl;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 10px 15px;
   border-radius: 8px;
   border: 1px solid ${TOASTED_PINE_NUT};
   background: ${WHITE};
-  gap: 10px;
 `;
 
-export const CardContainer = styled(CardSimpleContainer)<{
+const DeleteButtonWrapper = styled.div`
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+`;
+
+export const CardContainer = styled(CardSimpleContainer) <{
   selected?: boolean;
 }>`
   cursor: pointer;
-  background: ${({ selected }) => (selected ? BEAMING_SUN : WHITE)};
+  border-color: ${({ selected }) => (selected ? BEAMING_SUN : TOASTED_PINE_NUT)};
+  background-color: ${({ selected }) => (selected ? BEAMING_SUN : WHITE)};
+  transition: all 0.2s ease-in-out;
+
   &:hover {
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-color: ${BEAMING_SUN};
+    background-color: ${BEAMING_SUN};
+    ${DeleteButtonWrapper} {
+      opacity: 1;
+    }
   }
 `;
 
@@ -53,8 +72,8 @@ function arrayMove<T>(items: T[], oldIndex: number, newIndex: number): T[] {
     throw new Error("Invalid indices");
   }
 
-  const result = [...items]; // Create a shallow copy of the array
-  const [movedItem] = result.splice(oldIndex, 1); // Remove item from oldIndex
+  const result = [ ...items ]; // Create a shallow copy of the array
+  const [ movedItem ] = result.splice(oldIndex, 1); // Remove item from oldIndex
   result.splice(newIndex, 0, movedItem); // Insert item at newIndex
 
   return result;
@@ -64,21 +83,21 @@ interface SortableListProps {
   items: string[]; // Define the type of `items` as an array of strings
 }
 
-const GroupList: React.FC<{ showAllOption: boolean }> = ({ showAllOption }) => {
+const GroupList: React.FC<{ showAllOption: boolean, allowDelete: boolean }> = ({ showAllOption, allowDelete }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Get groupIds and groups from the store
   const selectedGroupId = useSelector(selectSelectedGroupId);
   const groupIds = useSelector(selectGroupIds);
 
-  const [sortedList, setSortedList] = useState<string[]>([]);
+  const [ sortedList, setSortedList ] = useState<string[]>([]);
 
   useEffect(() => {
     const savedOrderString = localStorage.getItem("sortedGroups") || "[]";
     const savedOrder = JSON.parse(savedOrderString);
-    const uniqList = uniq([...savedOrder, ...groupIds]);
+    const uniqList = uniq([ ...savedOrder, ...groupIds ]);
     setSortedList(uniqList);
-  }, [groupIds]);
+  }, [ groupIds ]);
 
   const handleGroupClick = (groupId: string) => {
     dispatch(setSelectedGroup(groupId));
@@ -106,6 +125,24 @@ const GroupList: React.FC<{ showAllOption: boolean }> = ({ showAllOption }) => {
       const isAll = groupId === "all";
       const label = isAll ? "כל הקבוצות" : groupId;
       const selected = isAll ? !selectedGroupId : selectedGroupId === groupId;
+      const group = useSelector(selectGroupById(groupId));
+      const hasDogs = group?.dogIds?.length > 0;
+
+      const handleDelete = async () => {
+        if (hasDogs) return;
+        try {
+          const response = await apiClient.delete(`${apiConfig.deleteGroup}/${groupId}`);
+          if (response.status === 200) {
+            dispatch(refetchGroups());
+            enqueueSnackbar("הקבוצה נמחקה בהצלחה", { variant: "success" });
+          } else {
+            enqueueSnackbar("שגיאה במחיקת הקבוצה", { variant: "error" });
+          }
+        } catch (error) {
+          console.error("Error deleting group:", error);
+          enqueueSnackbar("שגיאה במחיקת הקבוצה", { variant: "error" });
+        }
+      };
 
       return (
         <CardContainer
@@ -115,8 +152,20 @@ const GroupList: React.FC<{ showAllOption: boolean }> = ({ showAllOption }) => {
             isAll ? dispatch(clearSelectedGroup()) : handleGroupClick(groupId)
           }
         >
-          {!isAll && <DragHandle />}
-          <Label>{label}</Label>
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            {/* {!isAll && <DragHandle />} */}
+            <Label>{label}</Label>
+          </div>
+          {allowDelete && !isAll && (
+            <DeleteButtonWrapper>
+              <DeleteButton
+                onDelete={handleDelete}
+                disabled={hasDogs}
+                disabledMessage="לא ניתן למחוק קבוצה שיש בה כלבים"
+                confirmationMessage={`האם אתה בטוח שברצונך למחוק את הקבוצה ${groupId}?`}
+              />
+            </DeleteButtonWrapper>
+          )}
         </CardContainer>
       );
     }
@@ -127,7 +176,7 @@ const GroupList: React.FC<{ showAllOption: boolean }> = ({ showAllOption }) => {
       const addAllItem = () => {
         if (!showAllOption) return [];
 
-        return [<SortableItem key={`all`} index={-1} groupId={`all`} />];
+        return [ <SortableItem key={`all`} index={-1} groupId={`all`} /> ];
       };
 
       return (

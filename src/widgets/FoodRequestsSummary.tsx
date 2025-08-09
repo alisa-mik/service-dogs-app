@@ -8,10 +8,17 @@ import { foodMap } from "../utils/familyUpdatesUtils";
 import { FoodSummary, FoodType } from "../types/familyUpdateTypes";
 import { GearItemCard } from "../components/FamilyUpdates/GearItemCard";
 import { AlignRightTitle } from "../components/commonParts/Labels";
+import styled from "styled-components";
 
 interface FoodRequestsSummaryProps {
   showOnlyUnread?: boolean;
 }
+
+const NoRequestsMessage = styled.div`
+  padding: 10px;
+  text-align: right;
+  color: #888;
+`;
 
 export default function FoodRequestsSummary({ showOnlyUnread = false }: FoodRequestsSummaryProps) {
   const foodRequests = useSelector(selectFoodSummaryByGroup);
@@ -28,32 +35,34 @@ export default function FoodRequestsSummary({ showOnlyUnread = false }: FoodRequ
         ? foodSummaryRequests
         : foodRequests[ selectedGroup ];
 
-    if (!groupsToRender) return null;
+    if (!groupsToRender) return <NoRequestsMessage>אין הזמנות אוכל</NoRequestsMessage>;
 
-    return (
-      <>
-        {foodTypes.map((type) => {
-          const foodData = (groupsToRender as FoodSummary)[ type ];
-          if (!foodData) return null;
-          const filteredRequests = showOnlyUnread
-            ? foodData.requests.filter((req) => !req.resolved)
-            : foodData.requests;
-          const pendingCount = filteredRequests.length;
-          if (pendingCount === 0) return null;
+    const items = foodTypes.map((type) => {
+      const foodData = (groupsToRender as FoodSummary)[ type ];
+      if (!foodData) return null;
+      const filteredRequests = showOnlyUnread
+        ? foodData.requests.filter((req) => !req.resolved)
+        : foodData.requests;
+      const pendingCount = filteredRequests.length;
+      if (pendingCount === 0) return null;
 
-          return (
-            <GearItemCard
-              key={type}
-              type={type}
-              label={foodMap[ type ]}
-              pendingCount={pendingCount}
-              allCount={foodData.allCount}
-              requests={filteredRequests}
-            />
-          );
-        })}
-      </>
-    );
+      return (
+        <GearItemCard
+          key={type}
+          type={type}
+          label={foodMap[ type ]}
+          pendingCount={pendingCount}
+          allCount={foodData.allCount}
+          requests={filteredRequests}
+        />
+      );
+    });
+
+    if (items.every((item) => item === null)) {
+      return <NoRequestsMessage>אין הזמנות אוכל</NoRequestsMessage>;
+    }
+
+    return <>{items}</>;
   };
 
   return (
@@ -63,3 +72,5 @@ export default function FoodRequestsSummary({ showOnlyUnread = false }: FoodRequ
     </>
   );
 }
+
+

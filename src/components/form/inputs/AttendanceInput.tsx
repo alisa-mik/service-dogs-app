@@ -1,3 +1,4 @@
+import styled from "styled-components";
 import { DogBasic } from "../../../types/dogTypes";
 import { Label } from "../../commonParts/Labels";
 import { RowWrap } from "../../commonParts/Layouts";
@@ -7,6 +8,12 @@ import { Checkbox } from "../styledInputs";
 interface IAttendance extends IInput {
   dogs: DogBasic[];
 }
+
+const AttendanceItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 3px;
+`;
 
 export const AttendanceInput: React.FC<IAttendance> = ({
   path,
@@ -23,7 +30,7 @@ export const AttendanceInput: React.FC<IAttendance> = ({
   });
 
   const handleChange = (dogId: string) => {
-    let attendanceArray = [...value];
+    let attendanceArray = [ ...value ];
     if (!attendanceArray.includes(dogId)) {
       attendanceArray.push(dogId);
     } else {
@@ -36,7 +43,7 @@ export const AttendanceInput: React.FC<IAttendance> = ({
     <RowWrap>
       {modifiedDogs.map((dog) => {
         return (
-          <div key={dog.dogId}>
+          <AttendanceItem key={dog.dogId}>
             <Checkbox
               type="checkbox"
               name={dog.dogId}
@@ -44,7 +51,7 @@ export const AttendanceInput: React.FC<IAttendance> = ({
               onChange={() => handleChange(dog.dogId)}
             />
             <Label>{dog.dogName}</Label>
-          </div>
+          </AttendanceItem>
         );
       })}
     </RowWrap>

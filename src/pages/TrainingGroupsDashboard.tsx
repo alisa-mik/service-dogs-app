@@ -29,7 +29,11 @@ export default function TrainingGroupsDashboard() {
     {
       layout: { w: 2, h: 60, x: 10, y: 0, i: "b" },
       widget: {
-        props: {},
+        props: {
+          showAddGroup: true,
+          showAllOption: false,
+          allowDelete: true,
+        },
         display: true,
         type: GroupsList,
       },

@@ -102,6 +102,13 @@ const trainingGroupsSlice = createSlice({
           action.payload.groups[ id ] && action.payload.groups[ id ].active
         );
 
+        // Sort activeGroupIds by startDate in ascending order
+        activeGroupIds.sort((a: string, b: string) => {
+          const groupA = action.payload.groups[ a ];
+          const groupB = action.payload.groups[ b ];
+          return groupA.startDate - groupB.startDate;
+        });
+
         // Create new groups object with only active groups
         const activeGroups: { [ groupId: string ]: Group } = {};
         activeGroupIds.forEach((id: string) => {
@@ -126,6 +133,13 @@ const trainingGroupsSlice = createSlice({
         const activeGroupIds = action.payload.groupIds.filter((id: string) =>
           action.payload.groups[ id ] && action.payload.groups[ id ].active
         );
+
+        // Sort activeGroupIds by startDate in ascending order
+        activeGroupIds.sort((a: string, b: string) => {
+          const groupA = action.payload.groups[ a ];
+          const groupB = action.payload.groups[ b ];
+          return groupA.startDate - groupB.startDate;
+        });
 
         // Create new groups object with only active groups
         const activeGroups: { [ groupId: string ]: Group } = {};
@@ -177,12 +191,12 @@ export const selectGroupsError = (state: RootState) =>
   state.trainingGroups.error;
 
 // Select all groups as an array
-export const selectAllGroups = createSelector([ selectGroups ], (groups) =>
-  Object.values(groups)
+export const selectAllGroups = createSelector(
+  [ selectGroups ],
+  (groups) => Object.values(groups)
 );
 
-// Select specific group by ID
-export const selectGroupById = (state: RootState, groupId: string) =>
+export const selectGroupById = (groupId: string) => (state: RootState) =>
   state.trainingGroups.groups[ groupId ];
 
 export const selectAllGroupDogs = createSelector([ selectAllGroups ], (groups) =>

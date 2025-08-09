@@ -19,7 +19,7 @@ const AttendanceTable: React.FC = () => {
 
   useEffect(() => {
     if (!groupUpdates.length || !groupDogs.length) {
-      // setEnrichUpdates([]);
+      setEnrichUpdates([]);
       return;
     }
 

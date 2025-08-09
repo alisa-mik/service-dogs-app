@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Button } from "./Buttons";
 import { noop } from "lodash";
 import { Center } from "./Layouts";
+import { enqueueSnackbar } from "notistack";
 
 const ButtonGroup = styled.div`
   display: flex;
@@ -13,19 +14,28 @@ const ButtonGroup = styled.div`
 `;
 
 const Container = styled.div`
-  height: 200px;
+  height: 120px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  padding-bottom: 20px;
-  gap: 50px;
+  gap: 20px;
 `;
 
-export default function DeleteButton({ onDelete = noop }) {
-  const [open, setOpen] = useState(false);
+export default function DeleteButton({
+  onDelete = noop,
+  disabled = false,
+  disabledMessage = "",
+  confirmationMessage = "האם אתה בטוח שברצונך למחוק את הפריט הזה?",
+}) {
+  const [ open, setOpen ] = useState(false);
 
   const handleOpen = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setOpen(true);
+    if (disabled) {
+      enqueueSnackbar(disabledMessage, { variant: "error" });
+    } else {
+      setOpen(true);
+    }
   };
 
   const handleClose = () => {
@@ -43,11 +53,14 @@ export default function DeleteButton({ onDelete = noop }) {
         <Container>
           <Center>
             <Title style={{ direction: "rtl" }}>
-              האם אתה בטוח שברצונך למחוק את העדכון הזה?
+              {confirmationMessage}
             </Title>
           </Center>
           <ButtonGroup>
-            <Button padding={"8px 20px"} onClick={handleDeleteClick}>
+            <Button
+              padding={"8px 20px"}
+              onClick={handleDeleteClick}
+            >
               כן
             </Button>
             <Button padding={"8px 20px"} onClick={handleClose}>

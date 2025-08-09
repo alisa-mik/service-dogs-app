@@ -71,7 +71,7 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
       dates: medicalInfo.vaccination || [],
       getNextGap: (completedCount: number) => {
         if (completedCount < 3) {
-          return 14;
+          return 30;
         }
         return 365;
       },
@@ -81,12 +81,12 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
       type: "rabies",
       label: "כלבת",
       dates: medicalInfo.rabies || [],
-      initialGap: 30,
+      initialGap: 116,
       getNextGap: (completedCount: number) => {
         if (completedCount < 2) {
           return 31;
         }
-        return 365;
+        return 730;
       },
     },
     {
@@ -113,7 +113,7 @@ export const getMedicalCardsInfo = (medicalInfo: MedicalInfo | undefined, gender
       type: "dp",
       label: "DP",
       dates: medicalInfo.dp || [],
-      initialGap: 14
+      initialGap: 30
     },
   ];
 };
